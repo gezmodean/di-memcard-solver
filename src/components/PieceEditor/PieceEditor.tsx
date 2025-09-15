@@ -9,7 +9,8 @@ import { parseSpecialEffectTemplate } from '../../lib/utils/specialEffects';
 import {
   getMaxLevel,
   getNextLimitBreakPreview,
-  getNextLimitBreak
+  getNextLimitBreak,
+  RARITY_CONFIGS
 } from '../../lib/pieces/rarityProgression';
 
 interface PieceEditorProps {
@@ -219,6 +220,21 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
           </div>
 
           <div className="mt-3 flex gap-2 flex-wrap">
+            <button
+              onClick={() => {
+                if (confirm('Unlock all pieces? This will make all cards available for use.')) {
+                  pieces.forEach(piece => {
+                    if (!piece.unlocked) {
+                      togglePieceLock(piece.id);
+                    }
+                  });
+                  alert('All pieces unlocked successfully!');
+                }
+              }}
+              className="px-3 py-1 bg-green-600 hover:bg-green-700 rounded transition-colors"
+            >
+              Unlock All Pieces
+            </button>
             {onOpenDataForm && (
               <button
                 onClick={onOpenDataForm}
@@ -428,198 +444,20 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Base ATK:</label>
-                    <LargeNumberInput
-                      value={editPieceData.baseStats.atk}
-                      onChange={(value) => setEditPieceData({
-                        ...editPieceData,
-                        baseStats: { ...editPieceData.baseStats, atk: value }
-                      })}
-                      className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
-                      min={0}
-                    />
+                    <label className="block text-sm font-medium mb-1">Base ATK (from rarity):</label>
+                    <div className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-gray-300">
+                      {RARITY_CONFIGS[editPieceData.rarity]?.baseAtk || 'Unknown'}
+                    </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Base HP:</label>
-                    <LargeNumberInput
-                      value={editPieceData.baseStats.hp}
-                      onChange={(value) => setEditPieceData({
-                        ...editPieceData,
-                        baseStats: { ...editPieceData.baseStats, hp: value }
-                      })}
-                      className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
-                      min={0}
-                    />
+                    <label className="block text-sm font-medium mb-1">Base HP (from rarity):</label>
+                    <div className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-gray-300">
+                      {RARITY_CONFIGS[editPieceData.rarity]?.baseHp || 'Unknown'}
+                    </div>
                   </div>
                 </div>
 
-                {/* Stat Growth Configuration */}
-                <div>
-                  <label className="block text-sm font-medium mb-2">Stat Growth Configuration:</label>
-                  <div className="bg-gray-700 border border-gray-600 p-3 rounded">
-                    <div className="text-xs text-gray-400 mb-2">Growth Type:</div>
-                    <div className="flex gap-2 mb-3">
-                      <button
-                        onClick={() => setEditPieceData({
-                          ...editPieceData,
-                          statGrowth: { type: 'percentage', percentagePerLevel: editPieceData.statGrowth?.percentagePerLevel || 1.0 }
-                        })}
-                        className={`px-3 py-1 rounded text-xs transition-all ${
-                          editPieceData.statGrowth?.type === 'percentage'
-                            ? 'bg-blue-500/20 text-blue-400 border border-blue-500/40'
-                            : 'bg-gray-700/50 text-gray-400 border border-gray-600 hover:bg-gray-600/50'
-                        }`}
-                      >
-                        Percentage
-                      </button>
-                      <button
-                        onClick={() => setEditPieceData({
-                          ...editPieceData,
-                          statGrowth: { type: 'fixed', atkPerLevel: editPieceData.statGrowth?.atkPerLevel || 0, hpPerLevel: editPieceData.statGrowth?.hpPerLevel || 0 }
-                        })}
-                        className={`px-3 py-1 rounded text-xs transition-all ${
-                          editPieceData.statGrowth?.type === 'fixed'
-                            ? 'bg-blue-500/20 text-blue-400 border border-blue-500/40'
-                            : 'bg-gray-700/50 text-gray-400 border border-gray-600 hover:bg-gray-600/50'
-                        }`}
-                      >
-                        Fixed
-                      </button>
-                      <button
-                        onClick={() => setEditPieceData({
-                          ...editPieceData,
-                          statGrowth: undefined
-                        })}
-                        className={`px-3 py-1 rounded text-xs transition-all ${
-                          !editPieceData.statGrowth
-                            ? 'bg-green-500/20 text-green-400 border border-green-500/40'
-                            : 'bg-gray-700/50 text-gray-400 border border-gray-600 hover:bg-gray-600/50'
-                        }`}
-                      >
-                        Use Rarity Default
-                      </button>
-                    </div>
 
-                    {editPieceData.statGrowth?.type === 'percentage' && (
-                      <div>
-                        <div className="text-xs text-gray-400 mb-2">Percentage per Level:</div>
-                        <input
-                          type="number"
-                          step="0.1"
-                          min="0"
-                          max="100"
-                          value={editPieceData.statGrowth.percentagePerLevel || 1.0}
-                          onChange={(e) => setEditPieceData({
-                            ...editPieceData,
-                            statGrowth: { ...editPieceData.statGrowth, type: 'percentage', percentagePerLevel: parseFloat(e.target.value) || 1.0 }
-                          })}
-                          className="w-full px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white text-sm focus:border-blue-500 focus:outline-none"
-                          placeholder="1.0"
-                        />
-                        <div className="text-xs text-gray-500 mt-1">
-                          Default: 1.0 (1% per level)
-                        </div>
-                      </div>
-                    )}
-
-                    {editPieceData.statGrowth?.type === 'fixed' && (
-                      <div className="space-y-2">
-                        <div>
-                          <div className="text-xs text-gray-400 mb-2">ATK per Level:</div>
-                          <LargeNumberInput
-                            value={editPieceData.statGrowth.atkPerLevel || 0}
-                            onChange={(value) => setEditPieceData({
-                              ...editPieceData,
-                              statGrowth: { ...editPieceData.statGrowth!, atkPerLevel: value }
-                            })}
-                            className="w-full px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white text-sm focus:border-blue-500 focus:outline-none"
-                            placeholder="0"
-                            min={0}
-                          />
-                        </div>
-                        <div>
-                          <div className="text-xs text-gray-400 mb-2">HP per Level:</div>
-                          <LargeNumberInput
-                            value={editPieceData.statGrowth.hpPerLevel || 0}
-                            onChange={(value) => setEditPieceData({
-                              ...editPieceData,
-                              statGrowth: { ...editPieceData.statGrowth!, hpPerLevel: value }
-                            })}
-                            className="w-full px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white text-sm focus:border-blue-500 focus:outline-none"
-                            placeholder="0"
-                            min={0}
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Limit Breaks */}
-                <div>
-                  <label className="block text-sm font-medium mb-2">Limit Breaks:</label>
-                  <div className="bg-gray-700 border border-gray-600 p-3 rounded">
-                    <div className="text-xs text-gray-400 mb-2">
-                      Max Level: {getMaxLevel(editPieceData.limitBreaks || [])} |
-                      Breaks: {(editPieceData.limitBreaks || []).length}/5
-                    </div>
-
-                    <div className="grid grid-cols-5 gap-1 mb-3">
-                      {[100, 120, 140, 160, 180].map(breakLevel => {
-                        const isAchieved = (editPieceData.limitBreaks || []).includes(breakLevel);
-                        const isAvailable = editPieceData.level >= breakLevel;
-
-                        return (
-                          <button
-                            key={breakLevel}
-                            onClick={() => {
-                              const currentBreaks = editPieceData.limitBreaks || [];
-                              const newBreaks = isAchieved
-                                ? currentBreaks.filter(b => b !== breakLevel)
-                                : [...currentBreaks, breakLevel].sort((a, b) => a - b);
-
-                              setEditPieceData({
-                                ...editPieceData,
-                                limitBreaks: newBreaks
-                              });
-                            }}
-                            disabled={!isAvailable}
-                            className={`px-2 py-1 rounded text-xs transition-all text-center font-medium ${
-                              isAchieved
-                                ? 'bg-green-500/20 text-green-400 border border-green-500/40'
-                                : isAvailable
-                                  ? 'bg-gray-600/50 text-gray-300 border border-gray-500 hover:bg-gray-500/50'
-                                  : 'bg-gray-800/50 text-gray-600 border border-gray-700 cursor-not-allowed'
-                            }`}
-                            title={`${isAchieved ? 'Remove' : 'Add'} limit break at level ${breakLevel}`}
-                          >
-                            {breakLevel}
-                            {isAchieved && ' ✓'}
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {(() => {
-                      const nextBreak = getNextLimitBreak(editPieceData.level, editPieceData.limitBreaks || []);
-                      if (nextBreak) {
-                        const preview = getNextLimitBreakPreview(editPieceData.rarity, editPieceData.level, editPieceData.limitBreaks || []);
-                        if (preview) {
-                          return (
-                            <div className="text-xs text-blue-400 bg-blue-500/10 border border-blue-500/30 rounded p-2">
-                              <div className="font-medium mb-1">Next Limit Break Available (Level {preview.breakLevel}):</div>
-                              <div>
-                                ATK: <LargeNumberDisplay value={preview.atk} /> |
-                                HP: <LargeNumberDisplay value={preview.hp} />
-                              </div>
-                            </div>
-                          );
-                        }
-                      }
-                      return null;
-                    })()}
-                  </div>
-                </div>
 
                 <div>
                   <IconPicker
@@ -724,7 +562,7 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
                   maxSize={7}
                 />
                 <div className="mt-2 text-xs text-gray-400">
-                  Icons are automatically positioned at the geometric center of the piece.
+                  Icons are automatically centered on pieces. Manual positioning is not available.
                 </div>
               </div>
             </div>

@@ -229,14 +229,9 @@ export const ShapeIconEditor: React.FC<ShapeIconEditorProps> = ({
         <div>
           <strong>Shape Mode:</strong> Click cells to toggle them on/off to design the piece shape.
         </div>
-        <div>
-          <strong>Icon Mode:</strong> Click a blue cell to place the icon there.
+        <div className="text-gray-400">
+          <strong>Icon Positioning:</strong> Icons are automatically centered. Manual positioning is disabled.
         </div>
-        {iconPosition && (
-          <div>
-            <strong>Icon Position:</strong> ({iconPosition.x}, {iconPosition.y}) relative to piece origin
-          </div>
-        )}
       </div>
     </div>
   );

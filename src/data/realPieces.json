@@ -15,7 +15,7 @@
         "atk": 50,
         "hp": 30
       },
-      "unlocked": true
+      "unlocked": false
     },
     {
       "id": "piece_2",
@@ -33,7 +33,7 @@
         "atk": 35,
         "hp": 35
       },
-      "unlocked": true
+      "unlocked": false
     }
   ],
   "rarityConfig": {

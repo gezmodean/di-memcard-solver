@@ -1,6 +1,6 @@
 import React from 'react';
 import { useGameStore } from '../../store/gameStore';
-import { getActiveSpecialEffects } from '../../lib/utils/specialEffects';
+import { getActiveSpecialEffects, processSpecialEffectDescription } from '../../lib/utils/specialEffects';
 import { calculatePieceStats } from '../../lib/pieces/definitions';
 import { getMaxLevel } from '../../lib/pieces/rarityProgression';
 import { LargeNumberDisplay } from '../UI/LargeNumberDisplay';
@@ -102,9 +102,28 @@ export const CardStatsPane: React.FC<CardStatsPaneProps> = ({
           <div className="absolute inset-0 bg-gradient-to-b from-white/15 via-transparent to-black/20" />
 
           {/* Level indicator */}
-          <div className="absolute top-1 right-1 bg-black/80 text-white text-xs px-1.5 py-1 rounded font-bold">
+          <div className="absolute top-1 right-1 bg-black/80 text-white text-xs px-1.5 py-1 rounded font-bold z-20">
             {piece.level}
           </div>
+
+          {/* Limit break stars */}
+          {piece.limitBreaks && piece.limitBreaks.length > 0 && (
+            <div className="absolute bottom-1 left-1 flex z-20">
+              {piece.limitBreaks.map((breakLevel, index) => (
+                <span
+                  key={breakLevel}
+                  className="text-xs text-yellow-300"
+                  style={{
+                    fontSize: '10px',
+                    marginLeft: index > 0 ? '-2px' : '0',
+                    filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.8))'
+                  }}
+                >
+                  ⭐
+                </span>
+              ))}
+            </div>
+          )}
 
           {/* Icon */}
           <div className="relative z-10">
@@ -133,7 +152,7 @@ export const CardStatsPane: React.FC<CardStatsPaneProps> = ({
 
           {/* Status indicators */}
           {!piece.unlocked && (
-            <div className="absolute inset-0 bg-black/40 rounded flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/40 rounded flex items-center justify-center z-5">
               <span className="text-white text-lg">🔒</span>
             </div>
           )}
@@ -177,32 +196,17 @@ export const CardStatsPane: React.FC<CardStatsPaneProps> = ({
         </div>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 gap-3 mb-4">
-        <div className="bg-red-500/10 border border-red-500/30 rounded p-3">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-red-400">
-              <LargeNumberDisplay value={currentStats.atk} />
-            </div>
-            <div className="text-sm text-gray-400 font-medium">ATK</div>
-            {levelBonus.atk > 0 && (
-              <div className="text-xs text-red-300 mt-1">
-                Base: <LargeNumberDisplay value={baseStats.atk} /> (+<LargeNumberDisplay value={levelBonus.atk} />)
-              </div>
-            )}
+      {/* Power for owning card */}
+      <div className="bg-gray-900/50 border border-gray-700/50 rounded p-2 mb-4">
+        <div className="text-xs text-gray-400 mb-1">Power for owning card</div>
+        <div className="flex items-center gap-4 text-sm">
+          <div className="flex items-center gap-2">
+            <span className="text-red-400 font-semibold">ATK:</span>
+            <span className="text-white font-bold"><LargeNumberDisplay value={currentStats.atk} /></span>
           </div>
-        </div>
-        <div className="bg-green-500/10 border border-green-500/30 rounded p-3">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-green-400">
-              <LargeNumberDisplay value={currentStats.hp} />
-            </div>
-            <div className="text-sm text-gray-400 font-medium">HP</div>
-            {levelBonus.hp > 0 && (
-              <div className="text-xs text-green-300 mt-1">
-                Base: <LargeNumberDisplay value={baseStats.hp} /> (+<LargeNumberDisplay value={levelBonus.hp} />)
-              </div>
-            )}
+          <div className="flex items-center gap-2">
+            <span className="text-green-400 font-semibold">HP:</span>
+            <span className="text-white font-bold"><LargeNumberDisplay value={currentStats.hp} /></span>
           </div>
         </div>
       </div>
@@ -262,14 +266,12 @@ export const CardStatsPane: React.FC<CardStatsPaneProps> = ({
                     {effect.requiresOnField === false ? 'Always Active' : 'Field Only'}
                   </span>
                 </div>
-                <div className="mt-1">
-                  {effect.description}
-                </div>
-                {effect.variables.length > 0 && (
-                  <div className="text-xs text-gray-500 mt-1">
-                    Variables: {effect.variables.map(v => `${v.name}=${v.value}`).join(', ')}
-                  </div>
-                )}
+                <div
+                  className="mt-1"
+                  dangerouslySetInnerHTML={{
+                    __html: processSpecialEffectDescription(effect, piece.level, piece.limitBreaks || [])
+                  }}
+                />
               </div>
             ))}
           </div>

@@ -3,7 +3,14 @@
   "private": false,
   "version": "1.0.0",
   "description": "A sophisticated web application for optimizing memory card placement on a 9×9 grid",
-  "keywords": ["memory-cards", "grid-solver", "puzzle-game", "optimization", "react", "typescript"],
+  "keywords": [
+    "memory-cards",
+    "grid-solver",
+    "puzzle-game",
+    "optimization",
+    "react",
+    "typescript"
+  ],
   "author": "Memory Card Grid Solver Contributors",
   "type": "module",
   "scripts": {
@@ -25,6 +32,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@playwright/test": "^1.55.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
