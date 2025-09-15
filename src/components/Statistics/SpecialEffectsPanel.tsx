@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useGameStore } from '../../store/gameStore';
 import { getActiveSpecialEffects } from '../../lib/utils/specialEffects';
+import type { Piece } from '../../lib/types';
 
 export const SpecialEffectsPanel: React.FC = () => {
   const { placedPieces, pieces } = useGameStore();
   const [isExpanded, setIsExpanded] = useState(true);
 
   const getActiveEffects = () => {
-    const allEffects: { piece: unknown; effects: string[] }[] = [];
-    const alwaysActiveEffects: { piece: unknown; effects: string[] }[] = [];
+    const allEffects: { piece: Piece; effects: string[] }[] = [];
+    const alwaysActiveEffects: { piece: Piece; effects: string[] }[] = [];
 
     pieces.forEach(piece => {
       const isOnField = placedPieces.has(piece.id);

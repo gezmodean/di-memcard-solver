@@ -163,17 +163,18 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
     reader.onload = (e) => {
       try {
         const config = JSON.parse(e.target?.result as string);
-        config.pieces.forEach((configPiece: any) => {
-          useGameStore.getState().updatePieceLevel(configPiece.id, configPiece.level);
-          if (configPiece.unlocked !== undefined) {
-            const piece = pieces.find(p => p.id === configPiece.id);
-            if (piece && piece.unlocked !== configPiece.unlocked) {
-              useGameStore.getState().togglePieceLock(configPiece.id);
+        config.pieces.forEach((configPiece: unknown) => {
+          const piece = configPiece as Record<string, unknown>;
+          useGameStore.getState().updatePieceLevel(piece.id as string, piece.level as number);
+          if (piece.unlocked !== undefined) {
+            const foundPiece = pieces.find(p => p.id === piece.id);
+            if (foundPiece && foundPiece.unlocked !== piece.unlocked) {
+              useGameStore.getState().togglePieceLock(piece.id as string);
             }
           }
         });
         alert('Configuration imported successfully!');
-      } catch (error) {
+      } catch {
         alert('Error importing configuration: Invalid file format');
       }
     };
@@ -510,7 +511,7 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
                           value={editPieceData.statGrowth.percentagePerLevel || 1.0}
                           onChange={(e) => setEditPieceData({
                             ...editPieceData,
-                            statGrowth: { ...editPieceData.statGrowth, percentagePerLevel: parseFloat(e.target.value) || 1.0 }
+                            statGrowth: { ...editPieceData.statGrowth, type: 'percentage', percentagePerLevel: parseFloat(e.target.value) || 1.0 }
                           })}
                           className="w-full px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white text-sm focus:border-blue-500 focus:outline-none"
                           placeholder="1.0"

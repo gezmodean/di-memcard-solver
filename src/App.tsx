@@ -46,9 +46,9 @@ function App() {
     setSolverState({ ...state, searchType: state.searchType || 'main' });
   }, []);
 
-  const handleSavePieceData = (newPieces: any[]) => {
+  const handleSavePieceData = (newPieces: unknown[]) => {
     // Add the new pieces to the game store
-    addNewPieces(newPieces);
+    addNewPieces(newPieces as any[]);
     console.log('New pieces added to the game:', newPieces);
 
     // Also download as JSON file for backup

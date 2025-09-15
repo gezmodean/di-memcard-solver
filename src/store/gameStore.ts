@@ -59,12 +59,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const storedPieces = localStorage.getItem('memsolver-pieces');
       if (storedPieces) {
         const parsedPieces = JSON.parse(storedPieces);
-        const piecesWithColors = parsedPieces.map((piece: unknown) => ({
-          ...(piece as Record<string, unknown>),
-          color: RARITY_COLORS[(piece as any).rarity as Rarity] || RARITY_COLORS.common,
-          icon: (piece as any).icon || '🎮',
-          unlocked: (piece as any).unlocked ?? false // Default to locked if not specified
-        }));
+        const piecesWithColors = parsedPieces.map((piece: unknown) => {
+          const p = piece as Record<string, unknown>;
+          return {
+            ...p,
+            color: RARITY_COLORS[p.rarity as Rarity] || RARITY_COLORS.common,
+            icon: p.icon || '🎮',
+            unlocked: p.unlocked ?? false // Default to locked if not specified
+          };
+        }) as Piece[];
         set({ pieces: piecesWithColors, piecesLoaded: true });
         return;
       }
@@ -78,12 +81,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const loadedPieces = data.pieces || data;
 
       // Add color property based on rarity when loading pieces
-      const piecesWithColors = (Array.isArray(loadedPieces) ? loadedPieces : []).map((piece: unknown) => ({
-        ...(piece as Record<string, unknown>),
-        color: RARITY_COLORS[(piece as any).rarity as Rarity] || RARITY_COLORS.common,
-        icon: (piece as any).icon || '🎮', // Fallback emoji
-        unlocked: (piece as any).unlocked ?? false // Default to locked if not specified
-      }));
+      const piecesWithColors = (Array.isArray(loadedPieces) ? loadedPieces : []).map((piece: unknown) => {
+        const p = piece as Record<string, unknown>;
+        return {
+          ...p,
+          color: RARITY_COLORS[p.rarity as Rarity] || RARITY_COLORS.common,
+          icon: p.icon || '🎮', // Fallback emoji
+          unlocked: p.unlocked ?? false // Default to locked if not specified
+        };
+      }) as Piece[];
 
       // Save to localStorage for future use
       localStorage.setItem('memsolver-pieces', JSON.stringify(piecesWithColors));
