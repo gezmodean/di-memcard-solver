@@ -1,0 +1,76 @@
+{
+  "pieces": [
+    {
+      "id": "piece_1",
+      "name": "REPLACE_WITH_ACTUAL_NAME",
+      "rarity": "common",
+      "cellCount": 4,
+      "shape": [
+        [1, 1, 1, 1]
+      ],
+      "iconPosition": { "x": 0, "y": 0 },
+      "iconFile": "sprite-6-2.png",
+      "level": 1,
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "unlocked": true
+    },
+    {
+      "id": "piece_2",
+      "name": "REPLACE_WITH_ACTUAL_NAME",
+      "rarity": "common",
+      "cellCount": 4,
+      "shape": [
+        [1, 1],
+        [1, 1]
+      ],
+      "iconPosition": { "x": 0, "y": 0 },
+      "iconFile": "sprite-10-3.png",
+      "level": 1,
+      "baseStats": {
+        "atk": 35,
+        "hp": 35
+      },
+      "unlocked": true
+    }
+  ],
+  "rarityConfig": {
+    "common": {
+      "color": "#9CA3AF",
+      "cellCount": 4,
+      "displayName": "Common"
+    },
+    "uncommon": {
+      "color": "#10B981",
+      "cellCount": 5,
+      "displayName": "Uncommon"
+    },
+    "rare": {
+      "color": "#3B82F6",
+      "cellCount": 7,
+      "displayName": "Rare"
+    },
+    "epic": {
+      "color": "#A855F7",
+      "cellCount": 8,
+      "displayName": "Epic"
+    },
+    "legendary": {
+      "color": "#F59E0B",
+      "cellCount": 9,
+      "displayName": "Legendary"
+    },
+    "mythic": {
+      "color": "#EF4444",
+      "cellCount": 10,
+      "displayName": "Mythic"
+    },
+    "transcendent": {
+      "color": "#EC4899",
+      "cellCount": 11,
+      "displayName": "Transcendent"
+    }
+  }
+}

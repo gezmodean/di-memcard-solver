@@ -1,0 +1,42 @@
+{
+  "name": "memory-card-grid-solver",
+  "private": false,
+  "version": "1.0.0",
+  "description": "A sophisticated web application for optimizing memory card placement on a 9×9 grid",
+  "keywords": ["memory-cards", "grid-solver", "puzzle-game", "optimization", "react", "typescript"],
+  "author": "Memory Card Grid Solver Contributors",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "tsc -b && vite build",
+    "serve": "vite preview",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc -b --noEmit",
+    "clean": "rm -rf dist node_modules/.vite",
+    "install:clean": "npm run clean && npm install"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.39.1",
+    "vite": "^7.1.2"
+  }
+}
