@@ -72,19 +72,15 @@ export const LargeNumberInput: React.FC<LargeNumberInputProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Allow: backspace, delete, tab, escape, enter
-    if ([8, 9, 27, 13, 46].indexOf(e.keyCode) !== -1 ||
-        // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
-        (e.keyCode === 65 && e.ctrlKey === true) ||
-        (e.keyCode === 67 && e.ctrlKey === true) ||
-        (e.keyCode === 86 && e.ctrlKey === true) ||
-        (e.keyCode === 88 && e.ctrlKey === true)) {
+    // Allow: backspace, delete, tab, escape, enter, decimal point
+    if (['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(e.key) ||
+        // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z
+        (e.ctrlKey && ['a', 'c', 'v', 'x', 'z'].includes(e.key.toLowerCase()))) {
       return;
     }
 
-    // Allow: numbers, letters (for magnitude), decimal point
-    const char = String.fromCharCode(e.keyCode);
-    if (!/[\d.A-Za-z]/.test(char)) {
+    // Allow: numbers, letters (for magnitude), decimal point, period
+    if (!/^[\d.A-Za-z]$/.test(e.key)) {
       e.preventDefault();
     }
   };
