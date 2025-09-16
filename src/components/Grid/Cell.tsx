@@ -171,55 +171,8 @@ export const Cell: React.FC<CellProps> = ({ x, y, pieceId, isConflict, isSelecte
   };
 
   const getIconContent = () => {
-    if (!piece || !shouldShowIcon()) return null;
-
-    const centerData = getGeometricCenter();
-    if (!centerData) return null;
-
-    const relativeX = x - placedPiece!.x;
-    const relativeY = y - placedPiece!.y;
-    const { centerX, centerY } = centerData;
-
-    // Calculate fractional offset for positioning
-    const fractionalOffsetX = centerX - relativeX;
-    const fractionalOffsetY = centerY - relativeY;
-
-    // Convert cell-relative offset to pixel offset (assuming 44px cell size)
-    const cellSize = 44;
-    const pixelOffsetX = fractionalOffsetX * cellSize;
-    const pixelOffsetY = fractionalOffsetY * cellSize;
-
-    const iconStyle = {
-      filter: 'drop-shadow(1px 1px 1px rgba(0,0,0,0.8))',
-      transform: `translate(${pixelOffsetX}px, ${pixelOffsetY}px)`,
-      position: 'relative' as const,
-    };
-
-    // Check if piece uses iconFile (real game icons) or icon (emoji fallback)
-    if (piece.iconFile) {
-      return (
-        <img
-          src={`/icons/${piece.iconFile}`}
-          alt={piece.name}
-          className="w-8 h-8 object-contain"
-          style={iconStyle}
-        />
-      );
-    }
-
-    // Fallback to emoji
-    return (
-      <span
-        className="text-lg select-none"
-        style={{
-          ...iconStyle,
-          fontSize: '20px',
-          fontWeight: 'bold'
-        }}
-      >
-        {piece.icon}
-      </span>
-    );
+    // Icons removed from grid visualization
+    return null;
   };
 
   return (

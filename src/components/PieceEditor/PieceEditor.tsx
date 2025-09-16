@@ -227,21 +227,6 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
           </div>
 
           <div className="mt-3 flex gap-2 flex-wrap">
-            <button
-              onClick={() => {
-                if (confirm('Unlock all pieces? This will make all cards available for use.')) {
-                  pieces.forEach(piece => {
-                    if (!piece.unlocked) {
-                      togglePieceLock(piece.id);
-                    }
-                  });
-                  alert('All pieces unlocked successfully!');
-                }
-              }}
-              className="px-3 py-1 bg-green-600 hover:bg-green-700 rounded transition-colors"
-            >
-              Unlock All Pieces
-            </button>
             {onOpenDataForm && (
               <button
                 onClick={onOpenDataForm}

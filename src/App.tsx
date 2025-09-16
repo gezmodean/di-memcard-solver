@@ -6,21 +6,35 @@ import { SelectedPiecesQueue } from './components/PieceSelector/SelectedPiecesQu
 import { AutoSolver } from './components/Solver/AutoSolver';
 import { SpecialEffectsPanel } from './components/Statistics/SpecialEffectsPanel';
 import { CardStatsPane } from './components/Statistics/CardStatsPane';
-import { PieceEditor } from './components/PieceEditor/PieceEditor';
 import { PieceDataForm } from './components/DataInput/PieceDataForm';
+import { SiteConfigurationPanel } from './components/Admin/SiteConfigurationPanel';
+import { PlayerDataPanel } from './components/Player/PlayerDataPanel';
 
 function App() {
-  const { initializeGrid, addNewPieces, loadPieces, piecesLoaded, pieces, selectedPieceId } = useGameStore();
-  const [isEditorOpen, setIsEditorOpen] = useState(false);
+  const {
+    initializeGrid,
+    addNewPieces,
+    loadPieces,
+    piecesLoaded,
+    pieces,
+    selectedPieceId,
+    loadSiteConfig,
+    loadPlayerData,
+    unlockAllPieces
+  } = useGameStore();
   const [isDataFormOpen, setIsDataFormOpen] = useState(false);
+  const [isSiteConfigOpen, setIsSiteConfigOpen] = useState(false);
+  const [isPlayerDataOpen, setIsPlayerDataOpen] = useState(false);
   const [selectedPieceIds, setSelectedPieceIds] = useState<string[]>([]);
   const [solverState, setSolverState] = useState({ isSearching: false, noSolutionFound: false, searchType: 'main' as 'main' | 'alternatives' });
   const [showCardStats, setShowCardStats] = useState(false);
 
   useEffect(() => {
     initializeGrid();
+    loadSiteConfig();
+    loadPlayerData();
     loadPieces();
-  }, [initializeGrid, loadPieces]);
+  }, [initializeGrid, loadSiteConfig, loadPlayerData, loadPieces]);
 
   // Show card stats when a piece is selected from the grid
   useEffect(() => {
@@ -65,29 +79,12 @@ function App() {
     alert(`Successfully added ${newPieces.length} new piece(s) to the game!`);
   };
 
-  const handleSaveConfig = async () => {
-    const config = {
-      pieces: pieces.map(p => ({
-        id: p.id,
-        name: p.name,
-        level: p.level,
-        unlocked: p.unlocked,
-        baseStats: p.baseStats
-      })),
-      timestamp: Date.now(),
-      version: '1.0'
-    };
 
-    const dataStr = JSON.stringify(config, null, 2);
-    const blob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `memsolver-config-${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-
-    alert('Configuration saved successfully!');
+  const handleUnlockAll = () => {
+    if (confirm('Unlock all pieces? This will make all cards available for use.')) {
+      unlockAllPieces();
+      alert('All pieces unlocked successfully!');
+    }
   };
 
   if (!piecesLoaded) {
@@ -115,7 +112,7 @@ function App() {
           <h1 style={{ fontSize: '2rem', fontWeight: 'bold', margin: 0, color: '#f8fafc', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>Memory Card Grid Solver</h1>
           <div style={{ display: 'flex', gap: '8px' }}>
             <button
-              onClick={() => setIsEditorOpen(true)}
+              onClick={() => setIsSiteConfigOpen(true)}
               style={{
                 padding: '10px 16px',
                 backgroundColor: '#374151',
@@ -141,11 +138,11 @@ function App() {
               ⚙️ Settings
             </button>
             <button
-              onClick={handleSaveConfig}
+              onClick={handleUnlockAll}
               style={{
                 padding: '10px 16px',
-                backgroundColor: '#0d9488',
-                border: '1px solid #14b8a6',
+                backgroundColor: '#059669',
+                border: '1px solid #10b981',
                 borderRadius: '6px',
                 color: 'white',
                 cursor: 'pointer',
@@ -156,15 +153,41 @@ function App() {
                 transition: 'all 0.2s'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#0f766e';
+                e.currentTarget.style.backgroundColor = '#047857';
                 e.currentTarget.style.transform = 'translateY(-1px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#0d9488';
+                e.currentTarget.style.backgroundColor = '#059669';
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
-              💾 Save Config
+              🔓 Unlock All
+            </button>
+            <button
+              onClick={() => setIsPlayerDataOpen(true)}
+              style={{
+                padding: '10px 16px',
+                backgroundColor: '#7c3aed',
+                border: '1px solid #8b5cf6',
+                borderRadius: '6px',
+                color: 'white',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontWeight: '600',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#6d28d9';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#7c3aed';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              👤 My Data
             </button>
           </div>
         </div>
@@ -352,18 +375,24 @@ function App() {
           <p style={{ margin: 0 }}>Select memory cards from the inventory, then use the Auto Solver to find optimal grid placements.</p>
         </div>
 
-        {/* Piece Editor Modal */}
-        <PieceEditor
-          isOpen={isEditorOpen}
-          onClose={() => setIsEditorOpen(false)}
-          onOpenDataForm={() => setIsDataFormOpen(true)}
-        />
 
         {/* Piece Data Input Form */}
         <PieceDataForm
           isOpen={isDataFormOpen}
           onClose={() => setIsDataFormOpen(false)}
           onSaveData={handleSavePieceData}
+        />
+
+        {/* Site Configuration Panel */}
+        <SiteConfigurationPanel
+          isOpen={isSiteConfigOpen}
+          onClose={() => setIsSiteConfigOpen(false)}
+        />
+
+        {/* Player Data Panel */}
+        <PlayerDataPanel
+          isOpen={isPlayerDataOpen}
+          onClose={() => setIsPlayerDataOpen(false)}
         />
       </div>
       </div>

@@ -132,3 +132,5 @@ Desktop.ini
 
 # Claude.md backups (if any)
 claude.md.bak
+.claude/
+.playwright-mcp/

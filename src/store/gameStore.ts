@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { PlacedPiece, Piece, Rarity, RarityConfig } from '../lib/types';
+import type { PlacedPiece, Piece, Rarity, RarityConfig, PieceDefinition, PlayerPieceData, SiteConfig, PlayerData } from '../lib/types';
 import { calculatePieceStats } from '../lib/pieces/definitions';
 import { rotateShape } from '../lib/utils/rotation';
 import { RARITY_COLORS } from '../lib/types';
@@ -13,11 +13,19 @@ interface GameStore {
   hoveredPosition: { x: number; y: number } | null;
   conflicts: Set<string>;
 
-  // Pieces
+  // Site configuration (admin/editor data)
+  siteConfig: SiteConfig;
+  siteConfigLoaded: boolean;
+
+  // Player data (user progress)
+  playerData: PlayerData;
+  playerDataLoaded: boolean;
+
+  // Combined runtime pieces
   pieces: Piece[];
   piecesLoaded: boolean;
 
-  // Rarity configurations
+  // Backward compatibility
   rarityConfigs: Record<Rarity, RarityConfig>;
 
   // Actions
@@ -42,6 +50,27 @@ interface GameStore {
   saveRarityConfigs: () => void;
   loadRarityConfigs: () => void;
   resetRarityConfigs: () => void;
+
+  // Site configuration management
+  loadSiteConfig: () => Promise<void>;
+  saveSiteConfig: () => void;
+  exportSiteConfig: () => void;
+  importSiteConfig: (config: SiteConfig) => void;
+  resetToOriginalSiteConfig: () => Promise<void>;
+  updatePieceDefinition: (pieceDefinition: PieceDefinition) => void;
+  addPieceDefinition: (pieceDefinition: PieceDefinition) => void;
+  removePieceDefinition: (pieceId: string) => void;
+
+  // Player data management
+  loadPlayerData: () => void;
+  savePlayerData: () => void;
+  exportPlayerData: () => void;
+  importPlayerData: (data: PlayerData) => void;
+  resetPlayerData: () => void;
+  unlockAllPieces: () => void;
+
+  // Combined data management
+  combinePieceData: () => void;
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -50,6 +79,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
   selectedPieceId: null,
   hoveredPosition: null,
   conflicts: new Set(),
+  siteConfig: {
+    pieces: [],
+    rarityConfigs: { ...RARITY_CONFIGS }
+  },
+  siteConfigLoaded: false,
+  playerData: {
+    pieces: []
+  },
+  playerDataLoaded: false,
   pieces: [],
   piecesLoaded: false,
   rarityConfigs: { ...RARITY_CONFIGS },
@@ -63,53 +101,21 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   loadPieces: async () => {
+    const state = get();
+
     // Load rarity configs first
-    get().loadRarityConfigs();
+    state.loadRarityConfigs();
 
-    try {
-      // Try to load from localStorage first
-      const storedPieces = localStorage.getItem('memsolver-pieces');
-      if (storedPieces) {
-        const parsedPieces = JSON.parse(storedPieces);
-        const piecesWithColors = parsedPieces.map((piece: unknown) => {
-          const p = piece as Record<string, unknown>;
-          return {
-            ...p,
-            color: RARITY_COLORS[p.rarity as Rarity] || RARITY_COLORS.common,
-            icon: p.icon || '🎮',
-            unlocked: p.unlocked ?? false // Default to locked if not specified
-          };
-        }) as Piece[];
-        set({ pieces: piecesWithColors, piecesLoaded: true });
-        return;
-      }
-
-      // Fallback to loading from public/pieces.json (initial load only)
-      const response = await fetch('/pieces.json');
-      if (!response.ok) {
-        throw new Error('Failed to fetch pieces.json');
-      }
-      const data = await response.json();
-      const loadedPieces = data.pieces || data;
-
-      // Add color property based on rarity when loading pieces
-      const piecesWithColors = (Array.isArray(loadedPieces) ? loadedPieces : []).map((piece: unknown) => {
-        const p = piece as Record<string, unknown>;
-        return {
-          ...p,
-          color: RARITY_COLORS[p.rarity as Rarity] || RARITY_COLORS.common,
-          icon: p.icon || '🎮', // Fallback emoji
-          unlocked: p.unlocked ?? false // Default to locked if not specified
-        };
-      }) as Piece[];
-
-      // Save to localStorage for future use
-      localStorage.setItem('memsolver-pieces', JSON.stringify(piecesWithColors));
-      set({ pieces: piecesWithColors, piecesLoaded: true });
-    } catch (error) {
-      console.error('Error loading pieces:', error);
-      set({ pieces: [], piecesLoaded: true });
+    // Load site config and player data if not already loaded
+    if (!state.siteConfigLoaded) {
+      await state.loadSiteConfig();
     }
+    if (!state.playerDataLoaded) {
+      state.loadPlayerData();
+    }
+
+    // Combine the data
+    state.combinePieceData();
   },
 
   savePiecesToStorage: () => {
@@ -354,5 +360,189 @@ export const useGameStore = create<GameStore>((set, get) => ({
   resetRarityConfigs: () => {
     set({ rarityConfigs: { ...RARITY_CONFIGS } });
     localStorage.removeItem('memsolver-rarity-configs');
+  },
+
+  // Site configuration management
+  loadSiteConfig: async () => {
+    try {
+      const stored = localStorage.getItem('memsolver-site-config');
+      if (stored) {
+        const config = JSON.parse(stored);
+        set({ siteConfig: config, siteConfigLoaded: true });
+        return;
+      }
+
+      // Fallback to loading from public/pieces.json
+      const response = await fetch('/pieces.json');
+      if (!response.ok) {
+        throw new Error('Failed to fetch pieces.json');
+      }
+      const data = await response.json();
+      const loadedPieces = data.pieces || data;
+
+      const siteConfig: SiteConfig = {
+        pieces: loadedPieces.map((piece: any) => ({
+          id: piece.id,
+          name: piece.name,
+          rarity: piece.rarity,
+          shape: piece.shape,
+          color: piece.color || RARITY_COLORS[piece.rarity as Rarity],
+          icon: piece.icon,
+          iconFile: piece.iconFile,
+          baseStats: piece.baseStats,
+          useRarityProgression: piece.useRarityProgression,
+          statGrowth: piece.statGrowth,
+          specialEffects: piece.specialEffects
+        })),
+        rarityConfigs: { ...RARITY_CONFIGS }
+      };
+
+      set({ siteConfig, siteConfigLoaded: true });
+      localStorage.setItem('memsolver-site-config', JSON.stringify(siteConfig));
+    } catch (error) {
+      console.error('Error loading site config:', error);
+      set({
+        siteConfig: { pieces: [], rarityConfigs: { ...RARITY_CONFIGS } },
+        siteConfigLoaded: true
+      });
+    }
+  },
+
+  saveSiteConfig: () => {
+    const state = get();
+    localStorage.setItem('memsolver-site-config', JSON.stringify(state.siteConfig));
+  },
+
+  exportSiteConfig: () => {
+    const state = get();
+    const dataStr = JSON.stringify(state.siteConfig, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `site-config-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+
+  importSiteConfig: (config: SiteConfig) => {
+    set({ siteConfig: config });
+    get().saveSiteConfig();
+    get().combinePieceData();
+  },
+
+  resetToOriginalSiteConfig: async () => {
+    localStorage.removeItem('memsolver-site-config');
+    await get().loadSiteConfig();
+    get().combinePieceData();
+  },
+
+  updatePieceDefinition: (pieceDefinition: PieceDefinition) => {
+    const state = get();
+    const newPieces = state.siteConfig.pieces.map(p =>
+      p.id === pieceDefinition.id ? pieceDefinition : p
+    );
+    const newSiteConfig = { ...state.siteConfig, pieces: newPieces };
+    set({ siteConfig: newSiteConfig });
+    get().saveSiteConfig();
+    get().combinePieceData();
+  },
+
+  addPieceDefinition: (pieceDefinition: PieceDefinition) => {
+    const state = get();
+    const newSiteConfig = {
+      ...state.siteConfig,
+      pieces: [...state.siteConfig.pieces, pieceDefinition]
+    };
+    set({ siteConfig: newSiteConfig });
+    get().saveSiteConfig();
+    get().combinePieceData();
+  },
+
+  removePieceDefinition: (pieceId: string) => {
+    const state = get();
+    const newPieces = state.siteConfig.pieces.filter(p => p.id !== pieceId);
+    const newSiteConfig = { ...state.siteConfig, pieces: newPieces };
+    set({ siteConfig: newSiteConfig });
+    get().saveSiteConfig();
+    get().combinePieceData();
+  },
+
+  // Player data management
+  loadPlayerData: () => {
+    try {
+      const stored = localStorage.getItem('memsolver-player-data');
+      if (stored) {
+        const data = JSON.parse(stored);
+        set({ playerData: data, playerDataLoaded: true });
+      } else {
+        set({ playerData: { pieces: [] }, playerDataLoaded: true });
+      }
+    } catch (error) {
+      console.error('Error loading player data:', error);
+      set({ playerData: { pieces: [] }, playerDataLoaded: true });
+    }
+  },
+
+  savePlayerData: () => {
+    const state = get();
+    localStorage.setItem('memsolver-player-data', JSON.stringify(state.playerData));
+  },
+
+  exportPlayerData: () => {
+    const state = get();
+    const dataStr = JSON.stringify(state.playerData, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `my-memory-cards-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+
+  importPlayerData: (data: PlayerData) => {
+    set({ playerData: data });
+    get().savePlayerData();
+    get().combinePieceData();
+  },
+
+  resetPlayerData: () => {
+    const playerData = { pieces: [] };
+    set({ playerData, playerDataLoaded: true });
+    localStorage.removeItem('memsolver-player-data');
+    get().combinePieceData();
+  },
+
+  unlockAllPieces: () => {
+    const state = get();
+    const newPlayerPieces = state.siteConfig.pieces.map(sitePiece => {
+      const existingPlayerPiece = state.playerData.pieces.find(p => p.id === sitePiece.id);
+      return {
+        id: sitePiece.id,
+        level: existingPlayerPiece?.level || 1,
+        limitBreaks: existingPlayerPiece?.limitBreaks || [],
+        unlocked: true
+      };
+    });
+    const newPlayerData = { pieces: newPlayerPieces };
+    set({ playerData: newPlayerData });
+    get().savePlayerData();
+    get().combinePieceData();
+  },
+
+  // Combined data management
+  combinePieceData: () => {
+    const state = get();
+    const combinedPieces: Piece[] = state.siteConfig.pieces.map(sitePiece => {
+      const playerPiece = state.playerData.pieces.find(p => p.id === sitePiece.id);
+      return {
+        ...sitePiece,
+        level: playerPiece?.level || 1,
+        limitBreaks: playerPiece?.limitBreaks || [],
+        unlocked: playerPiece?.unlocked || false
+      };
+    });
+    set({ pieces: combinedPieces, piecesLoaded: true });
   },
 }));

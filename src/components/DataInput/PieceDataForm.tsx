@@ -4,6 +4,7 @@ import { IconPicker } from './IconPicker';
 import { LargeNumberInput } from '../UI/LargeNumberInput';
 import { parseSpecialEffectTemplate } from '../../lib/utils/specialEffects';
 import type { SpecialEffect } from '../../lib/types';
+import { TabularSpecialEffectsEditor } from '../PieceEditor/TabularSpecialEffectsEditor';
 
 interface PieceFormData {
   name: string;
@@ -261,136 +262,11 @@ export const PieceDataForm: React.FC<PieceDataFormProps> = ({ isOpen, onClose, o
 
             {/* Special Effects Section */}
             <div>
-              <label style={{ display: 'block', fontSize: '14px', marginBottom: '8px', color: '#d1d5db' }}>Special Effects:</label>
-
-              {/* Current Effects List */}
-              <div style={{ marginBottom: '12px' }}>
-                {currentPiece.specialEffects.map((effect, index) => (
-                  <div key={index} style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    backgroundColor: '#1f2937',
-                    border: '1px solid #374151',
-                    padding: '8px',
-                    borderRadius: '6px',
-                    marginBottom: '4px'
-                  }}>
-                    <div>
-                      <div style={{ fontSize: '14px', color: '#d1d5db' }}>{effect.description}</div>
-                      <div style={{ fontSize: '12px', color: '#9ca3af' }}>
-                        Variables: {effect.variables.map(v => `${v.name}=${v.value}`).join(', ')}
-                        {effect.requiresOnField === false && ' (Always Active)'}
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => removeSpecialEffect(index)}
-                      style={{
-                        color: '#ef4444',
-                        backgroundColor: 'transparent',
-                        border: 'none',
-                        cursor: 'pointer',
-                        padding: '4px',
-                        fontSize: '12px'
-                      }}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
-              </div>
-
-              {/* Add New Effect Form */}
-              <div style={{
-                backgroundColor: '#1f2937',
-                border: '1px solid #374151',
-                padding: '12px',
-                borderRadius: '6px',
-                marginBottom: '8px'
-              }}>
-                <div style={{ marginBottom: '8px' }}>
-                  <label style={{ display: 'block', fontSize: '12px', marginBottom: '4px', color: '#d1d5db' }}>
-                    Effect Template (use {'{variable_name}'} for variables):
-                  </label>
-                  <input
-                    type="text"
-                    value={newEffectTemplate}
-                    onChange={(e) => handleEffectTemplateChange(e.target.value)}
-                    placeholder="e.g., skill cooldown decreases by {cooldown}%"
-                    style={{
-                      width: '100%',
-                      backgroundColor: '#374151',
-                      border: '1px solid #6b7280',
-                      borderRadius: '4px',
-                      padding: '6px',
-                      color: 'white',
-                      fontSize: '12px'
-                    }}
-                  />
-                </div>
-
-                {/* Dynamic Variable Inputs */}
-                {Object.keys(newEffectVariables).length > 0 && (
-                  <div style={{ marginBottom: '8px' }}>
-                    <label style={{ display: 'block', fontSize: '12px', marginBottom: '4px', color: '#d1d5db' }}>
-                      Variable Values:
-                    </label>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '8px' }}>
-                      {Object.entries(newEffectVariables).map(([varName, value]) => (
-                        <div key={varName}>
-                          <label style={{ fontSize: '11px', color: '#9ca3af' }}>{varName}:</label>
-                          <input
-                            type="number"
-                            step="0.1"
-                            value={value}
-                            onChange={(e) => setNewEffectVariables({
-                              ...newEffectVariables,
-                              [varName]: parseFloat(e.target.value) || 0
-                            })}
-                            style={{
-                              width: '100%',
-                              backgroundColor: '#374151',
-                              border: '1px solid #6b7280',
-                              borderRadius: '4px',
-                              padding: '4px',
-                              color: 'white',
-                              fontSize: '11px'
-                            }}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '12px', color: '#d1d5db' }}>
-                    <input
-                      type="checkbox"
-                      checked={newEffectRequiresField}
-                      onChange={(e) => setNewEffectRequiresField(e.target.checked)}
-                    />
-                    Only active when piece is on field
-                  </label>
-                </div>
-
-                <button
-                  onClick={addSpecialEffect}
-                  disabled={!newEffectTemplate.trim()}
-                  style={{
-                    padding: '6px 12px',
-                    backgroundColor: !newEffectTemplate.trim() ? '#4b5563' : '#059669',
-                    border: '1px solid #10b981',
-                    borderRadius: '4px',
-                    color: 'white',
-                    cursor: !newEffectTemplate.trim() ? 'not-allowed' : 'pointer',
-                    fontSize: '12px',
-                    fontWeight: '600'
-                  }}
-                >
-                  Add Effect
-                </button>
-              </div>
+              <TabularSpecialEffectsEditor
+                effects={currentPiece.specialEffects}
+                onChange={(effects) => setCurrentPiece({...currentPiece, specialEffects: effects})}
+                maxLevel={200}
+              />
             </div>
 
             <div>

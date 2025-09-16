@@ -1,20 +1,33 @@
-# Memory Card Grid Solver
+# Memory Card Grid Solver for Darkstar Idle
 
-A sophisticated web application for optimizing memory card placement on a 9×9 grid. Designed to help players find optimal configurations for memory card games by automatically solving placement puzzles and managing card inventories with complex stats, shapes, and special effects.
+A sophisticated React TypeScript web application for optimizing memory card placement on a 9×9 grid for the game **Darkstar Idle**. Features advanced special effects editing with interpolation system, comprehensive card management, and intelligent auto-solving capabilities.
 
-![Memory Card Grid Solver](./docs/screenshot.png)
+![Memory Card Grid Solver](./docs/screenshots/simple-view-with-interpolation.png)
 
-## Features
+## ✨ Key Features
 
-- **Interactive 9×9 Grid**: Visual placement of memory cards with real-time conflict detection
-- **Smart Auto Solver**: Automatically finds optimal placements for selected memory cards
-- **Memory Card Management**: Comprehensive inventory system with card levels, stats, and special effects
-- **Rarity System**: Seven-tier rarity system (Common → Transcendent) with unique progression curves
-- **Shape Visualization**: Accurate preview of complex card shapes before placement
-- **Statistics Tracking**: Real-time calculation of total collection power and individual card stats
-- **Card Editor**: Advanced editing capabilities for card properties, stats, and limit breaks
-- **Special Effects**: Support for conditional effects that activate based on placement
-- **Export/Import**: Save and load card configurations as JSON files
+### 🎯 Grid Optimization
+- **Interactive 9×9 Grid**: Visual placement with real-time conflict detection
+- **Smart Auto Solver**: Intelligent algorithms find optimal placements automatically
+- **Alternative Solutions**: Discover multiple placement strategies for the same card set
+
+### 🃏 Advanced Card Management
+- **Seven-Tier Rarity System**: Common → Transcendent with unique progression curves
+- **Level System**: Cards from 1-200 with limit breaks at levels 100, 120, 140, 160, 180
+- **Shape Visualization**: Complex card shapes with accurate placement previews
+- **Comprehensive Statistics**: Real-time power calculations and detailed card stats
+
+### ⚡ Special Effects System
+- **Advanced Effects Editor**: Create complex conditional effects with variables
+- **Interpolation System**: Simple and detailed views for balanced effect progressions
+- **Large Number Support**: Game-accurate format (1A, 2.5B, etc.) with decimal precision
+- **Real-Time Preview**: See exactly how effects will appear in-game
+
+### 🔧 Professional Tools
+- **Site Configuration**: Admin panel for managing card definitions and rarities
+- **Player Data Management**: Separate user progress and configuration data
+- **Export/Import**: Save and share configurations as JSON files
+- **Comprehensive Documentation**: In-app guides and technical references
 
 ## Getting Started
 
@@ -23,27 +36,30 @@ A sophisticated web application for optimizing memory card placement on a 9×9 g
 Before running the application, make sure you have:
 
 - **Node.js** (version 18 or higher) - [Download here](https://nodejs.org/)
-- **npm** (comes with Node.js) or **yarn**
+- **npm** (comes with Node.js)
+- A modern web browser (Chrome, Firefox, Safari, or Edge)
 
 ### Installation
 
-1. **Clone or download** the repository to your local machine
-2. **Navigate to the project directory**:
+1. **Clone the repository**:
    ```bash
-   cd memsolver-app
+   git clone https://github.com/gezmodean/di-memcard-solver.git
+   cd di-memcard-solver
    ```
 
-3. **Install dependencies**:
+2. **Install dependencies**:
    ```bash
    npm install
    ```
 
-4. **Start the development server**:
+3. **Start the development server**:
    ```bash
    npm run dev
    ```
 
-5. **Open your browser** and navigate to `http://localhost:5173` (or the port shown in your terminal)
+4. **Open your browser** and navigate to `http://localhost:5173`
+
+> The application will automatically load the default Darkstar Idle card data and be ready to use immediately.
 
 ### Building for Production
 
@@ -59,26 +75,31 @@ To preview the production build locally:
 npm run preview
 ```
 
-## How to Use
+## 🎮 How to Use
 
-### Basic Usage
+### Quick Start
 
-1. **Select Memory Cards**: Click on cards in the left inventory to add them to your queue
-2. **Use Auto Solver**: Click "Find Any Solution" to automatically place selected cards optimally
-3. **Manual Placement**: Click on grid cells to manually place your selected card
-4. **View Details**: Right-click any card to see detailed stats, shape, and special effects
+1. **Select Cards**: Click cards from the inventory (left panel) to add them to your queue
+2. **Auto Solve**: Click "Find Any Solution" to automatically place selected cards
+3. **Manual Fine-Tuning**: Click grid cells to manually adjust placements
+4. **View Statistics**: Check the right panel for total collection power and active effects
 
-### Card Management
+### Advanced Workflows
 
-- **Level Cards**: Use the + and - buttons to adjust card levels
-- **View Stats**: Right-click cards to see detailed statistics and shape previews
-- **Special Effects**: Check which effects are active based on your current setup
+**Card Configuration**:
+- Access **⚙️ Settings** → **Manage Pieces** for advanced card editing
+- Create custom special effects with variables like `{atkBonus}` and `{hpMultiplier}`
+- Use the interpolation system to balance effects across all 200 levels
 
-### Advanced Features
+**Effect Design**:
+- **Simple View**: Set key level values and interpolate smooth progressions
+- **Detailed View**: Fine-tune every individual level from 1-200
+- **Large Numbers**: Use game format (2.5B) or standard notation (2500000000)
 
-- **Settings Panel**: Access the gear icon to edit card properties, stats, and configurations
-- **Export/Import**: Use "Save Config" to export your card setup, or import existing configurations
-- **Alternative Solutions**: The solver can find multiple placement solutions for the same card set
+**Data Management**:
+- **👤 My Data**: Manage your personal card levels and unlocks
+- **🔓 Unlock All**: Instantly unlock all cards for testing
+- Export/import configurations for sharing with other players
 
 ## Card Data Structure
 
@@ -122,27 +143,40 @@ Cards can be limit broken at levels 100, 120, 140, 160, and 180, with significan
 
 ### Built With
 
-- **React 19** - UI framework
-- **TypeScript** - Type safety and development experience
-- **Vite** - Fast development build tool
-- **Tailwind CSS** - Utility-first CSS framework
-- **Zustand** - Lightweight state management
-- **ESLint** - Code linting and quality
+- **React 19** - Modern UI framework with latest features
+- **TypeScript** - Type safety and enhanced development experience
+- **Vite** - Lightning-fast development and build tooling
+- **Tailwind CSS** - Utility-first styling framework
+- **Zustand** - Lightweight and efficient state management
+- **ESLint** - Code quality and consistency enforcement
 
 ### Project Structure
 
 ```
-memsolver-app/
+di-memcard-solver/
+├── docs/                    # Comprehensive documentation
+│   ├── interpolation-system/  # Special effects guides
+│   ├── technical/             # Technical references
+│   └── screenshots/           # Feature demonstrations
 ├── public/
-│   ├── pieces.json          # Card definitions
-│   └── icons/              # Card icon images
+│   ├── pieces.json           # Default card definitions
+│   └── icons/               # Card icon sprites
 ├── src/
-│   ├── components/         # React components
-│   ├── lib/               # Utilities and game logic
-│   ├── store/             # State management
-│   └── App.tsx            # Main application
-├── package.json
-└── README.md
+│   ├── components/
+│   │   ├── Admin/           # Site configuration tools
+│   │   ├── Player/          # User data management
+│   │   ├── PieceEditor/     # Special effects editor
+│   │   ├── Grid/            # 9×9 grid visualization
+│   │   ├── Solver/          # Auto-solver algorithms
+│   │   └── UI/              # Reusable components
+│   ├── lib/
+│   │   ├── pieces/          # Card logic and rarity system
+│   │   ├── solver/          # Grid solving algorithms
+│   │   ├── types.ts         # TypeScript definitions
+│   │   └── utils/           # Utility functions
+│   ├── store/               # Zustand state management
+│   └── App.tsx              # Main application
+└── package.json
 ```
 
 ### Performance Considerations
@@ -157,30 +191,52 @@ memsolver-app/
 ### Available Scripts
 
 - `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
+- `npm run build` - TypeScript compilation + Vite production build
+- `npm run preview` - Preview production build locally
+- `npm run lint` - Run ESLint code quality checks
+- `npm run lint:fix` - Auto-fix ESLint issues
+- `npm run type-check` - TypeScript type checking without compilation
+- `npm run clean` - Clean build artifacts and cache
 
 ### Adding New Cards
 
-1. Add card data to `public/pieces.json`
-2. Place card icon in `public/icons/`
-3. Restart the development server
+Use the in-app **Settings** panel for a user-friendly card creation experience:
 
-### Customizing Rarities
+1. **⚙️ Settings** → **Manage Pieces** → Select any card → **Add Effect**
+2. Create special effects with variables: `Increases ATK by {atkBonus}%`
+3. Use the interpolation system to balance effects across levels 1-200
+4. Export your configuration to share with others
 
-Edit base stats and progression in `src/lib/pieces/rarityProgression.ts`:
+### Advanced Customization
 
-```typescript
-export const RARITY_CONFIGS: Record<Rarity, RarityConfig> = {
-  legendary: {
-    baseAtk: 350,
-    baseHp: 200,
-    growthPerLevel: 0.9,
-    // ... limit break multipliers
-  }
-}
-```
+**Special Effects System**:
+- Support for complex variables with piecewise linear interpolation
+- Large number format matching Darkstar Idle's display system
+- Real-time preview showing exact in-game appearance
+
+**Rarity Configuration**:
+Customize progression curves in **Settings** or edit `src/lib/pieces/rarityProgression.ts`
+
+**Documentation**:
+Refer to `/docs/` for comprehensive guides:
+- [Interpolation System](./docs/interpolation-system/)
+- [Large Number Format](./docs/technical/large-numbers.md)
+- [Technical Reference](./docs/)
+
+## 📖 Documentation
+
+Comprehensive documentation is available in the `/docs/` directory:
+
+### **🎛️ Interpolation System**
+- **[Overview](./docs/interpolation-system/README.md)** - Complete system architecture and workflow
+- **[Simple View Guide](./docs/interpolation-system/simple-view.md)** - Key level interpolation for rapid effect design
+- **[Detailed View Guide](./docs/interpolation-system/detailed-view.md)** - Comprehensive 200-level table editing
+
+### **⚙️ Technical References**
+- **[Large Number System](./docs/technical/large-numbers.md)** - Game-accurate number formatting (1A, 2.5B, etc.)
+
+### **📊 Screenshots**
+Visual demonstrations of all major features are available in [`/docs/screenshots/`](./docs/screenshots/).
 
 ## Contributing
 
