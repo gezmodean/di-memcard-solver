@@ -90,13 +90,13 @@ export function parseLargeNumber(input: string): number {
 
   const trimmed = input.trim().toUpperCase();
 
-  // If it's just a number without abbreviation
-  if (/^\d+\.?\d*$/.test(trimmed)) {
+  // If it's just a number without abbreviation (allow integers, decimals, and numbers starting with decimal)
+  if (/^\d*\.?\d+$/.test(trimmed)) {
     return parseFloat(trimmed) || 0;
   }
 
-  // Extract number and magnitude parts
-  const match = trimmed.match(/^(\d+\.?\d*)\s*([A-Z]+)$/);
+  // Extract number and magnitude parts (allow decimal numbers)
+  const match = trimmed.match(/^(\d*\.?\d+)\s*([A-Z]+)$/);
   if (!match) {
     return 0;
   }
@@ -130,13 +130,13 @@ export function isValidLargeNumber(input: string): boolean {
 
   const trimmed = input.trim().toUpperCase();
 
-  // Check if it's a plain number
-  if (/^\d+\.?\d*$/.test(trimmed)) {
+  // Check if it's a plain number (allow integers, decimals, and numbers starting with decimal)
+  if (/^\d*\.?\d+$/.test(trimmed)) {
     return !isNaN(parseFloat(trimmed));
   }
 
-  // Check if it's abbreviated format
-  const match = trimmed.match(/^(\d+\.?\d*)\s*([A-Z]+)$/);
+  // Check if it's abbreviated format (allow decimal numbers)
+  const match = trimmed.match(/^(\d*\.?\d+)\s*([A-Z]+)$/);
   if (!match) {
     return false;
   }

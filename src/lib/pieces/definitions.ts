@@ -1,7 +1,8 @@
-import type { Piece } from '../types';
+import type { Piece, RarityConfig, Rarity } from '../types';
 import { calculateRarityBasedStats } from './rarityProgression';
 
-export function calculatePieceStats(piece: Piece): { atk: number; hp: number } {
+// Function will be called with optional rarity configs from store
+export function calculatePieceStats(piece: Piece, rarityConfigs?: Record<Rarity, RarityConfig>): { atk: number; hp: number } {
   // Use custom stat growth if specified
   if (piece.statGrowth) {
     const statGrowth = piece.statGrowth;
@@ -27,7 +28,7 @@ export function calculatePieceStats(piece: Piece): { atk: number; hp: number } {
 
   // Use rarity-based progression by default (unless explicitly disabled)
   if (piece.useRarityProgression !== false) {
-    return calculateRarityBasedStats(piece.rarity, piece.level, piece.limitBreaks || []);
+    return calculateRarityBasedStats(piece.rarity, piece.level, piece.limitBreaks || [], rarityConfigs);
   }
 
   // Fallback to old simple 1% per level system

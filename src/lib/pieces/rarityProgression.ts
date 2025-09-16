@@ -6,11 +6,11 @@ export interface RarityConfig {
   baseHp: number;
   growthPerLevel: number; // Percentage growth per level (1-99)
   limitBreaks: {
-    100: { atkMultiplier: number; hpMultiplier: number };
-    120: { atkMultiplier: number; hpMultiplier: number };
-    140: { atkMultiplier: number; hpMultiplier: number };
-    160: { atkMultiplier: number; hpMultiplier: number };
-    180: { atkMultiplier: number; hpMultiplier: number };
+    100: { atk: number; hp: number };
+    120: { atk: number; hp: number };
+    140: { atk: number; hp: number };
+    160: { atk: number; hp: number };
+    180: { atk: number; hp: number };
   };
 }
 
@@ -21,11 +21,11 @@ export const RARITY_CONFIGS: Record<Rarity, RarityConfig> = {
     baseHp: 30,
     growthPerLevel: 0.5, // 0.5% per level
     limitBreaks: {
-      100: { atkMultiplier: 4.6, hpMultiplier: 4.3 },
-      120: { atkMultiplier: 11.9, hpMultiplier: 11.1 },
-      140: { atkMultiplier: 30.8, hpMultiplier: 28.7 },
-      160: { atkMultiplier: 79.7, hpMultiplier: 74.3 },
-      180: { atkMultiplier: 206.2, hpMultiplier: 192.2 }
+      100: { atk: 230, hp: 129 },     // 50 * 4.6 = 230, 30 * 4.3 = 129
+      120: { atk: 595, hp: 333 },     // 50 * 11.9 = 595, 30 * 11.1 = 333
+      140: { atk: 1540, hp: 861 },    // 50 * 30.8 = 1540, 30 * 28.7 = 861
+      160: { atk: 3985, hp: 2229 },   // 50 * 79.7 = 3985, 30 * 74.3 = 2229
+      180: { atk: 10310, hp: 5766 }   // 50 * 206.2 = 10310, 30 * 192.2 = 5766
     }
   },
   uncommon: {
@@ -33,11 +33,11 @@ export const RARITY_CONFIGS: Record<Rarity, RarityConfig> = {
     baseHp: 45,
     growthPerLevel: 0.6,
     limitBreaks: {
-      100: { atkMultiplier: 4.6, hpMultiplier: 4.3 }, // 106A% example from user
-      120: { atkMultiplier: 11.9, hpMultiplier: 11.1 }, // 273A% example from user
-      140: { atkMultiplier: 30.8, hpMultiplier: 28.7 },
-      160: { atkMultiplier: 79.7, hpMultiplier: 74.3 },
-      180: { atkMultiplier: 206.2, hpMultiplier: 192.2 }
+      100: { atk: 345, hp: 194 },     // 75 * 4.6 = 345, 45 * 4.3 = 194
+      120: { atk: 893, hp: 500 },     // 75 * 11.9 = 893, 45 * 11.1 = 500
+      140: { atk: 2310, hp: 1292 },   // 75 * 30.8 = 2310, 45 * 28.7 = 1292
+      160: { atk: 5978, hp: 3344 },   // 75 * 79.7 = 5978, 45 * 74.3 = 3344
+      180: { atk: 15465, hp: 8649 }   // 75 * 206.2 = 15465, 45 * 192.2 = 8649
     }
   },
   rare: {
@@ -45,11 +45,11 @@ export const RARITY_CONFIGS: Record<Rarity, RarityConfig> = {
     baseHp: 70,
     growthPerLevel: 0.7,
     limitBreaks: {
-      100: { atkMultiplier: 4.8, hpMultiplier: 4.5 },
-      120: { atkMultiplier: 12.4, hpMultiplier: 11.6 },
-      140: { atkMultiplier: 32.1, hpMultiplier: 29.9 },
-      160: { atkMultiplier: 83.0, hpMultiplier: 77.4 },
-      180: { atkMultiplier: 214.8, hpMultiplier: 200.3 }
+      100: { atk: 576, hp: 315 },     // 120 * 4.8 = 576, 70 * 4.5 = 315
+      120: { atk: 1488, hp: 812 },    // 120 * 12.4 = 1488, 70 * 11.6 = 812
+      140: { atk: 3852, hp: 2093 },   // 120 * 32.1 = 3852, 70 * 29.9 = 2093
+      160: { atk: 9960, hp: 5418 },   // 120 * 83.0 = 9960, 70 * 77.4 = 5418
+      180: { atk: 25776, hp: 14021 }  // 120 * 214.8 = 25776, 70 * 200.3 = 14021
     }
   },
   epic: {
@@ -57,11 +57,11 @@ export const RARITY_CONFIGS: Record<Rarity, RarityConfig> = {
     baseHp: 120,
     growthPerLevel: 0.8,
     limitBreaks: {
-      100: { atkMultiplier: 5.0, hpMultiplier: 4.7 },
-      120: { atkMultiplier: 12.9, hpMultiplier: 12.1 },
-      140: { atkMultiplier: 33.4, hpMultiplier: 31.2 },
-      160: { atkMultiplier: 86.4, hpMultiplier: 80.6 },
-      180: { atkMultiplier: 223.6, hpMultiplier: 208.6 }
+      100: { atk: 1000, hp: 564 },    // 200 * 5.0 = 1000, 120 * 4.7 = 564
+      120: { atk: 2580, hp: 1452 },   // 200 * 12.9 = 2580, 120 * 12.1 = 1452
+      140: { atk: 6680, hp: 3744 },   // 200 * 33.4 = 6680, 120 * 31.2 = 3744
+      160: { atk: 17280, hp: 9672 },  // 200 * 86.4 = 17280, 120 * 80.6 = 9672
+      180: { atk: 44720, hp: 25032 }  // 200 * 223.6 = 44720, 120 * 208.6 = 25032
     }
   },
   legendary: {
@@ -69,11 +69,11 @@ export const RARITY_CONFIGS: Record<Rarity, RarityConfig> = {
     baseHp: 200,
     growthPerLevel: 0.9,
     limitBreaks: {
-      100: { atkMultiplier: 5.2, hpMultiplier: 4.9 },
-      120: { atkMultiplier: 13.5, hpMultiplier: 12.6 },
-      140: { atkMultiplier: 34.9, hpMultiplier: 32.6 },
-      160: { atkMultiplier: 90.3, hpMultiplier: 84.2 },
-      180: { atkMultiplier: 233.8, hpMultiplier: 218.1 }
+      100: { atk: 1820, hp: 980 },    // 350 * 5.2 = 1820, 200 * 4.9 = 980
+      120: { atk: 4725, hp: 2520 },   // 350 * 13.5 = 4725, 200 * 12.6 = 2520
+      140: { atk: 12215, hp: 6520 },  // 350 * 34.9 = 12215, 200 * 32.6 = 6520
+      160: { atk: 31605, hp: 16840 }, // 350 * 90.3 = 31605, 200 * 84.2 = 16840
+      180: { atk: 81830, hp: 43620 }  // 350 * 233.8 = 81830, 200 * 218.1 = 43620
     }
   },
   mythic: {
@@ -81,11 +81,11 @@ export const RARITY_CONFIGS: Record<Rarity, RarityConfig> = {
     baseHp: 261,
     growthPerLevel: 1.0,
     limitBreaks: {
-      100: { atkMultiplier: 5.4, hpMultiplier: 5.1 },
-      120: { atkMultiplier: 14.0, hpMultiplier: 13.1 },
-      140: { atkMultiplier: 36.2, hpMultiplier: 33.8 },
-      160: { atkMultiplier: 93.7, hpMultiplier: 87.4 },
-      180: { atkMultiplier: 242.6, hpMultiplier: 226.3 }
+      100: { atk: 2819, hp: 1331 },   // 522 * 5.4 = 2819, 261 * 5.1 = 1331
+      120: { atk: 7308, hp: 3419 },   // 522 * 14.0 = 7308, 261 * 13.1 = 3419
+      140: { atk: 18896, hp: 8820 },  // 522 * 36.2 = 18896, 261 * 33.8 = 8820
+      160: { atk: 48911, hp: 22811 }, // 522 * 93.7 = 48911, 261 * 87.4 = 22811
+      180: { atk: 126637, hp: 59085 } // 522 * 242.6 = 126637, 261 * 226.3 = 59085
     }
   },
   transcendent: {
@@ -93,20 +93,22 @@ export const RARITY_CONFIGS: Record<Rarity, RarityConfig> = {
     baseHp: 496,
     growthPerLevel: 1.2,
     limitBreaks: {
-      100: { atkMultiplier: 5.6, hpMultiplier: 5.3 },
-      120: { atkMultiplier: 14.5, hpMultiplier: 13.6 },
-      140: { atkMultiplier: 37.6, hpMultiplier: 35.1 },
-      160: { atkMultiplier: 97.3, hpMultiplier: 90.8 },
-      180: { atkMultiplier: 252.0, hpMultiplier: 235.0 }
+      100: { atk: 5824, hp: 2629 },   // 1040 * 5.6 = 5824, 496 * 5.3 = 2629
+      120: { atk: 15080, hp: 6746 },  // 1040 * 14.5 = 15080, 496 * 13.6 = 6746
+      140: { atk: 39104, hp: 17410 }, // 1040 * 37.6 = 39104, 496 * 35.1 = 17410
+      160: { atk: 101192, hp: 45037 },// 1040 * 97.3 = 101192, 496 * 90.8 = 45037
+      180: { atk: 262080, hp: 116560 }// 1040 * 252.0 = 262080, 496 * 235.0 = 116560
     }
   }
 };
 
 /**
  * Calculates stats for a piece based on rarity, level, and limit breaks
+ * Uses live rarity configs from store if available, otherwise falls back to defaults
  */
-export function calculateRarityBasedStats(rarity: Rarity, level: number, limitBreaks: number[] = []): { atk: number; hp: number } {
-  const config = RARITY_CONFIGS[rarity];
+export function calculateRarityBasedStats(rarity: Rarity, level: number, limitBreaks: number[] = [], customConfigs?: Record<Rarity, RarityConfig>): { atk: number; hp: number } {
+  const configs = customConfigs || RARITY_CONFIGS;
+  const config = configs[rarity];
 
   if (level <= 99) {
     // Standard progression (levels 1-99)
@@ -126,14 +128,14 @@ export function calculateRarityBasedStats(rarity: Rarity, level: number, limitBr
   currentAtk *= level99Multiplier;
   currentHp *= level99Multiplier;
 
-  // Apply limit break multipliers based on achieved limit breaks
+  // Apply limit break static values based on achieved limit breaks
   const limitBreakLevels = [100, 120, 140, 160, 180] as const;
 
   for (const breakLevel of limitBreakLevels) {
     if (limitBreaks.includes(breakLevel) || level >= breakLevel) {
-      const multipliers = config.limitBreaks[breakLevel];
-      currentAtk = config.baseAtk * multipliers.atkMultiplier;
-      currentHp = config.baseHp * multipliers.hpMultiplier;
+      const staticValues = config.limitBreaks[breakLevel];
+      currentAtk = staticValues.atk;
+      currentHp = staticValues.hp;
     }
 
     // Stop at the current level's limit break

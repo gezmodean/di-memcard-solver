@@ -22,7 +22,12 @@ export const RARITY_CELLS: Record<Rarity, number> = {
 
 export interface SpecialEffectVariable {
   name: string;
-  value: number;
+  baseValue: number;  // Base value at level 1
+  valuePerLevel?: number; // Additional value per level (optional scaling)
+  maxLevel?: number; // Maximum level for scaling (defaults to 200)
+
+  // Deprecated - for backwards compatibility
+  value?: number; // Will be treated as baseValue if baseValue is not set
 }
 
 export interface SpecialEffect {
@@ -38,6 +43,20 @@ export interface StatGrowthConfig {
   percentagePerLevel?: number;  // For percentage type: default 1.0 (1% per level)
 }
 
+// Rarity-based progression configuration
+export interface RarityConfig {
+  baseAtk: number;
+  baseHp: number;
+  growthPerLevel: number; // Percentage growth per level (1-99)
+  limitBreaks: {
+    100: { atk: number; hp: number };
+    120: { atk: number; hp: number };
+    140: { atk: number; hp: number };
+    160: { atk: number; hp: number };
+    180: { atk: number; hp: number };
+  };
+}
+
 export interface Piece {
   id: string;
   name: string;
@@ -46,7 +65,6 @@ export interface Piece {
   color: string;
   icon: string;       // Emoji fallback
   iconFile?: string;  // Real game sprite file
-  iconPosition?: { x: number; y: number }; // Position within the piece shape
   level: number;      // 1-200
   baseStats: {
     atk: number;

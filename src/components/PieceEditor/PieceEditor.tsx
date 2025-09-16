@@ -5,6 +5,7 @@ import { ShapeIconEditor } from '../DataInput/ShapeIconEditor';
 import { IconPicker } from '../DataInput/IconPicker';
 import { LargeNumberInput } from '../UI/LargeNumberInput';
 import { LargeNumberDisplay } from '../UI/LargeNumberDisplay';
+import { RarityProgressionEditor } from './RarityProgressionEditor';
 import { parseSpecialEffectTemplate } from '../../lib/utils/specialEffects';
 import {
   getMaxLevel,
@@ -26,10 +27,11 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
   const [bulkLevel, setBulkLevel] = useState<number>(1);
   const [editingPieceId, setEditingPieceId] = useState<string | null>(null);
   const [editPieceData, setEditPieceData] = useState<Piece | null>(null);
+  const [isRarityEditorOpen, setIsRarityEditorOpen] = useState(false);
 
   // Special effect editing state
   const [newEffectTemplate, setNewEffectTemplate] = useState('');
-  const [newEffectVariables, setNewEffectVariables] = useState<{[key: string]: number}>({});
+  const [newEffectVariables, setNewEffectVariables] = useState<{[key: string]: {baseValue: number; valuePerLevel: number; maxLevel: number}}>({});
   const [newEffectRequiresField, setNewEffectRequiresField] = useState(true);
 
   const availableIcons = [
@@ -92,10 +94,15 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
     if (!newEffectTemplate.trim() || !editPieceData) return;
 
     const parsed = parseSpecialEffectTemplate(newEffectTemplate);
-    const variables = parsed.variables.map(varName => ({
-      name: varName,
-      value: newEffectVariables[varName] || 1
-    }));
+    const variables = parsed.variables.map(varName => {
+      const varConfig = newEffectVariables[varName] || { baseValue: 1, valuePerLevel: 0, maxLevel: 200 };
+      return {
+        name: varName,
+        baseValue: varConfig.baseValue,
+        valuePerLevel: varConfig.valuePerLevel,
+        maxLevel: varConfig.maxLevel
+      };
+    });
 
     const newEffect: SpecialEffect = {
       description: newEffectTemplate,
@@ -130,9 +137,9 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
     const parsed = parseSpecialEffectTemplate(template);
 
     // Initialize variables with default values
-    const newVars: {[key: string]: number} = {};
+    const newVars: {[key: string]: {baseValue: number; valuePerLevel: number; maxLevel: number}} = {};
     parsed.variables.forEach(varName => {
-      newVars[varName] = newEffectVariables[varName] || 1;
+      newVars[varName] = newEffectVariables[varName] || { baseValue: 1, valuePerLevel: 0, maxLevel: 200 };
     });
     setNewEffectVariables(newVars);
   };
@@ -243,6 +250,12 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
                 Add New Piece
               </button>
             )}
+            <button
+              onClick={() => setIsRarityEditorOpen(true)}
+              className="px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded transition-colors"
+            >
+              Edit Rarity Progression
+            </button>
             <button
               onClick={exportConfiguration}
               className="px-3 py-1 bg-green-600 hover:bg-green-700 rounded transition-colors"
@@ -478,7 +491,18 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
                         <div className="flex-1">
                           <div className="text-sm">{effect.description}</div>
                           <div className="text-xs text-gray-400">
-                            Variables: {effect.variables.map(v => `${v.name}=${v.value}`).join(', ')}
+                            Variables: {effect.variables.map(v => {
+                              const baseValue = v.baseValue ?? v.value ?? 0;
+                              const valuePerLevel = v.valuePerLevel ?? 0;
+                              const maxLevel = v.maxLevel ?? 200;
+                              const currentLevel = editPieceData?.level || 1;
+                              const effectiveLevel = Math.min(currentLevel, maxLevel);
+                              const currentValue = baseValue + (valuePerLevel * Math.max(0, effectiveLevel - 1));
+
+                              return valuePerLevel > 0
+                                ? `${v.name}=${currentValue.toFixed(1)} (${baseValue}+${valuePerLevel}/lv, max lv${maxLevel})`
+                                : `${v.name}=${baseValue}`;
+                            }).join(', ')}
                             {effect.requiresOnField === false && ' (Always Active)'}
                           </div>
                         </div>
@@ -507,21 +531,56 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
 
                     {Object.keys(newEffectVariables).length > 0 && (
                       <div className="mb-2">
-                        <label className="block text-xs font-medium mb-1">Variables:</label>
-                        <div className="grid grid-cols-2 gap-2">
-                          {Object.entries(newEffectVariables).map(([varName, value]) => (
-                            <div key={varName} className="flex items-center gap-2">
-                              <span className="text-xs">{varName}:</span>
-                              <input
-                                type="number"
-                                step="0.1"
-                                value={value}
-                                onChange={(e) => setNewEffectVariables({
-                                  ...newEffectVariables,
-                                  [varName]: parseFloat(e.target.value) || 0
-                                })}
-                                className="flex-1 bg-gray-800 border border-gray-600 rounded px-2 py-1 text-xs"
-                              />
+                        <label className="block text-xs font-medium mb-1">Variables (Level Scaling):</label>
+                        <div className="space-y-3">
+                          {Object.entries(newEffectVariables).map(([varName, config]) => (
+                            <div key={varName} className="bg-gray-700/50 border border-gray-600/50 rounded p-2">
+                              <div className="text-xs font-medium text-yellow-300 mb-2">{varName}</div>
+                              <div className="grid grid-cols-3 gap-2">
+                                <div>
+                                  <label className="block text-xs text-gray-400 mb-1">Base Value (Lv1):</label>
+                                  <input
+                                    type="number"
+                                    step="0.1"
+                                    value={config.baseValue}
+                                    onChange={(e) => setNewEffectVariables({
+                                      ...newEffectVariables,
+                                      [varName]: { ...config, baseValue: parseFloat(e.target.value) || 0 }
+                                    })}
+                                    className="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-xs"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-xs text-gray-400 mb-1">Per Level:</label>
+                                  <input
+                                    type="number"
+                                    step="0.01"
+                                    value={config.valuePerLevel}
+                                    onChange={(e) => setNewEffectVariables({
+                                      ...newEffectVariables,
+                                      [varName]: { ...config, valuePerLevel: parseFloat(e.target.value) || 0 }
+                                    })}
+                                    className="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-xs"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-xs text-gray-400 mb-1">Max Level:</label>
+                                  <input
+                                    type="number"
+                                    min="1"
+                                    max="200"
+                                    value={config.maxLevel}
+                                    onChange={(e) => setNewEffectVariables({
+                                      ...newEffectVariables,
+                                      [varName]: { ...config, maxLevel: Math.max(1, Math.min(200, parseInt(e.target.value) || 200)) }
+                                    })}
+                                    className="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-xs"
+                                  />
+                                </div>
+                              </div>
+                              <div className="text-xs text-gray-500 mt-1">
+                                At level {editPieceData?.level || 1}: {(config.baseValue + (config.valuePerLevel * Math.max(0, Math.min((editPieceData?.level || 1), config.maxLevel) - 1))).toFixed(1)}
+                              </div>
                             </div>
                           ))}
                         </div>
@@ -555,15 +614,10 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
                 <label className="block text-sm font-medium mb-2">Piece Shape:</label>
                 <ShapeIconEditor
                   shape={editPieceData.shape}
-                  iconPosition={null}
                   iconFile={editPieceData.iconFile || 'sprite-6-2.png'}
                   onChange={(newShape) => setEditPieceData({...editPieceData, shape: newShape})}
-                  onIconPositionChange={() => {}} // No-op since we don't use icon positioning anymore
                   maxSize={7}
                 />
-                <div className="mt-2 text-xs text-gray-400">
-                  Icons are automatically centered on pieces. Manual positioning is not available.
-                </div>
               </div>
             </div>
 
@@ -585,6 +639,12 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
           </div>
         </div>
       )}
+
+      {/* Rarity Progression Editor */}
+      <RarityProgressionEditor
+        isOpen={isRarityEditorOpen}
+        onClose={() => setIsRarityEditorOpen(false)}
+      />
     </div>
   );
 };

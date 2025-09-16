@@ -14,7 +14,7 @@ export const CardStatsPane: React.FC<CardStatsPaneProps> = ({
   selectedPieceId,
   onClose
 }) => {
-  const { pieces, placedPieces, conflicts } = useGameStore();
+  const { pieces, placedPieces, conflicts, rarityConfigs } = useGameStore();
 
   const piece = selectedPieceId ? pieces.find(p => p.id === selectedPieceId) : null;
 
@@ -53,7 +53,7 @@ export const CardStatsPane: React.FC<CardStatsPaneProps> = ({
 
   const isOnField = placedPieces.has(piece.id);
   const isConflicted = conflicts.has(piece.id);
-  const currentStats = calculatePieceStats(piece);
+  const currentStats = calculatePieceStats(piece, rarityConfigs);
   const activeEffects = getActiveSpecialEffects(piece, isOnField);
 
   // Calculate level progression

@@ -2,7 +2,7 @@ import type { SpecialEffect, Piece } from '../types';
 
 export function processSpecialEffectDescription(
   effect: SpecialEffect,
-  _pieceLevel: number,
+  pieceLevel: number,
   limitBreaks: number[] = []
 ): string {
   let description = effect.description;
@@ -11,8 +11,16 @@ export function processSpecialEffectDescription(
   effect.variables.forEach(variable => {
     const placeholder = `{${variable.name}}`;
 
-    // Use the base value from the variable, potentially scaled by limit breaks
-    let scaledValue = variable.value;
+    // Calculate level-based value
+    const baseValue = variable.baseValue ?? variable.value ?? 0; // Backwards compatibility
+    const valuePerLevel = variable.valuePerLevel ?? 0;
+    const maxLevel = variable.maxLevel ?? 200;
+
+    // Clamp level to maxLevel for this variable
+    const effectiveLevel = Math.min(pieceLevel, maxLevel);
+
+    // Calculate level-scaled value: baseValue + (valuePerLevel * (level - 1))
+    let scaledValue = baseValue + (valuePerLevel * Math.max(0, effectiveLevel - 1));
 
     // Apply limit break multipliers if any
     // This is a placeholder - should be customizable per effect

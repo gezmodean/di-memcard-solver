@@ -10,7 +10,6 @@ interface PieceFormData {
   rarity: string;
   shape: number[][];
   iconFile: string;
-  iconPosition: { x: number; y: number } | null;
   baseAtk: number;
   baseHp: number;
   specialEffects: SpecialEffect[];
@@ -29,7 +28,6 @@ export const PieceDataForm: React.FC<PieceDataFormProps> = ({ isOpen, onClose, o
     rarity: 'common',
     shape: [[1, 1, 1, 1]], // Default I-tetromino shape
     iconFile: 'sprite-6-2.png',
-    iconPosition: { x: 0, y: 0 },
     baseAtk: 50,
     baseHp: 30,
     specialEffects: []
@@ -60,7 +58,6 @@ export const PieceDataForm: React.FC<PieceDataFormProps> = ({ isOpen, onClose, o
       rarity: 'common',
       shape: [[1, 1, 1, 1]],
       iconFile: 'sprite-6-2.png',
-      iconPosition: { x: 0, y: 0 },
       baseAtk: 50,
       baseHp: 30,
       specialEffects: []
@@ -128,7 +125,6 @@ export const PieceDataForm: React.FC<PieceDataFormProps> = ({ isOpen, onClose, o
       rarity: piece.rarity,
       shape: piece.shape,
       iconFile: piece.iconFile,
-      iconPosition: piece.iconPosition,
       level: 1,
       baseStats: {
         atk: piece.baseAtk,
@@ -398,13 +394,11 @@ export const PieceDataForm: React.FC<PieceDataFormProps> = ({ isOpen, onClose, o
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: '14px', marginBottom: '8px', color: '#d1d5db' }}>Piece Shape & Icon Position:</label>
+              <label style={{ display: 'block', fontSize: '14px', marginBottom: '8px', color: '#d1d5db' }}>Piece Shape:</label>
               <ShapeIconEditor
                 shape={currentPiece.shape}
-                iconPosition={currentPiece.iconPosition}
                 iconFile={currentPiece.iconFile}
                 onChange={(newShape) => setCurrentPiece({...currentPiece, shape: newShape})}
-                onIconPositionChange={(position) => setCurrentPiece({...currentPiece, iconPosition: position})}
                 maxSize={7}
               />
             </div>

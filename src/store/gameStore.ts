@@ -1,8 +1,9 @@
 import { create } from 'zustand';
-import type { PlacedPiece, Piece, Rarity } from '../lib/types';
+import type { PlacedPiece, Piece, Rarity, RarityConfig } from '../lib/types';
 import { calculatePieceStats } from '../lib/pieces/definitions';
 import { rotateShape } from '../lib/utils/rotation';
 import { RARITY_COLORS } from '../lib/types';
+import { RARITY_CONFIGS } from '../lib/pieces/rarityProgression';
 
 interface GameStore {
   // Grid state
@@ -15,6 +16,9 @@ interface GameStore {
   // Pieces
   pieces: Piece[];
   piecesLoaded: boolean;
+
+  // Rarity configurations
+  rarityConfigs: Record<Rarity, RarityConfig>;
 
   // Actions
   initializeGrid: () => void;
@@ -34,6 +38,10 @@ interface GameStore {
   addNewPieces: (newPieces: Piece[]) => void;
   togglePieceLock: (pieceId: string) => void;
   getTotalStats: () => { atk: number; hp: number };
+  updateRarityConfig: (rarity: Rarity, config: RarityConfig) => void;
+  saveRarityConfigs: () => void;
+  loadRarityConfigs: () => void;
+  resetRarityConfigs: () => void;
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -44,6 +52,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   conflicts: new Set(),
   pieces: [],
   piecesLoaded: false,
+  rarityConfigs: { ...RARITY_CONFIGS },
 
   initializeGrid: () => {
     set({
@@ -54,6 +63,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   loadPieces: async () => {
+    // Load rarity configs first
+    get().loadRarityConfigs();
+
     try {
       // Try to load from localStorage first
       const storedPieces = localStorage.getItem('memsolver-pieces');
@@ -302,11 +314,45 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     // Calculate total from ALL owned pieces, not just placed ones
     state.pieces.forEach((piece) => {
-      const stats = calculatePieceStats(piece);
+      const stats = calculatePieceStats(piece, state.rarityConfigs);
       totalAtk += stats.atk;
       totalHp += stats.hp;
     });
 
     return { atk: totalAtk, hp: totalHp };
+  },
+
+  updateRarityConfig: (rarity: Rarity, config: RarityConfig) => {
+    const state = get();
+    const newConfigs = {
+      ...state.rarityConfigs,
+      [rarity]: config
+    };
+    set({ rarityConfigs: newConfigs });
+    get().saveRarityConfigs();
+  },
+
+  saveRarityConfigs: () => {
+    const state = get();
+    localStorage.setItem('memsolver-rarity-configs', JSON.stringify(state.rarityConfigs));
+  },
+
+  loadRarityConfigs: () => {
+    try {
+      const stored = localStorage.getItem('memsolver-rarity-configs');
+      if (stored) {
+        const configs = JSON.parse(stored);
+        set({ rarityConfigs: configs });
+      }
+    } catch (error) {
+      console.error('Error loading rarity configs:', error);
+      // Reset to defaults on error
+      set({ rarityConfigs: { ...RARITY_CONFIGS } });
+    }
+  },
+
+  resetRarityConfigs: () => {
+    set({ rarityConfigs: { ...RARITY_CONFIGS } });
+    localStorage.removeItem('memsolver-rarity-configs');
   },
 }));

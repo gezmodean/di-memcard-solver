@@ -9,8 +9,8 @@ interface PieceCardProps {
 }
 
 export const PieceCard: React.FC<PieceCardProps> = ({ piece, isPlaced }) => {
-  const { removePiece, updatePieceLevel, selectedPieceId, selectPiece } = useGameStore();
-  const stats = calculatePieceStats(piece);
+  const { removePiece, updatePieceLevel, selectedPieceId, selectPiece, rarityConfigs } = useGameStore();
+  const stats = calculatePieceStats(piece, rarityConfigs);
 
   const handleClick = () => {
     if (isPlaced) {

@@ -1,4 +1,4 @@
-import type { Piece, PlacedPiece, Solution } from '../types';
+import type { Piece, PlacedPiece, Solution, RarityConfig, Rarity } from '../types';
 import { canPlacePiece, placePieceOnGrid } from './validation';
 import { rotateShape } from '../utils/rotation';
 import { calculatePieceStats } from '../pieces/definitions';
@@ -7,6 +7,7 @@ interface SolverOptions {
   maxSolutions?: number;
   timeoutMs?: number;
   onProgress?: (progress: { placedCount: number; totalPieces: number }) => void;
+  rarityConfigs?: Record<Rarity, RarityConfig>;
 }
 
 export class GridSolver {
@@ -15,11 +16,13 @@ export class GridSolver {
   private maxSolutions: number;
   private timeoutMs: number;
   private onProgress?: (progress: { placedCount: number; totalPieces: number }) => void;
+  private rarityConfigs?: Record<Rarity, RarityConfig>;
 
   constructor(options: SolverOptions = {}) {
     this.maxSolutions = options.maxSolutions || 10;
     this.timeoutMs = options.timeoutMs || 30000; // 30 seconds
     this.onProgress = options.onProgress;
+    this.rarityConfigs = options.rarityConfigs;
   }
 
   solve(pieces: Piece[], selectedPieceIds: string[]): Solution[] {
@@ -127,7 +130,7 @@ export class GridSolver {
     placedPieces.forEach(placed => {
       const piece = allPieces.find(p => p.id === placed.pieceId);
       if (piece) {
-        const stats = calculatePieceStats(piece);
+        const stats = calculatePieceStats(piece, this.rarityConfigs);
         totalAtk += stats.atk;
         totalHp += stats.hp;
       }
