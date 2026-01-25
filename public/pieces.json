@@ -5,532 +5,1311 @@
       "name": "Desert Missile",
       "rarity": "common",
       "shape": [
-        [1, 1],
-        [1, 1]
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          1
+        ]
       ],
+      "color": "#868aaf",
       "iconFile": "sprite-34-5.png",
-      "iconPosition": { "x": 0, "y": 0 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 37,
+        "hp": 18
+      },
+      "specialEffects": [
+        {
+          "description": "Fire {count} Guided Missiles with {power}% ATK every {interval} sec.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_2",
       "name": "Laser Cannon",
       "rarity": "uncommon",
       "shape": [
-        [1, 1, 1],
-        [1, 0, 0]
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          0
+        ]
       ],
+      "color": "#ccac94",
       "iconFile": "sprite-33-4.png",
-      "iconPosition": { "x": 1, "y": 0 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Fire high-output energy Laser Cannon to the enemy, dealing {power} ATK DMG to every enemy in the same direction. ATK increases {bonus}% per every 1,000 Crit DMG Lv.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_3",
       "name": "Hyper Fire Buster",
       "rarity": "uncommon",
       "shape": [
-        [0, 1, 0],
-        [1, 1, 1],
-        [0, 1, 0]
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ]
       ],
+      "color": "#ccac94",
       "iconFile": "sprite-27-4.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Fire Blaster Beam toward the enemy, ATK increases by {atkBonus}% and DMG taken decreases by {defBonus}% for 5 sec. Deals {power} continuous explosion DMG to enemies in contact with the Blaster Beam.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_4",
       "name": "Energy Shock",
       "rarity": "uncommon",
       "shape": [
-        [0, 1, 0],
-        [1, 1, 1],
-        [1, 0, 1]
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ]
       ],
+      "color": "#ccac94",
       "iconFile": "sprite-29-2.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Unleash blue electric charge to deal {power} ATK DMG to 5 enemy Ships. DMG decreases by 10% upon hit. ATK DMG increases by {bonus}% for every 1,000 ATK Lv.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_5",
       "name": "Star Force Field",
       "rarity": "uncommon",
       "shape": [
-        [0, 1, 0],
-        [0, 1, 0],
-        [1, 1, 1],
-        [0, 1, 0]
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ]
       ],
+      "color": "#ccac94",
       "iconFile": "sprite-33-5.png",
-      "iconPosition": { "x": 1, "y": 2 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Fire a highly explosive EMP Missile which deals {power}% ATK magnetic field explosion DMG and reduces target's ATK by {debuff}% for {duration} sec.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_6",
       "name": "Nano Repair",
       "rarity": "uncommon",
       "shape": [
-        [0, 1, 1],
-        [1, 1, 0],
-        [0, 1, 1]
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          1
+        ]
       ],
+      "color": "#ccac94",
       "iconFile": "sprite-34-6.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Repairs ship HP over time. (Description pending extraction)",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_7",
       "name": "Hyper Ion Plasma",
       "rarity": "rare",
-      "shape": [[1, 1, 1, 1]],
+      "shape": [
+        [
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#35ff81",
       "iconFile": "sprite-24-1.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Request ATK {power} Satellite Ion Beam Attack to deal DMG to enemies within a certain range. If a member of the Alliance, ATK increases by {allianceBonus}% for every Alliance Lv., and the number of Ion Strike increases {strikeMultiplier} times.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_8",
       "name": "Fire Booster",
       "rarity": "rare",
       "shape": [
-        [1, 1, 1],
-        [1, 1, 1],
-        [0, 1, 0]
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ]
       ],
+      "color": "#35ff81",
       "iconFile": "sprite-6-2.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Fire Blaster Beam toward the enemy, boosts fire damage for 5 sec. (Description pending verification)",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_9",
       "name": "Gemini",
       "rarity": "rare",
       "shape": [
-        [1, 1, 0],
-        [1, 1, 1],
-        [1, 1, 1]
+        [
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ]
       ],
+      "color": "#35ff81",
       "iconFile": "sprite-31-1.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Creates twin attack effects. (Description pending extraction)",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_10",
       "name": "Hologram Generator",
       "rarity": "rare",
       "shape": [
-        [1, 0, 1],
-        [1, 1, 1],
-        [1, 0, 1]
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ]
       ],
+      "color": "#35ff81",
       "iconFile": "sprite-10-3.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
     },
     {
       "id": "piece_11",
       "name": "Electron Fission Shell",
       "rarity": "rare",
       "shape": [
-        [0, 1, 1],
-        [1, 1, 1],
-        [0, 1, 1]
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          1
+        ]
       ],
+      "color": "#35ff81",
       "iconFile": "sprite-34-4.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Rapidly fire 7 Armor-piercing Shells dealing {power}% ATK DMG.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_12",
       "name": "Hyper Grenade Shock",
       "rarity": "rare",
       "shape": [
-        [1, 1, 1],
-        [0, 1, 0],
-        [1, 1, 1]
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ]
       ],
+      "color": "#35ff81",
       "iconFile": "sprite-25-1.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Fires explosive grenades with shock effect. (Description pending extraction)",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_13",
       "name": "Plasma Turbo",
       "rarity": "epic",
       "shape": [
-        [1, 1, 1],
-        [1, 1, 1],
-        [1, 0, 1]
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ]
       ],
+      "color": "#448aff",
       "iconFile": "sprite-16-1.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Fire {power} ATK Plasma Laser Cannon once to deal DMG to an enemy Ship. ATK increases by {droneBonus}% for every Laser Drone owned. (Max. 8 Drones)",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_14",
       "name": "Gravity Booster",
       "rarity": "epic",
       "shape": [
-        [1, 1, 1, 1],
-        [1, 1, 1, 1]
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ]
       ],
+      "color": "#448aff",
       "iconFile": "sprite-29-3.png",
-      "iconPosition": { "x": 2, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "ATK of Scout-type Drone increases by {drone}%.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_15",
       "name": "Hyper Death Finger",
       "rarity": "epic",
       "shape": [
-        [0, 0, 0, 1],
-        [0, 0, 0, 1],
-        [0, 0, 1, 1],
-        [1, 1, 1, 1]
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ]
       ],
+      "color": "#448aff",
       "iconFile": "sprite-26-3.png",
-      "iconPosition": { "x": 2, "y": 2 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Fire one Neutron Bomb powerful enough to destroy a planet, dealing {power} ATK DMG. ATK increases by {weaponBonus}% for every Lv. of owned Transcendent Weapons Lv, and ATK doubles when attacking enemies under System Shutdown.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_16",
       "name": "Critical Veil",
       "rarity": "epic",
       "shape": [
-        [1, 1, 1],
-        [1, 1, 1],
-        [1, 0, 1]
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ]
       ],
+      "color": "#448aff",
       "iconFile": "sprite-10-4.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Enhances critical hit chance or damage. (Description pending extraction)",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_17",
       "name": "Quantum Jump",
       "rarity": "epic",
       "shape": [
-        [0, 1],
-        [1, 1],
-        [1, 1],
-        [1, 1],
-        [0, 1]
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          1
+        ]
       ],
+      "color": "#448aff",
       "iconFile": "sprite-29-3.png",
-      "iconPosition": { "x": 0, "y": 2 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Enables teleportation or phase shift abilities. (Description pending extraction)",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_18",
       "name": "Energy Shield",
       "rarity": "epic",
       "shape": [
-        [0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0],
-        [1, 1, 1, 1, 1]
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
       ],
+      "color": "#448aff",
       "iconFile": "sprite-34-7.png",
-      "iconPosition": null,
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Generate electric field around the Ship which deals {power} ATK DMG to approaching enemy Ships for 5 sec. and boosts movement speed by {speedBonus}% for {duration} sec.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_19",
       "name": "Enterprise Module",
       "rarity": "legendary",
       "shape": [
-        [0, 1, 0],
-        [1, 1, 1],
-        [1, 1, 1],
-        [1, 0, 1]
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ]
       ],
+      "color": "#fff35c",
       "iconFile": "sprite-29-1.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Enterprise-class ship module with special abilities. (Description pending extraction)",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_20",
       "name": "Hyper Ghost Drone",
       "rarity": "legendary",
       "shape": [
-        [1, 1, 1],
-        [0, 1, 0],
-        [0, 1, 0],
-        [0, 1, 0],
-        [1, 1, 1]
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ]
       ],
+      "color": "#fff35c",
       "iconFile": "sprite-27-6.png",
-      "iconPosition": { "x": 1, "y": 2 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Summon {count} Destroyer Drones which attack enemies for {duration} sec dealing {power} ATK DMG, and ATK {explosionDmg}% explosion DMG over a large area when the battery runs out. The number of Ghost Drone's Missile increases by {missileCount}, and each Missile deals {missileDmg}% more DMG.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_21",
       "name": "Missile Wave",
       "rarity": "legendary",
       "shape": [
-        [1, 1, 1],
-        [1, 1, 1],
-        [1, 1, 1]
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ]
       ],
+      "color": "#fff35c",
       "iconFile": "sprite-31-3.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Fire bluish Wave Beam every {interval} sec to deal {power}% ATK DMG. DMG increases to up to {maxPower}% in inverse proportion to the remaining Mothership HP.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_22",
       "name": "Strike Launcher",
       "rarity": "legendary",
       "shape": [
-        [1, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 1]
+        [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          1
+        ]
       ],
+      "color": "#fff35c",
       "iconFile": "sprite-19-3.png",
-      "iconPosition": { "x": 2, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Request a supporting fire from the HQ which fires one artillery shell at the enemy Ship dealing {power} ATK AoE DMG. ATK increases by {mothershipBonus}% for every equipped Mothership's Lv.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_23",
       "name": "Magnetic Field Shield",
       "rarity": "legendary",
       "shape": [
-        [1, 1, 1],
-        [1, 1, 1],
-        [1, 1, 1]
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ]
       ],
+      "color": "#fff35c",
       "iconFile": "sprite-29-4.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Fire a highly explosive EMP Missile to an enemy Ship which deals {power}% ATK magnetic field explosion DMG, reduces target's ATK by {atkDebuff}% and increases DMG taken by {dmgDebuff}% for {duration} sec.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_24",
       "name": "Hyper Drive Engine",
       "rarity": "legendary",
       "shape": [
-        [1, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1],
-        [0, 1, 0, 1, 0]
+        [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          0
+        ]
       ],
+      "color": "#fff35c",
       "iconFile": "sprite-31-2.png",
-      "iconPosition": { "x": 2, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Fire {count} Hellfire Missiles with {power} ATK that can devastate the target area to deal DMG to enemy Ships. ATK increases by {driveBonus}% and Hellfire Missile Movement Speed increases by {speedBonus}% for every Activated Software Drive.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_25",
       "name": "Ethereal Nova",
       "rarity": "legendary",
       "shape": [
-        [0, 1, 1, 1],
-        [1, 1, 1, 0],
-        [0, 1, 1, 1]
+        [
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          1
+        ]
       ],
+      "color": "#fff35c",
       "iconFile": "sprite-33-3.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Nova-type energy explosion with ethereal damage. (Description pending extraction)",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_26",
       "name": "Blazing Array",
       "rarity": "mythic",
       "shape": [
-        [1, 0, 1],
-        [1, 0, 1],
-        [1, 0, 1],
-        [1, 1, 1],
-        [0, 1, 0]
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ]
       ],
+      "color": "#9b6bec",
       "iconFile": "sprite-24-3.png",
-      "iconPosition": { "x": 1, "y": 3 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Temporarily channel all of the energy to fire a massive Laser Cannon toward the enemy Ship to deal {power} ATK AoE DMG. ATK increases by {weaponBonus}% for every equipped Weapon Lv.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_27",
       "name": "Black Nova",
       "rarity": "mythic",
       "shape": [
-        [0, 1, 1, 1, 0],
-        [1, 1, 1, 1, 1],
-        [0, 1, 0, 1, 0]
+        [
+          0,
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          0
+        ]
       ],
+      "color": "#9b6bec",
       "iconFile": "sprite-34-3.png",
-      "iconPosition": { "x": 2, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Fire 1 Nuclear Missile with {power} ATK which creates a radioactive explosion over a large area. ATK increases by {cardBonus}% for every Memory Card owned, and by {levelBonus}% for every owned Memory Card Lv.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_28",
       "name": "Hyper Pulse",
       "rarity": "mythic",
       "shape": [
-        [0, 1, 0, 1, 0],
-        [0, 1, 1, 1, 0],
-        [1, 1, 1, 1, 1]
+        [
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
       ],
+      "color": "#9b6bec",
       "iconFile": "sprite-24-4.png",
-      "iconPosition": { "x": 2, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
     },
     {
       "id": "piece_29",
       "name": "Energy Repulsor",
       "rarity": "mythic",
       "shape": [
-        [0, 1, 0, 1, 0],
-        [1, 1, 1, 1, 1],
-        [1, 0, 1, 0, 1]
+        [
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1,
+          0,
+          1
+        ]
       ],
+      "color": "#9b6bec",
       "iconFile": "sprite-33-6.png",
-      "iconPosition": { "x": 2, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Fire high-temperature Energy Cannon to an enemy Ship which deals {power} ATK AoE DMG in total, and the ATK increases by {partsBonus}% depending on the number of Parts (Weapon, Armor, Special Part) owned.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_30",
       "name": "Singularity",
       "rarity": "transcendent",
       "shape": [
-        [1, 1, 0, 1, 1],
-        [1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 1]
+        [
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          1
+        ]
       ],
+      "color": "#ff38af",
       "iconFile": "sprite-31-5.png",
-      "iconPosition": null,
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Release red high-voltage charge to deal {power} ATK DMG to 6 targets and neighboring enemy Ships. DMG dealt decreases by 10% for every hit. ATK greatly increases by {researchBonus}% if Lightning Research Stage 3 is complete.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_31",
       "name": "Unified Force",
       "rarity": "transcendent",
       "shape": [
-        [1, 0, 1],
-        [1, 1, 1],
-        [1, 1, 1],
-        [1, 1, 1]
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ]
       ],
+      "color": "#ff38af",
       "iconFile": "sprite-24-2.png",
-      "iconPosition": { "x": 1, "y": 2 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Combines forces for unified attack or defense. (Description pending extraction)",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_32",
       "name": "Void Gazer",
       "rarity": "transcendent",
       "shape": [
-        [0, 0, 1],
-        [1, 1, 1],
-        [1, 1, 1],
-        [1, 1, 1],
-        [1, 0, 0]
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          0
+        ]
       ],
+      "color": "#ff38af",
       "iconFile": "sprite-33-2.png",
-      "iconPosition": { "x": 1, "y": 2 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Fire strong Railgun to adjacent enemies, dealing {power} ATK DMG. {stunChance}% chance to Shutdown the system for {stunDuration} sec.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_33",
       "name": "Photon Shift",
       "rarity": "transcendent",
       "shape": [
-        [0, 0, 1],
-        [0, 0, 1],
-        [1, 1, 1],
-        [1, 1, 1],
-        [1, 1, 1]
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ]
       ],
+      "color": "#ff38af",
       "iconFile": "sprite-31-4.png",
-      "iconPosition": { "x": 1, "y": 3 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Phase shift or photon-based attack. (Description pending extraction)",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_34",
       "name": "Squad Sync",
       "rarity": "transcendent",
       "shape": [
-        [1, 1, 0, 0, 0],
-        [1, 1, 0, 0, 0],
-        [1, 1, 0, 0, 0],
-        [1, 1, 1, 1, 1]
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
       ],
+      "color": "#ff38af",
       "iconFile": "sprite-34-2.png",
-      "iconPosition": { "x": 1, "y": 2 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
-      "unlocked": true
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "ATK SPD of the Mothership increases every {interval} sec for {duration} sec by {bonus}%.",
+          "variables": [],
+          "requiresOnField": true
+        }
+      ]
     },
     {
       "id": "piece_35",
       "name": "Gravity Booster",
       "rarity": "epic",
       "shape": [
-        [1, 1, 1, 1],
-        [1, 1, 1, 1]
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ]
       ],
+      "color": "#448aff",
       "iconFile": "sprite-17-4.png",
-      "iconPosition": { "x": 2, "y": 0 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
       "specialEffects": [
         {
           "description": "ATK of Scout-type Drone increases by {drone}%",
@@ -542,21 +1321,38 @@
           ],
           "requiresOnField": true
         }
-      ],
-      "unlocked": true
+      ]
     },
     {
       "id": "piece_36",
       "name": "Hyper Reaper",
       "rarity": "epic",
       "shape": [
-        [1, 1, 1, 0, 1, 1, 1],
-        [0, 0, 1, 1, 1, 0, 0]
+        [
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0
+        ]
       ],
+      "color": "#448aff",
       "iconFile": "sprite-27-5.png",
-      "iconPosition": { "x": 3, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
       "specialEffects": [
         {
           "description": "DMG of Reaper Drone increases by {drone}% and the Duration increases by {duration}% thanks to the additional battery.",
@@ -572,22 +1368,44 @@
           ],
           "requiresOnField": true
         }
-      ],
-      "unlocked": true
+      ]
     },
     {
       "id": "piece_37",
       "name": "Alpha Strike",
-      "rarity": "epic",
+      "rarity": "mythic",
       "shape": [
-        [0, 1, 0, 0, 1, 0],
-        [1, 1, 1, 1, 1, 1],
-        [0, 1, 0, 0, 1, 0]
+        [
+          0,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          1,
+          0
+        ]
       ],
+      "color": "#448aff",
       "iconFile": "sprite-4-5.png",
-      "iconPosition": { "x": 2, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
       "specialEffects": [
         {
           "description": "With 4 Striker Drones, Advanced ATK +{adv}%",
@@ -599,22 +1417,38 @@
           ],
           "requiresOnField": true
         }
-      ],
-      "unlocked": true
+      ]
     },
     {
       "id": "piece_38",
       "name": "Lightning Drone",
-      "rarity": "epic",
+      "rarity": "mythic",
       "shape": [
-        [1, 1, 1, 0],
-        [1, 1, 1, 1],
-        [1, 1, 1, 0]
+        [
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          0
+        ]
       ],
+      "color": "#448aff",
       "iconFile": "sprite-3-2.png",
-      "iconPosition": { "x": 1, "y": 1 },
-      "level": 1,
-      "baseStats": { "atk": 50, "hp": 30 },
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
       "specialEffects": [
         {
           "description": "Additional {drones} Lightning Drones with {atk}% ATK are launched.",
@@ -630,8 +1464,198 @@
           ],
           "requiresOnField": true
         }
-      ],
-      "unlocked": true
+      ]
     }
-  ]
+  ],
+  "rarityConfigs": {
+    "common": {
+      "baseAtk": 50,
+      "baseHp": 30,
+      "growthPerLevel": 0.5,
+      "limitBreaks": {
+        "100": {
+          "atk": 230,
+          "hp": 129
+        },
+        "120": {
+          "atk": 595,
+          "hp": 333
+        },
+        "140": {
+          "atk": 1540,
+          "hp": 861
+        },
+        "160": {
+          "atk": 3985,
+          "hp": 2229
+        },
+        "180": {
+          "atk": 10310,
+          "hp": 5766
+        }
+      }
+    },
+    "uncommon": {
+      "baseAtk": 75,
+      "baseHp": 45,
+      "growthPerLevel": 0.6,
+      "limitBreaks": {
+        "100": {
+          "atk": 345,
+          "hp": 194
+        },
+        "120": {
+          "atk": 893,
+          "hp": 500
+        },
+        "140": {
+          "atk": 2310,
+          "hp": 1292
+        },
+        "160": {
+          "atk": 5978,
+          "hp": 3344
+        },
+        "180": {
+          "atk": 15465,
+          "hp": 8649
+        }
+      }
+    },
+    "rare": {
+      "baseAtk": 120,
+      "baseHp": 70,
+      "growthPerLevel": 0.7,
+      "limitBreaks": {
+        "100": {
+          "atk": 576,
+          "hp": 315
+        },
+        "120": {
+          "atk": 1488,
+          "hp": 812
+        },
+        "140": {
+          "atk": 3852,
+          "hp": 2093
+        },
+        "160": {
+          "atk": 9960,
+          "hp": 5418
+        },
+        "180": {
+          "atk": 25776,
+          "hp": 14021
+        }
+      }
+    },
+    "epic": {
+      "baseAtk": 200,
+      "baseHp": 120,
+      "growthPerLevel": 0.8,
+      "limitBreaks": {
+        "100": {
+          "atk": 1000,
+          "hp": 564
+        },
+        "120": {
+          "atk": 2580,
+          "hp": 1452
+        },
+        "140": {
+          "atk": 6680,
+          "hp": 3744
+        },
+        "160": {
+          "atk": 17280,
+          "hp": 9672
+        },
+        "180": {
+          "atk": 44720,
+          "hp": 25032
+        }
+      }
+    },
+    "legendary": {
+      "baseAtk": 350,
+      "baseHp": 200,
+      "growthPerLevel": 0.9,
+      "limitBreaks": {
+        "100": {
+          "atk": 1820,
+          "hp": 980
+        },
+        "120": {
+          "atk": 4725,
+          "hp": 2520
+        },
+        "140": {
+          "atk": 12215,
+          "hp": 6520
+        },
+        "160": {
+          "atk": 31605,
+          "hp": 16840
+        },
+        "180": {
+          "atk": 81830,
+          "hp": 43620
+        }
+      }
+    },
+    "mythic": {
+      "baseAtk": 522,
+      "baseHp": 261,
+      "growthPerLevel": 1,
+      "limitBreaks": {
+        "100": {
+          "atk": 2819,
+          "hp": 1331
+        },
+        "120": {
+          "atk": 7308,
+          "hp": 3419
+        },
+        "140": {
+          "atk": 18896,
+          "hp": 8820
+        },
+        "160": {
+          "atk": 48911,
+          "hp": 22811
+        },
+        "180": {
+          "atk": 126637,
+          "hp": 59085
+        }
+      }
+    },
+    "transcendent": {
+      "baseAtk": 1040,
+      "baseHp": 496,
+      "growthPerLevel": 1.2,
+      "limitBreaks": {
+        "100": {
+          "atk": 5824,
+          "hp": 2629
+        },
+        "120": {
+          "atk": 15080,
+          "hp": 6746
+        },
+        "140": {
+          "atk": 39104,
+          "hp": 17410
+        },
+        "160": {
+          "atk": 101192,
+          "hp": 45037
+        },
+        "180": {
+          "atk": 262080,
+          "hp": 116560
+        }
+      }
+    }
+  }
 }
