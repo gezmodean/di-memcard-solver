@@ -5,6 +5,10 @@ import { rotateShape } from '../lib/utils/rotation';
 import { RARITY_COLORS } from '../lib/types';
 import { RARITY_CONFIGS } from '../lib/pieces/rarityProgression';
 
+// Bump this version to force all users to reload pieces.json on next visit
+const SITE_CONFIG_VERSION = 2;
+const SITE_CONFIG_VERSION_KEY = 'memsolver-site-config-version';
+
 interface GameStore {
   // Grid state
   grid: (string | null)[][];
@@ -365,14 +369,19 @@ export const useGameStore = create<GameStore>((set, get) => ({
   // Site configuration management
   loadSiteConfig: async () => {
     try {
+      const storedVersion = parseInt(localStorage.getItem(SITE_CONFIG_VERSION_KEY) || '0', 10);
       const stored = localStorage.getItem('memsolver-site-config');
-      if (stored) {
+
+      if (stored && storedVersion >= SITE_CONFIG_VERSION) {
         const config = JSON.parse(stored);
         set({ siteConfig: config, siteConfigLoaded: true });
         return;
       }
 
-      // Fallback to loading from public/pieces.json
+      // Version mismatch or no stored config — reload from public/pieces.json
+      if (stored && storedVersion < SITE_CONFIG_VERSION) {
+        localStorage.removeItem('memsolver-site-config');
+      }
       const response = await fetch(`${import.meta.env.BASE_URL}pieces.json`);
       if (!response.ok) {
         throw new Error('Failed to fetch pieces.json');
@@ -399,6 +408,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
       set({ siteConfig, siteConfigLoaded: true });
       localStorage.setItem('memsolver-site-config', JSON.stringify(siteConfig));
+      localStorage.setItem(SITE_CONFIG_VERSION_KEY, String(SITE_CONFIG_VERSION));
     } catch (error) {
       console.error('Error loading site config:', error);
       set({
@@ -411,6 +421,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   saveSiteConfig: () => {
     const state = get();
     localStorage.setItem('memsolver-site-config', JSON.stringify(state.siteConfig));
+    localStorage.setItem(SITE_CONFIG_VERSION_KEY, String(SITE_CONFIG_VERSION));
   },
 
   exportSiteConfig: () => {
@@ -450,6 +461,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   addPieceDefinition: (pieceDefinition: PieceDefinition) => {
     const state = get();
+    // Prevent duplicate IDs
+    if (state.siteConfig.pieces.some(p => p.id === pieceDefinition.id)) {
+      console.warn(`Piece with id "${pieceDefinition.id}" already exists, skipping add.`);
+      return;
+    }
     const newSiteConfig = {
       ...state.siteConfig,
       pieces: [...state.siteConfig.pieces, pieceDefinition]
