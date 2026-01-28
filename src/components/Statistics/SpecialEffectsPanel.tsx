@@ -92,9 +92,8 @@ export const SpecialEffectsPanel: React.FC = () => {
                       <div
                         key={effIndex}
                         className="text-xs text-blue-300 ml-6"
-                      >
-                        • {effect}
-                      </div>
+                        dangerouslySetInnerHTML={{ __html: `• ${effect}` }}
+                      />
                     ))}
                   </div>
                 ))}
@@ -132,9 +131,8 @@ export const SpecialEffectsPanel: React.FC = () => {
                       <div
                         key={effIndex}
                         className="text-xs text-green-300 ml-6"
-                      >
-                        • {effect}
-                      </div>
+                        dangerouslySetInnerHTML={{ __html: `• ${effect}` }}
+                      />
                     ))}
                   </div>
                 ))}
