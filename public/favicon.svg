@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#448aff"/>
+      <stop offset="100%" stop-color="#9b6bec"/>
+    </linearGradient>
+  </defs>
+  <!-- Card body -->
+  <rect x="6" y="4" width="52" height="56" rx="6" fill="url(#g)" opacity="0.9"/>
+  <rect x="10" y="8" width="44" height="48" rx="4" fill="#0a0a1a" opacity="0.85"/>
+  <!-- Grid pattern (memory card cells) -->
+  <rect x="15" y="14" width="10" height="10" rx="2" fill="#448aff" opacity="0.8"/>
+  <rect x="27" y="14" width="10" height="10" rx="2" fill="#448aff" opacity="0.5"/>
+  <rect x="39" y="14" width="10" height="10" rx="2" fill="#448aff" opacity="0.8"/>
+  <rect x="15" y="27" width="10" height="10" rx="2" fill="#448aff" opacity="0.5"/>
+  <rect x="27" y="27" width="10" height="10" rx="2" fill="#9b6bec" opacity="0.9"/>
+  <rect x="39" y="27" width="10" height="10" rx="2" fill="#448aff" opacity="0.5"/>
+  <rect x="15" y="40" width="10" height="10" rx="2" fill="#448aff" opacity="0.8"/>
+  <rect x="27" y="40" width="10" height="10" rx="2" fill="#448aff" opacity="0.5"/>
+  <rect x="39" y="40" width="10" height="10" rx="2" fill="#448aff" opacity="0.8"/>
+</svg>

@@ -270,12 +270,27 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   updatePieceLevel: (pieceId: string, level: number) => {
+    const clampedLevel = Math.min(200, Math.max(1, level));
     const state = get();
+
+    // Update runtime pieces
     const newPieces = state.pieces.map(p =>
-      p.id === pieceId ? { ...p, level: Math.min(200, Math.max(1, level)) } : p
+      p.id === pieceId ? { ...p, level: clampedLevel } : p
     );
     set({ pieces: newPieces });
-    get().savePiecesToStorage();
+
+    // Persist to player data
+    const existingPlayerPiece = state.playerData.pieces.find(p => p.id === pieceId);
+    const otherPlayerPieces = state.playerData.pieces.filter(p => p.id !== pieceId);
+    const piece = state.pieces.find(p => p.id === pieceId);
+    otherPlayerPieces.push({
+      id: pieceId,
+      level: clampedLevel,
+      limitBreaks: existingPlayerPiece?.limitBreaks || piece?.limitBreaks || [],
+      unlocked: existingPlayerPiece?.unlocked ?? piece?.unlocked ?? false
+    });
+    set({ playerData: { pieces: otherPlayerPieces } });
+    get().savePlayerData();
   },
 
   updatePieceData: (pieceData: Piece) => {
@@ -284,7 +299,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
       p.id === pieceData.id ? { ...pieceData } : p
     );
     set({ pieces: newPieces });
-    get().savePiecesToStorage();
+
+    // Persist player-specific fields to player data
+    const otherPlayerPieces = state.playerData.pieces.filter(p => p.id !== pieceData.id);
+    otherPlayerPieces.push({
+      id: pieceData.id,
+      level: pieceData.level,
+      limitBreaks: pieceData.limitBreaks || [],
+      unlocked: pieceData.unlocked
+    });
+    set({ playerData: { pieces: otherPlayerPieces } });
+    get().savePlayerData();
 
     // If the piece is currently placed, re-place it to update the grid
     const placedPiece = state.placedPieces.get(pieceData.id);
@@ -310,11 +335,26 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   togglePieceLock: (pieceId: string) => {
     const state = get();
+    const piece = state.pieces.find(p => p.id === pieceId);
+    const newUnlocked = piece ? !piece.unlocked : true;
+
+    // Update runtime pieces
     const newPieces = state.pieces.map(p =>
-      p.id === pieceId ? { ...p, unlocked: !p.unlocked } : p
+      p.id === pieceId ? { ...p, unlocked: newUnlocked } : p
     );
     set({ pieces: newPieces });
-    get().savePiecesToStorage();
+
+    // Persist to player data
+    const existingPlayerPiece = state.playerData.pieces.find(p => p.id === pieceId);
+    const otherPlayerPieces = state.playerData.pieces.filter(p => p.id !== pieceId);
+    otherPlayerPieces.push({
+      id: pieceId,
+      level: existingPlayerPiece?.level || piece?.level || 1,
+      limitBreaks: existingPlayerPiece?.limitBreaks || piece?.limitBreaks || [],
+      unlocked: newUnlocked
+    });
+    set({ playerData: { pieces: otherPlayerPieces } });
+    get().savePlayerData();
   },
 
   getTotalStats: () => {
