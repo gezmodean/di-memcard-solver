@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface ShapeIconEditorProps {
   shape: number[][];
   onChange: (shape: number[][]) => void;
   maxSize?: number;
+  pieceId?: string;
 }
 
 export const ShapeIconEditor: React.FC<ShapeIconEditorProps> = ({
   shape,
   onChange,
-  maxSize = 6
+  maxSize = 7,
+  pieceId
 }) => {
-  const [gridSize, setGridSize] = useState(Math.max(shape.length, shape[0]?.length || 3, 3));
+  const minSize = 2;
+  const [gridSize, setGridSize] = useState(Math.max(shape.length, shape[0]?.length || minSize, minSize));
+
+  // Sync grid size only when a different piece is loaded, not on every shape edit
+  useEffect(() => {
+    setGridSize(Math.max(shape.length, shape[0]?.length || minSize, minSize));
+  }, [pieceId]);
 
   // Ensure the shape array matches the current grid size
   const normalizeShape = (currentShape: number[][]): number[][] => {
@@ -76,8 +84,6 @@ export const ShapeIconEditor: React.FC<ShapeIconEditorProps> = ({
 
   const changeGridSize = (newSize: number) => {
     setGridSize(newSize);
-    // Reset to single cell if changing size
-    onChange([[1]]);
   };
 
   const getCellCount = () => {
@@ -95,7 +101,7 @@ export const ShapeIconEditor: React.FC<ShapeIconEditorProps> = ({
             onChange={(e) => changeGridSize(parseInt(e.target.value))}
             className="bg-gray-800 border border-gray-600 rounded px-2 py-1 text-sm"
           >
-            {Array.from({ length: maxSize - 2 }, (_, i) => i + 3).map(size => (
+            {Array.from({ length: maxSize - minSize + 1 }, (_, i) => i + minSize).map(size => (
               <option key={size} value={size}>{size}×{size}</option>
             ))}
           </select>

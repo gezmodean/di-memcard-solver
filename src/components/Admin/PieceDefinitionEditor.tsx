@@ -14,7 +14,7 @@ interface PieceDefinitionEditorProps {
 }
 
 export const PieceDefinitionEditor: React.FC<PieceDefinitionEditorProps> = ({ isOpen, onClose }) => {
-  const { pieces, updatePieceDefinition } = useGameStore();
+  const { pieces, updatePieceDefinition, removePieceDefinition } = useGameStore();
 
   const [selectedPieceId, setSelectedPieceId] = useState<string | null>(null);
   const [editPieceData, setEditPieceData] = useState<PieceDefinition | null>(null);
@@ -65,6 +65,14 @@ export const PieceDefinitionEditor: React.FC<PieceDefinitionEditorProps> = ({ is
   };
 
   const cancelEdit = () => {
+    setEditPieceData(null);
+    setSelectedPieceId(null);
+  };
+
+  const deletePiece = () => {
+    if (!selectedPieceId || !editPieceData) return;
+    if (!confirm(`Are you sure you want to delete "${editPieceData.name}"? This cannot be undone.`)) return;
+    removePieceDefinition(selectedPieceId);
     setEditPieceData(null);
     setSelectedPieceId(null);
   };
@@ -166,6 +174,12 @@ export const PieceDefinitionEditor: React.FC<PieceDefinitionEditorProps> = ({ is
                   <h3 className="text-xl font-bold text-white">Editing: {editPieceData.name}</h3>
                   <div className="flex gap-3">
                     <button
+                      onClick={deletePiece}
+                      className="px-4 py-2 bg-red-600 hover:bg-red-700 border border-red-500 rounded text-white transition-all mr-auto"
+                    >
+                      Delete Piece
+                    </button>
+                    <button
                       onClick={cancelEdit}
                       className="px-4 py-2 bg-gray-600 hover:bg-gray-700 border border-gray-500 rounded text-white transition-all"
                     >
@@ -257,7 +271,8 @@ export const PieceDefinitionEditor: React.FC<PieceDefinitionEditorProps> = ({ is
                       <ShapeIconEditor
                         shape={editPieceData.shape}
                         onChange={(shape: number[][]) => setEditPieceData({...editPieceData, shape})}
-                        maxSize={5}
+                        maxSize={7}
+                        pieceId={selectedPieceId ?? undefined}
                       />
                     </div>
                   </div>
