@@ -1,0 +1,1437 @@
+{
+  "pieces": [
+    {
+      "id": "piece_1",
+      "name": "Desert Missile",
+      "rarity": "common",
+      "shape": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "color": "#868aaf",
+      "iconFile": "sprite-34-5.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_2",
+      "name": "Laser Cannon",
+      "rarity": "uncommon",
+      "shape": [
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          0
+        ]
+      ],
+      "color": "#ccac94",
+      "iconFile": "sprite-33-4.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_3",
+      "name": "Hyper Fire Buster",
+      "rarity": "uncommon",
+      "shape": [
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ],
+      "color": "#ccac94",
+      "iconFile": "sprite-27-4.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_4",
+      "name": "Energy Shock",
+      "rarity": "uncommon",
+      "shape": [
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ]
+      ],
+      "color": "#ccac94",
+      "iconFile": "sprite-29-2.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_5",
+      "name": "Star Force Field",
+      "rarity": "uncommon",
+      "shape": [
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ],
+      "color": "#ccac94",
+      "iconFile": "sprite-33-5.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_6",
+      "name": "Nano Repair",
+      "rarity": "uncommon",
+      "shape": [
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          1
+        ]
+      ],
+      "color": "#ccac94",
+      "iconFile": "sprite-34-6.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_7",
+      "name": "Hyper Ion Plasma",
+      "rarity": "rare",
+      "shape": [
+        [
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#35ff81",
+      "iconFile": "sprite-24-1.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_8",
+      "name": "Fire Booster",
+      "rarity": "rare",
+      "shape": [
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ],
+      "color": "#35ff81",
+      "iconFile": "sprite-6-2.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_9",
+      "name": "Gemini",
+      "rarity": "rare",
+      "shape": [
+        [
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#35ff81",
+      "iconFile": "sprite-31-1.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_10",
+      "name": "Hologram Generator",
+      "rarity": "rare",
+      "shape": [
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ]
+      ],
+      "color": "#35ff81",
+      "iconFile": "sprite-10-3.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_11",
+      "name": "Electron Fission Shell",
+      "rarity": "rare",
+      "shape": [
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          1
+        ]
+      ],
+      "color": "#35ff81",
+      "iconFile": "sprite-34-4.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_12",
+      "name": "Hyper Grenade Shock",
+      "rarity": "rare",
+      "shape": [
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#35ff81",
+      "iconFile": "sprite-25-1.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_13",
+      "name": "Plasma Turbo",
+      "rarity": "epic",
+      "shape": [
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ]
+      ],
+      "color": "#448aff",
+      "iconFile": "sprite-16-1.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_14",
+      "name": "Gravity Booster",
+      "rarity": "epic",
+      "shape": [
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#448aff",
+      "iconFile": "sprite-29-3.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_15",
+      "name": "Hyper Death Finger",
+      "rarity": "epic",
+      "shape": [
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#448aff",
+      "iconFile": "sprite-26-3.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_16",
+      "name": "Critical Veil",
+      "rarity": "epic",
+      "shape": [
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ]
+      ],
+      "color": "#448aff",
+      "iconFile": "sprite-10-4.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_17",
+      "name": "Quantum Jump",
+      "rarity": "epic",
+      "shape": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "color": "#448aff",
+      "iconFile": "sprite-29-3.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_18",
+      "name": "Energy Shield",
+      "rarity": "epic",
+      "shape": [
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#448aff",
+      "iconFile": "sprite-34-7.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_19",
+      "name": "Enterprise Module",
+      "rarity": "legendary",
+      "shape": [
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ]
+      ],
+      "color": "#fff35c",
+      "iconFile": "sprite-29-1.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_20",
+      "name": "Hyper Ghost Drone",
+      "rarity": "legendary",
+      "shape": [
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#fff35c",
+      "iconFile": "sprite-27-6.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_21",
+      "name": "Missile Wave",
+      "rarity": "legendary",
+      "shape": [
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#fff35c",
+      "iconFile": "sprite-31-3.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_22",
+      "name": "Strike Launcher",
+      "rarity": "legendary",
+      "shape": [
+        [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "color": "#fff35c",
+      "iconFile": "sprite-19-3.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_23",
+      "name": "Magnetic Field Shield",
+      "rarity": "legendary",
+      "shape": [
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#fff35c",
+      "iconFile": "sprite-29-4.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_24",
+      "name": "Hyper Drive Engine",
+      "rarity": "legendary",
+      "shape": [
+        [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          0
+        ]
+      ],
+      "color": "#fff35c",
+      "iconFile": "sprite-31-2.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_25",
+      "name": "Ethereal Nova",
+      "rarity": "legendary",
+      "shape": [
+        [
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#fff35c",
+      "iconFile": "sprite-33-3.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_26",
+      "name": "Blazing Array",
+      "rarity": "mythic",
+      "shape": [
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ],
+      "color": "#9b6bec",
+      "iconFile": "sprite-24-3.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_27",
+      "name": "Black Nova",
+      "rarity": "mythic",
+      "shape": [
+        [
+          0,
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          0
+        ]
+      ],
+      "color": "#9b6bec",
+      "iconFile": "sprite-34-3.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_28",
+      "name": "Hyper Pulse",
+      "rarity": "mythic",
+      "shape": [
+        [
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#9b6bec",
+      "iconFile": "sprite-24-4.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_29",
+      "name": "Energy Repulsor",
+      "rarity": "mythic",
+      "shape": [
+        [
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1,
+          0,
+          1
+        ]
+      ],
+      "color": "#9b6bec",
+      "iconFile": "sprite-33-6.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_30",
+      "name": "Singularity",
+      "rarity": "transcendent",
+      "shape": [
+        [
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "color": "#ff38af",
+      "iconFile": "sprite-31-5.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_31",
+      "name": "Unified Force",
+      "rarity": "transcendent",
+      "shape": [
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#ff38af",
+      "iconFile": "sprite-24-2.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_32",
+      "name": "Void Gazer",
+      "rarity": "transcendent",
+      "shape": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          0
+        ]
+      ],
+      "color": "#ff38af",
+      "iconFile": "sprite-33-2.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_33",
+      "name": "Photon Shift",
+      "rarity": "transcendent",
+      "shape": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#ff38af",
+      "iconFile": "sprite-31-4.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_34",
+      "name": "Squad Sync",
+      "rarity": "transcendent",
+      "shape": [
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#ff38af",
+      "iconFile": "sprite-34-2.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      }
+    },
+    {
+      "id": "piece_35",
+      "name": "Gravity Booster",
+      "rarity": "epic",
+      "shape": [
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "color": "#448aff",
+      "iconFile": "sprite-17-4.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "ATK of Scout-type Drone increases by {drone}%",
+          "variables": [
+            {
+              "name": "drone",
+              "value": 65
+            }
+          ],
+          "requiresOnField": true
+        }
+      ]
+    },
+    {
+      "id": "piece_36",
+      "name": "Hyper Reaper",
+      "rarity": "epic",
+      "shape": [
+        [
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0
+        ]
+      ],
+      "color": "#448aff",
+      "iconFile": "sprite-27-5.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "DMG of Reaper Drone increases by {drone}% and the Duration increases by {duration}% thanks to the additional battery.",
+          "variables": [
+            {
+              "name": "drone",
+              "value": 99.5
+            },
+            {
+              "name": "duration",
+              "value": 7.475
+            }
+          ],
+          "requiresOnField": true
+        }
+      ]
+    },
+    {
+      "id": "piece_37",
+      "name": "Alpha Strike",
+      "rarity": "mythic",
+      "shape": [
+        [
+          0,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          1,
+          0
+        ]
+      ],
+      "color": "#448aff",
+      "iconFile": "sprite-4-5.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "With 4 Striker Drones, Advanced ATK +{adv}%",
+          "variables": [
+            {
+              "name": "adv",
+              "value": 28000
+            }
+          ],
+          "requiresOnField": true
+        }
+      ]
+    },
+    {
+      "id": "piece_38",
+      "name": "Lightning Drone",
+      "rarity": "mythic",
+      "shape": [
+        [
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          0
+        ]
+      ],
+      "color": "#448aff",
+      "iconFile": "sprite-3-2.png",
+      "baseStats": {
+        "atk": 50,
+        "hp": 30
+      },
+      "specialEffects": [
+        {
+          "description": "Additional {drones} Lightning Drones with {atk}% ATK are launched.",
+          "variables": [
+            {
+              "name": "drones",
+              "value": 1
+            },
+            {
+              "name": "atk",
+              "value": 3990
+            }
+          ],
+          "requiresOnField": true
+        }
+      ]
+    }
+  ],
+  "rarityConfigs": {
+    "common": {
+      "baseAtk": 50,
+      "baseHp": 30,
+      "growthPerLevel": 0.5,
+      "limitBreaks": {
+        "100": {
+          "atk": 230,
+          "hp": 129
+        },
+        "120": {
+          "atk": 595,
+          "hp": 333
+        },
+        "140": {
+          "atk": 1540,
+          "hp": 861
+        },
+        "160": {
+          "atk": 3985,
+          "hp": 2229
+        },
+        "180": {
+          "atk": 10310,
+          "hp": 5766
+        }
+      }
+    },
+    "uncommon": {
+      "baseAtk": 75,
+      "baseHp": 45,
+      "growthPerLevel": 0.6,
+      "limitBreaks": {
+        "100": {
+          "atk": 345,
+          "hp": 194
+        },
+        "120": {
+          "atk": 893,
+          "hp": 500
+        },
+        "140": {
+          "atk": 2310,
+          "hp": 1292
+        },
+        "160": {
+          "atk": 5978,
+          "hp": 3344
+        },
+        "180": {
+          "atk": 15465,
+          "hp": 8649
+        }
+      }
+    },
+    "rare": {
+      "baseAtk": 120,
+      "baseHp": 70,
+      "growthPerLevel": 0.7,
+      "limitBreaks": {
+        "100": {
+          "atk": 576,
+          "hp": 315
+        },
+        "120": {
+          "atk": 1488,
+          "hp": 812
+        },
+        "140": {
+          "atk": 3852,
+          "hp": 2093
+        },
+        "160": {
+          "atk": 9960,
+          "hp": 5418
+        },
+        "180": {
+          "atk": 25776,
+          "hp": 14021
+        }
+      }
+    },
+    "epic": {
+      "baseAtk": 200,
+      "baseHp": 120,
+      "growthPerLevel": 0.8,
+      "limitBreaks": {
+        "100": {
+          "atk": 1000,
+          "hp": 564
+        },
+        "120": {
+          "atk": 2580,
+          "hp": 1452
+        },
+        "140": {
+          "atk": 6680,
+          "hp": 3744
+        },
+        "160": {
+          "atk": 17280,
+          "hp": 9672
+        },
+        "180": {
+          "atk": 44720,
+          "hp": 25032
+        }
+      }
+    },
+    "legendary": {
+      "baseAtk": 350,
+      "baseHp": 200,
+      "growthPerLevel": 0.9,
+      "limitBreaks": {
+        "100": {
+          "atk": 1820,
+          "hp": 980
+        },
+        "120": {
+          "atk": 4725,
+          "hp": 2520
+        },
+        "140": {
+          "atk": 12215,
+          "hp": 6520
+        },
+        "160": {
+          "atk": 31605,
+          "hp": 16840
+        },
+        "180": {
+          "atk": 81830,
+          "hp": 43620
+        }
+      }
+    },
+    "mythic": {
+      "baseAtk": 522,
+      "baseHp": 261,
+      "growthPerLevel": 1,
+      "limitBreaks": {
+        "100": {
+          "atk": 2819,
+          "hp": 1331
+        },
+        "120": {
+          "atk": 7308,
+          "hp": 3419
+        },
+        "140": {
+          "atk": 18896,
+          "hp": 8820
+        },
+        "160": {
+          "atk": 48911,
+          "hp": 22811
+        },
+        "180": {
+          "atk": 126637,
+          "hp": 59085
+        }
+      }
+    },
+    "transcendent": {
+      "baseAtk": 1040,
+      "baseHp": 496,
+      "growthPerLevel": 1.2,
+      "limitBreaks": {
+        "100": {
+          "atk": 5824,
+          "hp": 2629
+        },
+        "120": {
+          "atk": 15080,
+          "hp": 6746
+        },
+        "140": {
+          "atk": 39104,
+          "hp": 17410
+        },
+        "160": {
+          "atk": 101192,
+          "hp": 45037
+        },
+        "180": {
+          "atk": 262080,
+          "hp": 116560
+        }
+      }
+    }
+  }
+}
