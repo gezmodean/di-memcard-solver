@@ -3,16 +3,10 @@ import type { Piece, Rarity, SpecialEffect } from '../../lib/types';
 import { useGameStore } from '../../store/gameStore';
 import { ShapeIconEditor } from '../DataInput/ShapeIconEditor';
 import { IconPicker } from '../DataInput/IconPicker';
-import { LargeNumberInput } from '../UI/LargeNumberInput';
-import { LargeNumberDisplay } from '../UI/LargeNumberDisplay';
 import { RarityProgressionEditor } from './RarityProgressionEditor';
+import { getIconPath } from '../../utils/assetPaths';
 import { parseSpecialEffectTemplate } from '../../lib/utils/specialEffects';
-import {
-  getMaxLevel,
-  getNextLimitBreakPreview,
-  getNextLimitBreak,
-  RARITY_CONFIGS
-} from '../../lib/pieces/rarityProgression';
+import { RARITY_CONFIGS } from '../../lib/pieces/rarityProgression';
 
 interface PieceEditorProps {
   isOpen: boolean;
@@ -344,7 +338,7 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
                 <div className="flex items-center gap-2">
                   {piece.iconFile ? (
                     <img
-                      src={`/icons/${piece.iconFile}`}
+                      src={getIconPath(piece.iconFile)}
                       alt={piece.name}
                       className="w-8 h-8 object-contain"
                     />
@@ -599,7 +593,6 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
                 <label className="block text-sm font-medium mb-2">Piece Shape:</label>
                 <ShapeIconEditor
                   shape={editPieceData.shape}
-                  iconFile={editPieceData.iconFile || 'sprite-6-2.png'}
                   onChange={(newShape) => setEditPieceData({...editPieceData, shape: newShape})}
                   maxSize={7}
                 />

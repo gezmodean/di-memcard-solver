@@ -16,7 +16,6 @@ function App() {
     addNewPieces,
     loadPieces,
     piecesLoaded,
-    pieces,
     selectedPieceId,
     loadSiteConfig,
     loadPlayerData,
@@ -111,32 +110,34 @@ function App() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', padding: '16px', backgroundColor: '#0a0a0f', border: '1px solid #374151', borderRadius: '8px' }}>
           <h1 style={{ fontSize: '2rem', fontWeight: 'bold', margin: 0, color: '#f8fafc', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>Memory Card Grid Solver</h1>
           <div style={{ display: 'flex', gap: '8px' }}>
-            <button
-              onClick={() => setIsSiteConfigOpen(true)}
-              style={{
-                padding: '10px 16px',
-                backgroundColor: '#374151',
-                border: '1px solid #6b7280',
-                borderRadius: '6px',
-                color: 'white',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                fontWeight: '600',
-                transition: 'all 0.2s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#4b5563';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#374151';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
-            >
-              ⚙️ Settings
-            </button>
+            {import.meta.env.DEV && (
+              <button
+                onClick={() => setIsSiteConfigOpen(true)}
+                style={{
+                  padding: '10px 16px',
+                  backgroundColor: '#374151',
+                  border: '1px solid #6b7280',
+                  borderRadius: '6px',
+                  color: 'white',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontWeight: '600',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#4b5563';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#374151';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                ⚙️ Settings
+              </button>
+            )}
             <button
               onClick={handleUnlockAll}
               style={{

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { PlacedPiece, Piece, Rarity, RarityConfig, PieceDefinition, PlayerPieceData, SiteConfig, PlayerData } from '../lib/types';
+import type { PlacedPiece, Piece, Rarity, RarityConfig, PieceDefinition, SiteConfig, PlayerData } from '../lib/types';
 import { calculatePieceStats } from '../lib/pieces/definitions';
 import { rotateShape } from '../lib/utils/rotation';
 import { RARITY_COLORS } from '../lib/types';
@@ -373,7 +373,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       }
 
       // Fallback to loading from public/pieces.json
-      const response = await fetch('/pieces.json');
+      const response = await fetch(`${import.meta.env.BASE_URL}pieces.json`);
       if (!response.ok) {
         throw new Error('Failed to fetch pieces.json');
       }

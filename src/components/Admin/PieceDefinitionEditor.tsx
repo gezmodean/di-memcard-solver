@@ -6,6 +6,7 @@ import { ShapeIconEditor } from '../DataInput/ShapeIconEditor';
 import { IconPicker } from '../DataInput/IconPicker';
 import { LargeNumberInput } from '../UI/LargeNumberInput';
 import { SpecialEffectEditor } from './SpecialEffectEditor';
+import { getIconPath } from '../../utils/assetPaths';
 
 interface PieceDefinitionEditorProps {
   isOpen: boolean;
@@ -133,7 +134,7 @@ export const PieceDefinitionEditor: React.FC<PieceDefinitionEditorProps> = ({ is
                     <div className="flex items-center gap-3">
                       {piece.iconFile ? (
                         <img
-                          src={`/icons/${piece.iconFile}`}
+                          src={getIconPath(piece.iconFile)}
                           alt={piece.name}
                           className="w-8 h-8 object-contain"
                         />
@@ -210,7 +211,7 @@ export const PieceDefinitionEditor: React.FC<PieceDefinitionEditorProps> = ({ is
 
                         <div>
                           <IconPicker
-                            selectedIcon={editPieceData.iconFile}
+                            selectedIcon={editPieceData.iconFile || ''}
                             onSelect={(iconFile) => setEditPieceData({...editPieceData, iconFile})}
                             availableIcons={availableIcons}
                           />
@@ -255,8 +256,8 @@ export const PieceDefinitionEditor: React.FC<PieceDefinitionEditorProps> = ({ is
                       <h4 className="text-lg font-semibold text-white mb-4">Piece Shape</h4>
                       <ShapeIconEditor
                         shape={editPieceData.shape}
-                        onShapeChange={(shape) => setEditPieceData({...editPieceData, shape})}
-                        maxSize={{ width: 5, height: 5 }}
+                        onChange={(shape: number[][]) => setEditPieceData({...editPieceData, shape})}
+                        maxSize={5}
                       />
                     </div>
                   </div>

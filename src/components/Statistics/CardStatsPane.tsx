@@ -4,6 +4,7 @@ import { getActiveSpecialEffects, processSpecialEffectDescription } from '../../
 import { calculatePieceStats } from '../../lib/pieces/definitions';
 import { getMaxLevel } from '../../lib/pieces/rarityProgression';
 import { LargeNumberDisplay } from '../UI/LargeNumberDisplay';
+import { getIconPath } from '../../utils/assetPaths';
 
 interface CardStatsPaneProps {
   selectedPieceId: string | null;
@@ -129,7 +130,7 @@ export const CardStatsPane: React.FC<CardStatsPaneProps> = ({
           <div className="relative z-10">
             {piece.iconFile ? (
               <img
-                src={`/icons/${piece.iconFile}`}
+                src={getIconPath(piece.iconFile)}
                 alt={piece.name}
                 className="w-10 h-10 object-contain"
                 style={{

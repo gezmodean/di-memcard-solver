@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getIconPath } from '../../utils/assetPaths';
 
 interface IconPickerProps {
   selectedIcon: string;
@@ -24,7 +25,7 @@ export const IconPicker: React.FC<IconPickerProps> = ({ selectedIcon, onSelect, 
         className="w-full bg-gray-600 border border-gray-500 rounded px-3 py-2 cursor-pointer hover:bg-gray-500 transition-colors flex items-center gap-2"
       >
         <img
-          src={`/icons/${selectedIcon}`}
+          src={getIconPath(selectedIcon)}
           alt="Selected icon"
           className="w-8 h-8 object-contain bg-gray-800 rounded"
         />
@@ -53,7 +54,7 @@ export const IconPicker: React.FC<IconPickerProps> = ({ selectedIcon, onSelect, 
                   title={iconFile}
                 >
                   <img
-                    src={`/icons/${iconFile}`}
+                    src={getIconPath(iconFile)}
                     alt={iconFile}
                     className="w-10 h-10 object-contain bg-gray-800 rounded mx-auto"
                   />

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useGameStore } from '../../store/gameStore';
 import type { PlayerData } from '../../lib/types';
 import { RARITY_ORDER } from '../../lib/types';
+import { getIconPath } from '../../utils/assetPaths';
 
 interface PlayerDataPanelProps {
   isOpen: boolean;
@@ -9,7 +10,7 @@ interface PlayerDataPanelProps {
 }
 
 export const PlayerDataPanel: React.FC<PlayerDataPanelProps> = ({ isOpen, onClose }) => {
-  const { pieces, updatePieceLevel, exportPlayerData, importPlayerData, playerData, savePlayerData, unlockAllPieces } = useGameStore();
+  const { pieces, updatePieceLevel, exportPlayerData, importPlayerData, playerData, unlockAllPieces } = useGameStore();
   const [activeSection, setActiveSection] = useState<'overview' | 'pieces'>('overview');
 
   if (!isOpen) return null;
@@ -199,7 +200,7 @@ export const PlayerDataPanel: React.FC<PlayerDataPanelProps> = ({ isOpen, onClos
                       <div className="flex items-center gap-3 mb-3">
                         {piece.iconFile ? (
                           <img
-                            src={`/icons/${piece.iconFile}`}
+                            src={getIconPath(piece.iconFile)}
                             alt={piece.name}
                             className="w-8 h-8 object-contain"
                           />

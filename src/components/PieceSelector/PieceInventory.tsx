@@ -2,6 +2,7 @@ import React from 'react';
 import { useGameStore } from '../../store/gameStore';
 import { getMaxLevel } from '../../lib/pieces/rarityProgression';
 import type { Piece } from '../../lib/types';
+import { getIconPath } from '../../utils/assetPaths';
 
 interface PieceInventoryProps {
   selectedPieceIds: string[];
@@ -150,7 +151,7 @@ export const PieceInventory: React.FC<PieceInventoryProps> = ({
         <div className="absolute inset-0 flex items-center justify-center">
           {piece.iconFile ? (
             <img
-              src={`/icons/${piece.iconFile}`}
+              src={getIconPath(piece.iconFile)}
               alt={piece.name}
               className="w-12 h-12 object-contain"
               style={{

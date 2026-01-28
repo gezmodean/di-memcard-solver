@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 
 interface ShapeIconEditorProps {
   shape: number[][];
-  iconFile: string;
   onChange: (shape: number[][]) => void;
   maxSize?: number;
 }
 
 export const ShapeIconEditor: React.FC<ShapeIconEditorProps> = ({
   shape,
-  iconFile,
   onChange,
   maxSize = 6
 }) => {
@@ -131,20 +129,6 @@ export const ShapeIconEditor: React.FC<ShapeIconEditorProps> = ({
                     : 'bg-gray-700 hover:bg-gray-600'
                 }`}
               >
-                {cell === 1 && (
-                  <div className="w-full h-full flex items-center justify-center">
-                    {iconFile ? (
-                      <img
-                        src={`/icons/${iconFile}`}
-                        alt="icon"
-                        className="w-6 h-6 object-contain"
-                        style={{ imageRendering: 'pixelated' }}
-                      />
-                    ) : (
-                      <span className="text-xs">•</span>
-                    )}
-                  </div>
-                )}
               </button>
             ))
           )}
@@ -152,7 +136,7 @@ export const ShapeIconEditor: React.FC<ShapeIconEditorProps> = ({
       </div>
 
       <div className="text-xs text-gray-400 text-center">
-        Click cells to toggle shape. Icons are automatically centered.
+        Click cells to toggle shape blocks.
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useGameStore } from '../../store/gameStore';
 import { RARITY_COLORS } from '../../lib/types';
+import { getIconPath } from '../../utils/assetPaths';
 
 interface CellProps {
   x: number;
@@ -121,58 +122,80 @@ export const Cell: React.FC<CellProps> = ({ x, y, pieceId, isConflict, isSelecte
     return classes;
   };
 
-  // Calculate the geometric center for this piece (shared between shouldShowIcon and getIconContent)
-  const getGeometricCenter = () => {
-    if (!piece || !placedPiece) return null;
 
-    // Find all filled cells in the piece
-    const filledCells: { x: number; y: number }[] = [];
-    for (let row = 0; row < placedPiece.shape.length; row++) {
-      for (let col = 0; col < placedPiece.shape[row].length; col++) {
-        if (placedPiece.shape[row][col] === 1) {
-          filledCells.push({ x: col, y: row });
+
+  const getIconContent = () => {
+    if (!piece || !piece.iconFile || !placedPiece) {
+      return null;
+    }
+
+    // Calculate the geometric center of the piece shape
+    const shape = placedPiece.shape;
+    let totalX = 0;
+    let totalY = 0;
+    let cellCount = 0;
+
+    // Sum up all the filled cell positions
+    for (let shapeY = 0; shapeY < shape.length; shapeY++) {
+      for (let shapeX = 0; shapeX < shape[shapeY].length; shapeX++) {
+        if (shape[shapeY][shapeX] === 1) {
+          totalX += shapeX;
+          totalY += shapeY;
+          cellCount++;
         }
       }
     }
 
-    if (filledCells.length === 0) return null;
+    if (cellCount === 0) return null;
 
-    // Calculate the geometric center
-    const centerX = filledCells.reduce((sum, cell) => sum + cell.x, 0) / filledCells.length;
-    const centerY = filledCells.reduce((sum, cell) => sum + cell.y, 0) / filledCells.length;
+    // Calculate center position relative to piece origin
+    let iconX = Math.round(totalX / cellCount);
+    let iconY = Math.round(totalY / cellCount);
 
-    return { centerX, centerY, filledCells };
-  };
+    // Verify the calculated center is within a filled cell, if not find nearest filled cell
+    if (iconY >= shape.length || iconX >= shape[iconY].length || shape[iconY][iconX] !== 1) {
+      // Find the closest filled cell to the calculated center
+      let minDistance = Infinity;
+      let bestX = 0;
+      let bestY = 0;
 
-  // Determine if this cell should show the icon
-  const shouldShowIcon = () => {
-    const centerData = getGeometricCenter();
-    if (!centerData) return false;
+      for (let shapeY = 0; shapeY < shape.length; shapeY++) {
+        for (let shapeX = 0; shapeX < shape[shapeY].length; shapeX++) {
+          if (shape[shapeY][shapeX] === 1) {
+            const distance = Math.sqrt((shapeX - iconX) ** 2 + (shapeY - iconY) ** 2);
+            if (distance < minDistance) {
+              minDistance = distance;
+              bestX = shapeX;
+              bestY = shapeY;
+            }
+          }
+        }
+      }
 
-    const relativeX = x - placedPiece!.x;
-    const relativeY = y - placedPiece!.y;
-    const { centerX, centerY, filledCells } = centerData;
-
-    // Check if the center falls on exact cell coordinates
-    const isExactCenter = Number.isInteger(centerX) && Number.isInteger(centerY);
-
-    if (isExactCenter) {
-      // Center is on an exact cell - show icon there if it's filled
-      return relativeX === Math.round(centerX) && relativeY === Math.round(centerY) &&
-             filledCells.some(cell => cell.x === Math.round(centerX) && cell.y === Math.round(centerY));
-    } else {
-      // Center is fractional - we'll show icon with fractional positioning
-      // For now, pick the top-left cell that contains the center
-      const cellX = Math.floor(centerX);
-      const cellY = Math.floor(centerY);
-      return relativeX === cellX && relativeY === cellY &&
-             filledCells.some(cell => cell.x === cellX && cell.y === cellY);
+      iconX = bestX;
+      iconY = bestY;
     }
-  };
 
-  const getIconContent = () => {
-    // Icons removed from grid visualization
-    return null;
+    // Convert to absolute grid position
+    const absoluteIconX = placedPiece.x + iconX;
+    const absoluteIconY = placedPiece.y + iconY;
+
+    // Only render icon at the designated position
+    if (x !== absoluteIconX || y !== absoluteIconY) {
+      return null;
+    }
+
+    return (
+      <img
+        src={getIconPath(piece.iconFile)}
+        alt={piece.name}
+        className="w-8 h-8 object-contain pointer-events-none"
+        style={{
+          filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.8))',
+          zIndex: 100
+        }}
+      />
+    );
   };
 
   return (

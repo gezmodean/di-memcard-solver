@@ -3,6 +3,7 @@ import type { Solution } from '../../lib/types';
 import { useGameStore } from '../../store/gameStore';
 import { GridSolver } from '../../lib/solver/backtrack';
 import { LargeNumberDisplay } from '../UI/LargeNumberDisplay';
+import { getIconPath } from '../../utils/assetPaths';
 
 interface AutoSolverProps {
   selectedPieceIds: string[];
@@ -274,7 +275,7 @@ export const AutoSolver: React.FC<AutoSolverProps> = ({
                     >
                       {piece.iconFile ? (
                         <img
-                          src={`/icons/${piece.iconFile}`}
+                          src={getIconPath(piece.iconFile)}
                           alt={piece.name}
                           className="w-4 h-4 object-contain"
                         />

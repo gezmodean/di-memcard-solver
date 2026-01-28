@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useGameStore } from '../../store/gameStore';
 import { getActiveSpecialEffects } from '../../lib/utils/specialEffects';
 import type { Piece } from '../../lib/types';
+import { getIconPath } from '../../utils/assetPaths';
 
 export const SpecialEffectsPanel: React.FC = () => {
   const { placedPieces, pieces } = useGameStore();
@@ -76,7 +77,7 @@ export const SpecialEffectsPanel: React.FC = () => {
                     <div className="flex items-center gap-2 mb-1">
                       {piece.iconFile ? (
                         <img
-                          src={`/icons/${piece.iconFile}`}
+                          src={getIconPath(piece.iconFile)}
                           alt={piece.name}
                           className="w-4 h-4 object-contain"
                         />
@@ -116,7 +117,7 @@ export const SpecialEffectsPanel: React.FC = () => {
                     <div className="flex items-center gap-2 mb-1">
                       {piece.iconFile ? (
                         <img
-                          src={`/icons/${piece.iconFile}`}
+                          src={getIconPath(piece.iconFile)}
                           alt={piece.name}
                           className="w-4 h-4 object-contain"
                         />

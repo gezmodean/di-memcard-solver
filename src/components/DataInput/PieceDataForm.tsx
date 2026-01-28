@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { ShapeIconEditor } from './ShapeIconEditor';
 import { IconPicker } from './IconPicker';
 import { LargeNumberInput } from '../UI/LargeNumberInput';
-import { parseSpecialEffectTemplate } from '../../lib/utils/specialEffects';
 import type { SpecialEffect } from '../../lib/types';
 import { TabularSpecialEffectsEditor } from '../PieceEditor/TabularSpecialEffectsEditor';
 
@@ -34,9 +33,6 @@ export const PieceDataForm: React.FC<PieceDataFormProps> = ({ isOpen, onClose, o
     specialEffects: []
   });
 
-  const [newEffectTemplate, setNewEffectTemplate] = useState('');
-  const [newEffectVariables, setNewEffectVariables] = useState<{[key: string]: number}>({});
-  const [newEffectRequiresField, setNewEffectRequiresField] = useState(true);
 
   const rarities = ['common', 'uncommon', 'rare', 'epic', 'legendary', 'mythic', 'transcendent'];
   const availableIcons = [
@@ -64,60 +60,12 @@ export const PieceDataForm: React.FC<PieceDataFormProps> = ({ isOpen, onClose, o
       specialEffects: []
     });
 
-    // Reset effect form
-    setNewEffectTemplate('');
-    setNewEffectVariables({});
-    setNewEffectRequiresField(true);
   };
 
   const removePiece = (index: number) => {
     setPieces(pieces.filter((_, i) => i !== index));
   };
 
-  const addSpecialEffect = () => {
-    if (!newEffectTemplate.trim()) return;
-
-    const parsed = parseSpecialEffectTemplate(newEffectTemplate);
-    const variables = parsed.variables.map(varName => ({
-      name: varName,
-      value: newEffectVariables[varName] || 1
-    }));
-
-    const newEffect: SpecialEffect = {
-      description: newEffectTemplate,
-      variables,
-      requiresOnField: newEffectRequiresField
-    };
-
-    setCurrentPiece({
-      ...currentPiece,
-      specialEffects: [...currentPiece.specialEffects, newEffect]
-    });
-
-    // Reset form
-    setNewEffectTemplate('');
-    setNewEffectVariables({});
-    setNewEffectRequiresField(true);
-  };
-
-  const removeSpecialEffect = (index: number) => {
-    setCurrentPiece({
-      ...currentPiece,
-      specialEffects: currentPiece.specialEffects.filter((_, i) => i !== index)
-    });
-  };
-
-  const handleEffectTemplateChange = (template: string) => {
-    setNewEffectTemplate(template);
-    const parsed = parseSpecialEffectTemplate(template);
-
-    // Initialize variables with default values
-    const newVars: {[key: string]: number} = {};
-    parsed.variables.forEach(varName => {
-      newVars[varName] = newEffectVariables[varName] || 1;
-    });
-    setNewEffectVariables(newVars);
-  };
 
   const saveAllData = () => {
     const formattedPieces = pieces.map((piece, index) => ({
@@ -273,7 +221,6 @@ export const PieceDataForm: React.FC<PieceDataFormProps> = ({ isOpen, onClose, o
               <label style={{ display: 'block', fontSize: '14px', marginBottom: '8px', color: '#d1d5db' }}>Piece Shape:</label>
               <ShapeIconEditor
                 shape={currentPiece.shape}
-                iconFile={currentPiece.iconFile}
                 onChange={(newShape) => setCurrentPiece({...currentPiece, shape: newShape})}
                 maxSize={7}
               />

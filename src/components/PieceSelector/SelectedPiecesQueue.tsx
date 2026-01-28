@@ -2,6 +2,7 @@ import React from 'react';
 import { useGameStore } from '../../store/gameStore';
 import type { Piece } from '../../lib/types';
 import { formatLargeNumber } from '../../lib/utils/numberFormat';
+import { getIconPath } from '../../utils/assetPaths';
 
 interface SelectedPiecesQueueProps {
   selectedPieceIds: string[];
@@ -176,7 +177,7 @@ export const SelectedPiecesQueue: React.FC<SelectedPiecesQueueProps> = ({
               <div className="relative z-10">
                 {piece.iconFile ? (
                   <img
-                    src={`/icons/${piece.iconFile}`}
+                    src={getIconPath(piece.iconFile)}
                     alt={piece.name}
                     className="w-8 h-8 object-contain"
                     style={{
