@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { PieceDefinition, Rarity, SpecialEffect } from '../../lib/types';
-import { RARITY_ORDER } from '../../lib/types';
+import { RARITY_ORDER, RARITY_COLORS } from '../../lib/types';
 import { useGameStore } from '../../store/gameStore';
 import { ShapeIconEditor } from '../DataInput/ShapeIconEditor';
 import { IconPicker } from '../DataInput/IconPicker';
@@ -134,9 +134,15 @@ export const PieceDefinitionEditor: React.FC<PieceDefinitionEditorProps> = ({ is
                     key={piece.id}
                     className={`p-3 border rounded cursor-pointer transition-all ${
                       selectedPieceId === piece.id
-                        ? 'border-blue-500 bg-blue-900/20'
-                        : 'border-gray-600 bg-gray-800/50 hover:bg-gray-700/50'
+                        ? 'border-blue-500'
+                        : 'hover:brightness-125'
                     }`}
+                    style={{
+                      backgroundColor: `${RARITY_COLORS[piece.rarity]}18`,
+                      borderColor: selectedPieceId === piece.id
+                        ? undefined
+                        : `${RARITY_COLORS[piece.rarity]}40`,
+                    }}
                     onClick={() => startEditingPiece(piece)}
                   >
                     <div className="flex items-center gap-3">
@@ -151,7 +157,7 @@ export const PieceDefinitionEditor: React.FC<PieceDefinitionEditorProps> = ({ is
                       )}
                       <div className="flex-1 min-w-0">
                         <div className="font-medium text-sm text-white truncate">{piece.name}</div>
-                        <div className="text-xs text-gray-400 capitalize">{piece.rarity}</div>
+                        <div className="text-xs capitalize" style={{ color: RARITY_COLORS[piece.rarity] }}>{piece.rarity}</div>
                       </div>
                     </div>
                   </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Piece } from '../../lib/types';
+import { RARITY_COLORS } from '../../lib/types';
 import { useGameStore } from '../../store/gameStore';
 import { calculatePieceStats } from '../../lib/pieces/definitions';
 
@@ -28,19 +29,6 @@ export const PieceCard: React.FC<PieceCardProps> = ({ piece, isPlaced }) => {
     }
   };
 
-  const getRarityColor = () => {
-    const colorMap: Record<string, string> = {
-      common: 'bg-gray-600',
-      uncommon: 'bg-green-600',
-      rare: 'bg-blue-600',
-      epic: 'bg-purple-600',
-      legendary: 'bg-amber-600',
-      mythic: 'bg-red-600',
-      transcendent: 'bg-pink-600',
-    };
-    return colorMap[piece.rarity] || 'bg-gray-600';
-  };
-
   const getBorderColor = () => {
     if (selectedPieceId === piece.id) return 'ring-2 ring-green-400';
     if (isPlaced) return 'ring-2 ring-blue-400';
@@ -50,17 +38,21 @@ export const PieceCard: React.FC<PieceCardProps> = ({ piece, isPlaced }) => {
   return (
     <div
       className={`
-        ${getRarityColor()} bg-opacity-20 border-2 border-gray-700 rounded-lg p-3
-        cursor-pointer transition-all duration-200 hover:bg-opacity-30
+        border-2 rounded-lg p-3
+        cursor-pointer transition-all duration-200 hover:brightness-125
         ${getBorderColor()}
         ${!piece.unlocked ? 'opacity-50 cursor-not-allowed' : ''}
       `}
+      style={{
+        backgroundColor: `${RARITY_COLORS[piece.rarity]}20`,
+        borderColor: `${RARITY_COLORS[piece.rarity]}40`,
+      }}
       onClick={handleClick}
     >
       <div className="flex items-center justify-between mb-2">
         <span className="text-2xl">{piece.icon}</span>
         <div className="text-right">
-          <div className="text-xs text-gray-400 capitalize">{piece.rarity}</div>
+          <div className="text-xs capitalize" style={{ color: RARITY_COLORS[piece.rarity] }}>{piece.rarity}</div>
           <div className="text-xs text-red-400">ATK: {stats.atk}</div>
           <div className="text-xs text-green-400">HP: {stats.hp}</div>
         </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useGameStore } from '../../store/gameStore';
 import type { PlayerData } from '../../lib/types';
-import { RARITY_ORDER } from '../../lib/types';
+import { RARITY_ORDER, RARITY_COLORS } from '../../lib/types';
 import { getIconPath } from '../../utils/assetPaths';
 
 interface PlayerDataPanelProps {
@@ -192,11 +192,16 @@ export const PlayerDataPanel: React.FC<PlayerDataPanelProps> = ({ isOpen, onClos
                   {pieces
                     .sort((a, b) => RARITY_ORDER[b.rarity] - RARITY_ORDER[a.rarity])
                     .map(piece => (
-                    <div key={piece.id} className={`border rounded-lg p-4 transition-all ${
-                      piece.unlocked
-                        ? 'bg-gray-800/50 border-gray-600/50'
-                        : 'bg-gray-900/50 border-gray-700/50 opacity-60'
-                    }`}>
+                    <div
+                      key={piece.id}
+                      className={`border rounded-lg p-4 transition-all ${
+                        !piece.unlocked ? 'opacity-60' : ''
+                      }`}
+                      style={{
+                        backgroundColor: `${RARITY_COLORS[piece.rarity]}15`,
+                        borderColor: `${RARITY_COLORS[piece.rarity]}35`,
+                      }}
+                    >
                       <div className="flex items-center gap-3 mb-3">
                         {piece.iconFile ? (
                           <img
@@ -209,7 +214,7 @@ export const PlayerDataPanel: React.FC<PlayerDataPanelProps> = ({ isOpen, onClos
                         )}
                         <div className="flex-1 min-w-0">
                           <div className="font-medium text-white truncate">{piece.name}</div>
-                          <div className="text-sm text-gray-400 capitalize">{piece.rarity}</div>
+                          <div className="text-sm capitalize" style={{ color: RARITY_COLORS[piece.rarity] }}>{piece.rarity}</div>
                         </div>
                         <button
                           onClick={() => {
