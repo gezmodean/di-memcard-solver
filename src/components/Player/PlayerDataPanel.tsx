@@ -3,6 +3,8 @@ import { useGameStore } from '../../store/gameStore';
 import type { PlayerData } from '../../lib/types';
 import { RARITY_ORDER, RARITY_COLORS } from '../../lib/types';
 import { getIconPath } from '../../utils/assetPaths';
+import { calculatePieceStats } from '../../lib/pieces/definitions';
+import { LargeNumberDisplay } from '../UI/LargeNumberDisplay';
 
 interface PlayerDataPanelProps {
   isOpen: boolean;
@@ -263,49 +265,27 @@ export const PlayerDataPanel: React.FC<PlayerDataPanelProps> = ({ isOpen, onClos
                           />
                         </div>
 
-                        <div className="space-y-1">
-                          <span className="text-xs text-gray-300">Limit Breaks:</span>
-                          <div className="grid grid-cols-5 gap-1">
-                            {[100, 120, 140, 160, 180].map(breakLevel => (
-                              <button
-                                key={breakLevel}
-                                onClick={() => {
-                                  const currentBreaks = piece.limitBreaks || [];
-                                  const existingPlayerPiece = playerData.pieces.find(p => p.id === piece.id);
-                                  const newPlayerPieces = playerData.pieces.filter(p => p.id !== piece.id);
-
-                                  let newBreaks;
-                                  if (currentBreaks.includes(breakLevel)) {
-                                    newBreaks = currentBreaks.filter(b => b !== breakLevel);
-                                  } else {
-                                    newBreaks = [...currentBreaks, breakLevel].sort((a, b) => a - b);
-                                  }
-
-                                  newPlayerPieces.push({
-                                    id: piece.id,
-                                    level: existingPlayerPiece?.level || piece.level,
-                                    limitBreaks: newBreaks,
-                                    unlocked: existingPlayerPiece?.unlocked ?? piece.unlocked
-                                  });
-
-                                  const newPlayerData = { pieces: newPlayerPieces };
-                                  importPlayerData(newPlayerData);
-                                }}
-                                disabled={!piece.unlocked}
-                                className={`text-xs px-1 py-0.5 rounded transition-colors disabled:opacity-50 ${
-                                  piece.limitBreaks?.includes(breakLevel)
-                                    ? 'bg-yellow-600 text-white'
-                                    : 'bg-gray-600 hover:bg-gray-500 text-gray-300'
-                                }`}
-                              >
-                                {breakLevel}
-                              </button>
-                            ))}
+                        {/* Limit break stars (display only, auto-derived from level) */}
+                        {(piece.limitBreaks || []).length > 0 && (
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-gray-400">Limit Breaks:</span>
+                            <div className="flex gap-0.5">
+                              {(piece.limitBreaks || []).map(breakLevel => (
+                                <span key={breakLevel} className="text-yellow-300" style={{ fontSize: '10px' }}>★</span>
+                              ))}
+                            </div>
                           </div>
-                        </div>
+                        )}
 
                         <div className="text-xs text-gray-400">
-                          <div>ATK: {piece.baseStats.atk} | HP: {piece.baseStats.hp}</div>
+                          {(() => {
+                            const stats = calculatePieceStats(piece);
+                            return (
+                              <div>
+                                ATK: <span className="text-red-400"><LargeNumberDisplay value={stats.atk} /></span> | HP: <span className="text-green-400"><LargeNumberDisplay value={stats.hp} /></span>
+                              </div>
+                            );
+                          })()}
                         </div>
                       </div>
                     </div>

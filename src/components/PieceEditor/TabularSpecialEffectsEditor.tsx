@@ -190,7 +190,7 @@ export const TabularSpecialEffectsEditor: React.FC<TabularSpecialEffectsEditorPr
                         {effect.description}
                       </div>
                       <div className="text-xs text-gray-500 mt-1">
-                        {effect.variables.length} variable(s) • {effect.requiresOnField ? 'On Field' : 'Always Active'}
+                        {effect.variables.length} variable(s) • {effect.requiresOnField ? 'Equipped' : 'Always Active'}
                       </div>
                     </div>
                     <button
@@ -223,14 +223,14 @@ export const TabularSpecialEffectsEditor: React.FC<TabularSpecialEffectsEditorPr
                   onChange={(e) => updateEffect(selectedEffect, { description: e.target.value })}
                   className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white text-sm resize-none"
                   rows={2}
-                  placeholder="e.g., Increases ATK by {atkBonus}% when on field"
+                  placeholder="e.g., Increases ATK by {atkBonus}% when equipped"
                 />
                 <div className="text-xs text-gray-400 mt-1">
                   Use {"{variableName}"} to reference variables
                 </div>
               </div>
 
-              {/* Requires On Field */}
+              {/* Requires Equipped */}
               <div className="flex items-center space-x-2">
                 <input
                   type="checkbox"
@@ -240,7 +240,7 @@ export const TabularSpecialEffectsEditor: React.FC<TabularSpecialEffectsEditorPr
                   className="rounded"
                 />
                 <label htmlFor="requiresOnField" className="text-sm text-gray-300">
-                  Only active when piece is on field
+                  Only active when piece is equipped
                 </label>
               </div>
 

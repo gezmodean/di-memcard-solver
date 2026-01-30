@@ -6,7 +6,14 @@ import { RARITY_COLORS } from '../lib/types';
 import { RARITY_CONFIGS } from '../lib/pieces/rarityProgression';
 
 // Bump this version to force all users to reload pieces.json on next visit
-const SITE_CONFIG_VERSION = 2;
+const SITE_CONFIG_VERSION = 6;
+
+const LIMIT_BREAK_THRESHOLDS = [100, 120, 140, 160, 180] as const;
+
+/** Derive limit breaks automatically from level. Level > threshold means that break is achieved. */
+function getLimitBreaksForLevel(level: number): number[] {
+  return LIMIT_BREAK_THRESHOLDS.filter(threshold => level > threshold);
+}
 const SITE_CONFIG_VERSION_KEY = 'memsolver-site-config-version';
 
 interface GameStore {
@@ -271,23 +278,23 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   updatePieceLevel: (pieceId: string, level: number) => {
     const clampedLevel = Math.min(200, Math.max(1, level));
+    const limitBreaks = getLimitBreaksForLevel(clampedLevel);
     const state = get();
 
-    // Update runtime pieces
+    // Update runtime pieces with auto-derived limit breaks
     const newPieces = state.pieces.map(p =>
-      p.id === pieceId ? { ...p, level: clampedLevel } : p
+      p.id === pieceId ? { ...p, level: clampedLevel, limitBreaks } : p
     );
     set({ pieces: newPieces });
 
     // Persist to player data
     const existingPlayerPiece = state.playerData.pieces.find(p => p.id === pieceId);
     const otherPlayerPieces = state.playerData.pieces.filter(p => p.id !== pieceId);
-    const piece = state.pieces.find(p => p.id === pieceId);
     otherPlayerPieces.push({
       id: pieceId,
       level: clampedLevel,
-      limitBreaks: existingPlayerPiece?.limitBreaks || piece?.limitBreaks || [],
-      unlocked: existingPlayerPiece?.unlocked ?? piece?.unlocked ?? false
+      limitBreaks,
+      unlocked: existingPlayerPiece?.unlocked ?? state.pieces.find(p => p.id === pieceId)?.unlocked ?? false
     });
     set({ playerData: { pieces: otherPlayerPieces } });
     get().savePlayerData();
@@ -362,8 +369,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
     let totalAtk = 0;
     let totalHp = 0;
 
-    // Calculate total from ALL owned pieces, not just placed ones
+    // Calculate total from unlocked (owned) pieces only
     state.pieces.forEach((piece) => {
+      if (!piece.unlocked) return;
       const stats = calculatePieceStats(piece, state.rarityConfigs);
       totalAtk += stats.atk;
       totalHp += stats.hp;
@@ -441,7 +449,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
           baseStats: piece.baseStats,
           useRarityProgression: piece.useRarityProgression,
           statGrowth: piece.statGrowth,
-          specialEffects: piece.specialEffects
+          specialEffects: piece.specialEffects,
+          levelTable: piece.levelTable,
+          gameData: piece.gameData,
         })),
         rarityConfigs: { ...RARITY_CONFIGS }
       };
@@ -592,10 +602,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const state = get();
     const combinedPieces: Piece[] = state.siteConfig.pieces.map(sitePiece => {
       const playerPiece = state.playerData.pieces.find(p => p.id === sitePiece.id);
+      const level = playerPiece?.level || 1;
       return {
         ...sitePiece,
-        level: playerPiece?.level || 1,
-        limitBreaks: playerPiece?.limitBreaks || [],
+        level,
+        limitBreaks: getLimitBreaksForLevel(level),
         unlocked: playerPiece?.unlocked || false
       };
     });

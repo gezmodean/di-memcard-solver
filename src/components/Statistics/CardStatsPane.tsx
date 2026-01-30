@@ -1,10 +1,9 @@
 import React from 'react';
 import { useGameStore } from '../../store/gameStore';
-import { getActiveSpecialEffects, processSpecialEffectDescription } from '../../lib/utils/specialEffects';
-import { calculatePieceStats } from '../../lib/pieces/definitions';
-import { getMaxLevel } from '../../lib/pieces/rarityProgression';
 import { LargeNumberDisplay } from '../UI/LargeNumberDisplay';
+import { SkillDescription } from '../UI/SkillDescription';
 import { getIconPath } from '../../utils/assetPaths';
+import type { LevelTableEffect } from '../../lib/types';
 
 interface CardStatsPaneProps {
   selectedPieceId: string | null;
@@ -15,7 +14,7 @@ export const CardStatsPane: React.FC<CardStatsPaneProps> = ({
   selectedPieceId,
   onClose
 }) => {
-  const { pieces, placedPieces, conflicts, rarityConfigs } = useGameStore();
+  const { pieces, placedPieces, conflicts } = useGameStore();
 
   const piece = selectedPieceId ? pieces.find(p => p.id === selectedPieceId) : null;
 
@@ -52,27 +51,15 @@ export const CardStatsPane: React.FC<CardStatsPaneProps> = ({
     return colorMap[rarity] || '#868aaf';
   };
 
-  const isOnField = placedPieces.has(piece.id);
+  const isEquipped = placedPieces.has(piece.id);
   const isConflicted = conflicts.has(piece.id);
-  const currentStats = calculatePieceStats(piece, rarityConfigs);
-  const activeEffects = getActiveSpecialEffects(piece, isOnField);
-
-  // Calculate level progression
-  const baseStats = piece.baseStats;
-  const levelBonus = {
-    atk: currentStats.atk - baseStats.atk,
-    hp: currentStats.hp - baseStats.hp
-  };
 
   // Get shape info
   const shapeRows = piece.shape.length;
   const shapeCols = piece.shape.length > 0 ? piece.shape[0].length : 0;
   const totalCells = piece.shape.flat().filter(cell => cell === 1).length;
 
-  // Get current progression info
-  const maxLevel = getMaxLevel(piece.limitBreaks || []);
-
-
+  const maxLevel = piece.gameData?.totalLevels || 200;
 
   return (
     <div className="bg-gray-950 border border-gray-700 rounded p-3" style={{ backgroundColor: '#0a0a0f' }}>
@@ -106,25 +93,6 @@ export const CardStatsPane: React.FC<CardStatsPaneProps> = ({
           <div className="absolute top-1 right-1 bg-black/80 text-white text-xs px-1.5 py-1 rounded font-bold z-20">
             {piece.level}
           </div>
-
-          {/* Limit break stars */}
-          {piece.limitBreaks && piece.limitBreaks.length > 0 && (
-            <div className="absolute bottom-1 left-1 flex z-20">
-              {piece.limitBreaks.map((breakLevel, index) => (
-                <span
-                  key={breakLevel}
-                  className="text-xs text-yellow-300"
-                  style={{
-                    fontSize: '10px',
-                    marginLeft: index > 0 ? '-2px' : '0',
-                    filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.8))'
-                  }}
-                >
-                  ⭐
-                </span>
-              ))}
-            </div>
-          )}
 
           {/* Icon */}
           <div className="relative z-10">
@@ -178,13 +146,13 @@ export const CardStatsPane: React.FC<CardStatsPaneProps> = ({
           {/* Status */}
           <div className="flex items-center gap-2 text-sm">
             <span className={`px-2 py-1 rounded text-xs font-medium ${
-              isOnField
+              isEquipped
                 ? isConflicted
                   ? 'bg-red-500/20 text-red-400 border border-red-500/30'
                   : 'bg-green-500/20 text-green-400 border border-green-500/30'
                 : 'bg-gray-500/20 text-gray-400 border border-gray-500/30'
             }`}>
-              {isOnField ? (isConflicted ? 'Conflicted' : 'On Field') : 'In Inventory'}
+              {isEquipped ? (isConflicted ? 'Conflicted' : 'Equipped') : 'In Inventory'}
             </span>
             <span className={`px-2 py-1 rounded text-xs font-medium ${
               piece.unlocked
@@ -197,21 +165,35 @@ export const CardStatsPane: React.FC<CardStatsPaneProps> = ({
         </div>
       </div>
 
-      {/* Power for owning card */}
-      <div className="bg-gray-900/50 border border-gray-700/50 rounded p-2 mb-4">
-        <div className="text-xs text-gray-400 mb-1">Power for owning card</div>
-        <div className="flex items-center gap-4 text-sm">
-          <div className="flex items-center gap-2">
-            <span className="text-red-400 font-semibold">ATK:</span>
-            <span className="text-white font-bold"><LargeNumberDisplay value={currentStats.atk} /></span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-green-400 font-semibold">HP:</span>
-            <span className="text-white font-bold"><LargeNumberDisplay value={currentStats.hp} /></span>
+      {/* Hold Effects (from levelTable) */}
+      {piece.levelTable && piece.levelTable.holdEffects.length > 0 && (
+        <div className="mb-4 p-3 bg-gray-900/50 border border-gray-700/50 rounded">
+          <div className="text-sm font-medium text-green-400 mb-2">Hold Effects (Always Active)</div>
+          <div className="space-y-1">
+            {piece.levelTable.holdEffects.map((eff: LevelTableEffect, i: number) => {
+              const idx = Math.max(0, Math.min(piece.level - 1, eff.values.length - 1));
+              const val = eff.values[idx] ?? 0;
+              const label = eff.effectType.replace(/_/g, ' ');
+              return (
+                <div key={i} className="flex justify-between items-center text-xs">
+                  <span className="text-gray-300">{label}</span>
+                  <span className="text-white font-medium"><LargeNumberDisplay value={val} /></span>
+                </div>
+              );
+            })}
           </div>
         </div>
-      </div>
+      )}
 
+      {/* Skill Description with formatted variables */}
+      {piece.gameData?.description && (
+        <div className="mb-4 p-3 bg-gray-900/50 border border-gray-700/50 rounded">
+          <div className="text-sm font-medium text-blue-400 mb-1">Skill Description</div>
+          <div className="text-xs text-gray-300">
+            <SkillDescription piece={piece} />
+          </div>
+        </div>
+      )}
 
       {/* Shape Info */}
       <div className="mb-4 p-3 bg-gray-900/50 border border-gray-700/50 rounded">
@@ -244,50 +226,9 @@ export const CardStatsPane: React.FC<CardStatsPaneProps> = ({
         </div>
       </div>
 
-      {/* Special Effects */}
-      {piece.specialEffects && piece.specialEffects.length > 0 && (
-        <div className="mb-4">
-          <div className="text-sm font-medium text-white mb-2">Special Effects</div>
-          <div className="space-y-2">
-            {piece.specialEffects.map((effect, index) => (
-              <div
-                key={index}
-                className={`p-2 rounded border text-sm ${
-                  activeEffects.some(active => active.includes(effect.description.split(' ')[0]))
-                    ? 'bg-blue-500/10 border-blue-500/30 text-blue-300'
-                    : 'bg-gray-500/10 border-gray-500/30 text-gray-400'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <span className={`text-xs px-1.5 py-0.5 rounded ${
-                    effect.requiresOnField === false
-                      ? 'bg-green-500/20 text-green-400'
-                      : 'bg-blue-500/20 text-blue-400'
-                  }`}>
-                    {effect.requiresOnField === false ? 'Always Active' : 'Field Only'}
-                  </span>
-                </div>
-                <div
-                  className="mt-1"
-                  dangerouslySetInnerHTML={{
-                    __html: processSpecialEffectDescription(effect, piece.level, piece.limitBreaks || [])
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-
       {/* Level Info */}
       <div className="text-xs text-gray-400 text-center">
         Level {piece.level} / {maxLevel}
-        {levelBonus.atk > 0 || levelBonus.hp > 0 ? (
-          <div className="mt-1">
-            Level bonus: <LargeNumberDisplay value={levelBonus.atk} /> ATK, <LargeNumberDisplay value={levelBonus.hp} /> HP
-          </div>
-        ) : null}
       </div>
     </div>
   );

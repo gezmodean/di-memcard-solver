@@ -1,6 +1,5 @@
 import React from 'react';
 import { useGameStore } from '../../store/gameStore';
-import { getMaxLevel } from '../../lib/pieces/rarityProgression';
 import type { Piece } from '../../lib/types';
 import { getIconPath } from '../../utils/assetPaths';
 
@@ -15,7 +14,7 @@ export const PieceInventory: React.FC<PieceInventoryProps> = ({
   onTogglePiece,
   onViewPiece
 }) => {
-  const { pieces, togglePieceLock, updatePieceLevel, updatePieceData } = useGameStore();
+  const { pieces, togglePieceLock, updatePieceLevel } = useGameStore();
 
   // Group pieces by rarity for better organization
   const groupedPieces = pieces.reduce((groups, piece) => {
@@ -128,25 +127,6 @@ export const PieceInventory: React.FC<PieceInventoryProps> = ({
           {piece.level}
         </div>
 
-        {/* Limit break stars */}
-        {piece.limitBreaks && piece.limitBreaks.length > 0 && (
-          <div className="absolute bottom-1 left-1 flex z-20">
-            {piece.limitBreaks.map((breakLevel, index) => (
-              <span
-                key={breakLevel}
-                className="text-xs text-yellow-300"
-                style={{
-                  fontSize: '10px',
-                  marginLeft: index > 0 ? '-2px' : '0',
-                  filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.8))'
-                }}
-              >
-                ⭐
-              </span>
-            ))}
-          </div>
-        )}
-
         {/* Main icon area */}
         <div className="absolute inset-0 flex items-center justify-center">
           {piece.iconFile ? (
@@ -178,6 +158,25 @@ export const PieceInventory: React.FC<PieceInventoryProps> = ({
             <div className="absolute inset-0 bg-white/20 rounded" />
             <div className="absolute inset-0 animate-pulse bg-white/10 rounded" />
           </>
+        )}
+
+        {/* Limit break stars */}
+        {piece.limitBreaks && piece.limitBreaks.length > 0 && (
+          <div className="absolute bottom-1 left-1 flex z-20">
+            {piece.limitBreaks.map((breakLevel, index) => (
+              <span
+                key={breakLevel}
+                className="text-yellow-300"
+                style={{
+                  fontSize: '8px',
+                  marginLeft: index > 0 ? '-1px' : '0',
+                  filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.8))'
+                }}
+              >
+                ★
+              </span>
+            ))}
+          </div>
         )}
 
         {/* Lock overlay for visual indication */}
@@ -256,76 +255,24 @@ export const PieceInventory: React.FC<PieceInventoryProps> = ({
                       {piece.name}
                     </div>
 
-                    {/* Level and Limit Break editing controls */}
+                    {/* Level input */}
                     {piece.unlocked && (
-                      <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-auto z-30">
-                        <div className="flex flex-col gap-1">
-                          {/* Level Controls */}
-                          <div className="flex items-center gap-1 bg-black/90 border border-gray-600 rounded px-2 py-1">
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                if (piece.level > 1) {
-                                  updatePieceLevel(piece.id, piece.level - 1);
-                                }
-                              }}
-                              disabled={piece.level <= 1}
-                              className="text-white text-xs w-4 h-4 flex items-center justify-center rounded hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                              -
-                            </button>
-                            <span className="text-white text-xs min-w-6 text-center font-medium">
-                              Lv{piece.level}
-                            </span>
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                const maxLevel = getMaxLevel(piece.limitBreaks || []);
-                                if (piece.level < maxLevel) {
-                                  updatePieceLevel(piece.id, piece.level + 1);
-                                }
-                              }}
-                              disabled={piece.level >= getMaxLevel(piece.limitBreaks || [])}
-                              className="text-white text-xs w-4 h-4 flex items-center justify-center rounded hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                              +
-                            </button>
-                          </div>
-
-                          {/* Limit Break Controls */}
-                          <div className="flex items-center gap-1 bg-black/90 border border-gray-600 rounded px-1 py-1">
-                            {[100, 120, 140, 160, 180].map((breakLevel, index) => {
-                              const currentBreaks = piece.limitBreaks || [];
-                              const isAchieved = currentBreaks.includes(breakLevel);
-                              const starNumber = index + 1;
-                              return (
-                                <button
-                                  key={breakLevel}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    // Clicking star N should give you limit breaks 1 through N
-                                    const targetBreaks = [100, 120, 140, 160, 180].slice(0, starNumber);
-
-                                    // If we already have this star, remove this level and higher
-                                    // If we don't have this star, add up to this level
-                                    const newBreaks = isAchieved
-                                      ? currentBreaks.filter(b => !targetBreaks.includes(b) || targetBreaks.indexOf(b) < starNumber - 1)
-                                      : [...new Set([...currentBreaks, ...targetBreaks])].sort((a, b) => a - b);
-
-                                    updatePieceData({ ...piece, limitBreaks: newBreaks });
-                                  }}
-                                  className={`text-xs w-4 h-4 flex items-center justify-center rounded transition-all ${
-                                    isAchieved
-                                      ? 'text-yellow-300 hover:text-yellow-200'
-                                      : 'text-gray-600 hover:text-gray-400'
-                                  }`}
-                                  title={`Limit Break Level ${starNumber} - ${isAchieved ? 'Remove this and higher' : 'Add up to this level'}`}
-                                >
-                                  {isAchieved ? '⭐' : '☆'}
-                                </button>
-                              );
-                            })}
-                          </div>
+                      <div className="mt-1">
+                        <div className="flex items-center justify-center">
+                          <span className="text-xs text-gray-400 mr-1">Lv</span>
+                          <input
+                            type="number"
+                            min={1}
+                            max={200}
+                            value={piece.level}
+                            onChange={(e) => {
+                              e.stopPropagation();
+                              const level = parseInt(e.target.value) || 1;
+                              updatePieceLevel(piece.id, level);
+                            }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-12 text-xs bg-gray-800 border border-gray-600 rounded px-1 py-0.5 text-center text-white"
+                          />
                         </div>
                       </div>
                     )}

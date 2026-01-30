@@ -23,7 +23,7 @@ export const Grid: React.FC = () => {
     <div className="grid-container bg-gray-950 border border-gray-700 p-3 rounded" style={{ backgroundColor: '#0a0a0f' }}>
       <h3 className="text-lg font-bold mb-3 text-center text-white">Grid</h3>
       <div
-        className="grid-9x9 grid grid-cols-9 gap-0 bg-gray-800 p-2 rounded border border-gray-600 relative"
+        className="grid-9x9 grid grid-cols-9 gap-0 bg-gray-800 p-2 rounded border border-gray-600 relative isolate"
         style={{ aspectRatio: '1/1', width: 'fit-content', margin: '0 auto' }}
       >
         {grid.map((row, y) =>

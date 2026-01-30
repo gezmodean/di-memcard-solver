@@ -110,6 +110,15 @@ export const RarityProgressionEditor: React.FC<RarityProgressionEditorProps> = (
         </div>
 
         <div className="p-6">
+          {/* Deprecation Notice */}
+          <div className="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded">
+            <div className="text-sm text-yellow-400 font-medium mb-1">Legacy System</div>
+            <div className="text-xs text-yellow-300/80">
+              Cards with data-mined level tables use static per-level values and ignore rarity progression.
+              This editor only affects custom cards without level table data.
+            </div>
+          </div>
+
           {/* Rarity Selection */}
           <div className="mb-6">
             <h3 className="text-lg font-bold text-white mb-3">Select Rarity to Edit</h3>

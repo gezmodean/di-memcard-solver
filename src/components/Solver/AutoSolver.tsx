@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import type { Solution } from '../../lib/types';
 import { useGameStore } from '../../store/gameStore';
 import { GridSolver } from '../../lib/solver/backtrack';
-import { LargeNumberDisplay } from '../UI/LargeNumberDisplay';
 import { getIconPath } from '../../utils/assetPaths';
 
 interface AutoSolverProps {
@@ -31,11 +30,12 @@ export const AutoSolver: React.FC<AutoSolverProps> = ({
     selectedPieceIds.includes(p.id) && p.unlocked
   );
 
-  // Clear alternatives when piece selection changes
+  // Clear alternatives and solution state when piece selection changes
   useEffect(() => {
     setAlternativePieces([]);
     setHasSearchedAlternatives(false);
     setNoSolutionFound(false);
+    setLastSolution(null);
   }, [selectedPieceIds]);
 
   // Notify parent of solver state changes
@@ -184,13 +184,22 @@ export const AutoSolver: React.FC<AutoSolverProps> = ({
 
       {/* Solver Controls */}
       <div className="space-y-2">
-        <button
-          onClick={handleSolve}
-          disabled={isSearching || availablePieces.length === 0}
-          className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-500 disabled:bg-gray-700 disabled:text-gray-500 border border-blue-500/50 hover:border-blue-400 disabled:border-gray-600 rounded transition-all duration-200 font-medium text-white"
-        >
-          {isSearching ? 'Solving...' : 'Find Any Solution'}
-        </button>
+        {lastSolution && !isSearching ? (
+          <button
+            disabled
+            className="w-full px-4 py-2 bg-green-700 border border-green-500/50 rounded font-medium text-green-200 cursor-default flex items-center justify-center gap-2"
+          >
+            <span className="text-green-400">✓</span> Solution Found
+          </button>
+        ) : (
+          <button
+            onClick={handleSolve}
+            disabled={isSearching || availablePieces.length === 0}
+            className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-500 disabled:bg-gray-700 disabled:text-gray-500 border border-blue-500/50 hover:border-blue-400 disabled:border-gray-600 rounded transition-all duration-200 font-medium text-white"
+          >
+            {isSearching ? 'Solving...' : 'Find Any Solution'}
+          </button>
+        )}
 
       </div>
 
@@ -213,34 +222,6 @@ export const AutoSolver: React.FC<AutoSolverProps> = ({
           <div className="text-xs text-gray-400 mt-2 flex justify-between">
             <span>Pieces: {searchProgress.placedCount}/{searchProgress.totalPieces}</span>
             <span>{Math.round((searchProgress.placedCount / searchProgress.totalPieces) * 100)}%</span>
-          </div>
-        </div>
-      )}
-
-      {/* Last Solution Stats */}
-      {lastSolution && !isSearching && (
-        <div className="mt-3 p-3 bg-gray-900/50 border border-green-500/30 rounded">
-          <div className="text-sm font-bold text-green-400 mb-2 flex items-center">
-            <span className="text-green-400 mr-2">✓</span>
-            Solution Found!
-          </div>
-          <div className="grid grid-cols-3 gap-3 text-sm">
-            <div className="text-center bg-red-500/10 border border-red-500/30 rounded p-2">
-              <div className="text-red-400 font-bold text-lg">
-                <LargeNumberDisplay value={lastSolution.totalStats.atk} />
-              </div>
-              <div className="text-gray-400 text-xs font-medium">ATK</div>
-            </div>
-            <div className="text-center bg-green-500/10 border border-green-500/30 rounded p-2">
-              <div className="text-green-400 font-bold text-lg">
-                <LargeNumberDisplay value={lastSolution.totalStats.hp} />
-              </div>
-              <div className="text-gray-400 text-xs font-medium">HP</div>
-            </div>
-            <div className="text-center bg-blue-500/10 border border-blue-500/30 rounded p-2">
-              <div className="text-blue-400 font-bold text-lg">{lastSolution.pieces.length}</div>
-              <div className="text-gray-400 text-xs font-medium">Pieces</div>
-            </div>
           </div>
         </div>
       )}

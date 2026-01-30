@@ -73,9 +73,9 @@ export function formatLargeNumber(num: number): string {
     magnitude++;
   }
 
-  // Round to 2 decimal places and remove trailing zeros
-  const rounded = Math.round(value * 100) / 100;
-  const formatted = rounded % 1 === 0 ? rounded.toString() : rounded.toFixed(2).replace(/\.?0+$/, '');
+  // Truncate to 2 decimal places (game uses truncation, not rounding) and remove trailing zeros
+  const truncated = Math.floor(value * 100) / 100;
+  const formatted = truncated % 1 === 0 ? truncated.toString() : truncated.toFixed(2).replace(/\.?0+$/, '');
 
   return `${formatted}${MAGNITUDE_LETTERS[magnitude]}`;
 }

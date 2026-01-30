@@ -70,6 +70,30 @@ export interface RarityConfig {
   };
 }
 
+// Per-card-per-level static effect data (from data-mined tables)
+export interface LevelTableEffect {
+  effectType: string;      // "Atk_Pct_Bonus", "NormalDmgUp_Bonus", etc.
+  typeId: number;          // Numeric PropertyType ID
+  values: number[];        // 200 entries; index 0 = level 1, index 199 = level 200
+}
+
+export interface LevelTable {
+  holdEffects: LevelTableEffect[];   // Always active when card is owned
+  equipEffects: LevelTableEffect[];  // Only active when placed on grid
+}
+
+export interface CardGameData {
+  cardID: number;
+  description: string;
+  grade: string;
+  condition: string;
+  conditionValues?: string[];
+  action: string;
+  actionValue: number;
+  totalLevels: number;
+  descTags?: number[][];  // Per-tag arrays of per-level values for skill descriptions
+}
+
 // Site configuration - piece definition without player-specific data
 export interface PieceDefinition {
   id: string;
@@ -86,6 +110,8 @@ export interface PieceDefinition {
   useRarityProgression?: boolean; // Whether to use rarity-based progression (default: true)
   statGrowth?: StatGrowthConfig; // Custom stat growth configuration (overrides rarity progression)
   specialEffects?: SpecialEffect[]; // Special effects that apply based on level
+  levelTable?: LevelTable;       // Static per-card-per-level data from game tables
+  gameData?: CardGameData;       // Game metadata (card ID, description, skill info)
 }
 
 // Player-specific data for a piece

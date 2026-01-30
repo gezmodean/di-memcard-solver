@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useGameStore } from '../../store/gameStore';
 import { loadStatistics, exportStatistics, clearStatistics } from '../../lib/utils/stats';
+import { LargeNumberDisplay } from '../UI/LargeNumberDisplay';
 import type { Statistics } from '../../lib/types';
 
 export const StatsPanel: React.FC = () => {
@@ -57,11 +58,11 @@ export const StatsPanel: React.FC = () => {
       {/* Primary Stats - Always Visible */}
       <div className="grid grid-cols-2 gap-3 mb-4">
         <div className="text-center bg-red-500/10 border border-red-500/30 rounded p-3">
-          <div className="text-2xl font-bold text-red-400">{stats.atk}</div>
+          <div className="text-2xl font-bold text-red-400"><LargeNumberDisplay value={stats.atk} /></div>
           <div className="text-sm text-gray-400 font-medium">Total ATK</div>
         </div>
         <div className="text-center bg-green-500/10 border border-green-500/30 rounded p-3">
-          <div className="text-2xl font-bold text-green-400">{stats.hp}</div>
+          <div className="text-2xl font-bold text-green-400"><LargeNumberDisplay value={stats.hp} /></div>
           <div className="text-sm text-gray-400 font-medium">Total HP</div>
         </div>
       </div>
@@ -73,7 +74,7 @@ export const StatsPanel: React.FC = () => {
           <div className="text-xs text-gray-400 font-medium">Valid Pieces</div>
         </div>
         <div className="text-center bg-purple-500/10 border border-purple-500/30 rounded p-2">
-          <div className="text-lg font-bold text-purple-400">{stats.atk + stats.hp}</div>
+          <div className="text-lg font-bold text-purple-400"><LargeNumberDisplay value={stats.atk + stats.hp} /></div>
           <div className="text-xs text-gray-400 font-medium">Combined</div>
         </div>
         <div className="text-center bg-yellow-500/10 border border-yellow-500/30 rounded p-2">
@@ -87,8 +88,8 @@ export const StatsPanel: React.FC = () => {
           <div className="grid grid-cols-2 gap-4 mb-3 text-sm">
             <div>Total Solutions: {statistics.totalSolutions}</div>
             <div>Avg Solve Time: {Math.round(statistics.averageSolveTime)}ms</div>
-            <div>Best ATK: {statistics.bestConfiguration.atk}</div>
-            <div>Best HP: {statistics.bestConfiguration.hp}</div>
+            <div>Best ATK: <LargeNumberDisplay value={statistics.bestConfiguration.atk} /></div>
+            <div>Best HP: <LargeNumberDisplay value={statistics.bestConfiguration.hp} /></div>
           </div>
 
           {getMostUsedPieces().length > 0 && (

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useGameStore } from '../../store/gameStore';
-import { RarityProgressionEditor } from '../PieceEditor/RarityProgressionEditor';
 import { PieceDefinitionEditor } from './PieceDefinitionEditor';
 import type { SiteConfig } from '../../lib/types';
 
@@ -10,9 +9,7 @@ interface SiteConfigurationPanelProps {
 }
 
 export const SiteConfigurationPanel: React.FC<SiteConfigurationPanelProps> = ({ isOpen, onClose }) => {
-  const { pieces, rarityConfigs, resetToOriginalSiteConfig, resetRarityConfigs, exportSiteConfig, importSiteConfig } = useGameStore();
-  const [activeSection, setActiveSection] = useState<'overview' | 'rarity'>('overview');
-  const [isRarityEditorOpen, setIsRarityEditorOpen] = useState(false);
+  const { pieces, resetToOriginalSiteConfig, exportSiteConfig, importSiteConfig } = useGameStore();
   const [isPieceEditorOpen, setIsPieceEditorOpen] = useState(false);
 
   if (!isOpen) return null;
@@ -40,12 +37,14 @@ export const SiteConfigurationPanel: React.FC<SiteConfigurationPanelProps> = ({ 
   };
 
   const handleResetToOriginal = async () => {
-    if (confirm('Reset to original site configuration? This will restore all pieces and rarity settings to their defaults. This cannot be undone.')) {
+    if (confirm('Reset to original site configuration? This will restore all pieces to their defaults. This cannot be undone.')) {
       await resetToOriginalSiteConfig();
-      resetRarityConfigs();
       alert('Site configuration reset to original successfully!');
     }
   };
+
+  const piecesWithLevelTable = pieces.filter(p => p.levelTable).length;
+  const piecesWithEquipEffects = pieces.filter(p => p.levelTable && p.levelTable.equipEffects.length > 0).length;
 
   return (
     <>
@@ -72,12 +71,7 @@ export const SiteConfigurationPanel: React.FC<SiteConfigurationPanelProps> = ({ 
                 <h3 className="text-lg font-semibold text-white mb-4">Admin Tools</h3>
                 <nav className="space-y-2">
                   <button
-                    onClick={() => setActiveSection('overview')}
-                    className={`w-full text-left px-3 py-2 rounded transition-all ${
-                      activeSection === 'overview'
-                        ? 'bg-blue-600 text-white'
-                        : 'text-gray-300 hover:bg-gray-800'
-                    }`}
+                    className="w-full text-left px-3 py-2 rounded transition-all bg-blue-600 text-white"
                   >
                     📊 Overview
                   </button>
@@ -87,122 +81,68 @@ export const SiteConfigurationPanel: React.FC<SiteConfigurationPanelProps> = ({ 
                   >
                     🎴 Manage Pieces
                   </button>
-                  <button
-                    onClick={() => setActiveSection('rarity')}
-                    className={`w-full text-left px-3 py-2 rounded transition-all ${
-                      activeSection === 'rarity'
-                        ? 'bg-blue-600 text-white'
-                        : 'text-gray-300 hover:bg-gray-800'
-                    }`}
-                  >
-                    ⭐ Rarity Settings
-                  </button>
                 </nav>
-
               </div>
             </div>
 
             {/* Main Content */}
             <div className="flex-1 p-6">
-              {activeSection === 'overview' && (
-                <div className="space-y-6">
-                  <h3 className="text-xl font-bold text-white">Site Configuration Overview</h3>
+              <div className="space-y-6">
+                <h3 className="text-xl font-bold text-white">Site Configuration Overview</h3>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="bg-gray-800/50 border border-gray-600/50 rounded-lg p-4">
-                      <h4 className="text-lg font-semibold text-white mb-2">Memory Pieces</h4>
-                      <div className="text-3xl font-bold text-blue-400 mb-1">{pieces.length}</div>
-                      <div className="text-sm text-gray-400">Total pieces configured</div>
-                    </div>
-
-                    <div className="bg-gray-800/50 border border-gray-600/50 rounded-lg p-4">
-                      <h4 className="text-lg font-semibold text-white mb-2">Rarity Tiers</h4>
-                      <div className="text-3xl font-bold text-purple-400 mb-1">{Object.keys(rarityConfigs).length}</div>
-                      <div className="text-sm text-gray-400">Configured rarities</div>
-                    </div>
-
-                    <div className="bg-gray-800/50 border border-gray-600/50 rounded-lg p-4">
-                      <h4 className="text-lg font-semibold text-white mb-2">Special Effects</h4>
-                      <div className="text-3xl font-bold text-green-400 mb-1">
-                        {pieces.reduce((count, p) => count + (p.specialEffects?.length || 0), 0)}
-                      </div>
-                      <div className="text-sm text-gray-400">Total special effects</div>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="bg-gray-800/50 border border-gray-600/50 rounded-lg p-4">
+                    <h4 className="text-lg font-semibold text-white mb-2">Memory Cards</h4>
+                    <div className="text-3xl font-bold text-blue-400 mb-1">{pieces.length}</div>
+                    <div className="text-sm text-gray-400">Total cards configured</div>
                   </div>
 
-                  <div className="bg-gray-800/50 border border-gray-600/50 rounded-lg p-6">
-                    <h4 className="text-lg font-semibold text-white mb-4">Configuration Management</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <button
-                        onClick={handleExportSiteConfig}
-                        className="px-4 py-3 bg-blue-600 hover:bg-blue-700 border border-blue-500 rounded text-white transition-all"
-                      >
-                        📤 Export Site Config
-                      </button>
+                  <div className="bg-gray-800/50 border border-gray-600/50 rounded-lg p-4">
+                    <h4 className="text-lg font-semibold text-white mb-2">Level Tables</h4>
+                    <div className="text-3xl font-bold text-purple-400 mb-1">{piecesWithLevelTable}</div>
+                    <div className="text-sm text-gray-400">Cards with data-mined stats</div>
+                  </div>
 
-                      <label className="px-4 py-3 bg-orange-600 hover:bg-orange-700 border border-orange-500 rounded text-white transition-all cursor-pointer text-center">
-                        📥 Import Site Config
-                        <input
-                          type="file"
-                          accept=".json"
-                          onChange={handleImportSiteConfig}
-                          className="hidden"
-                        />
-                      </label>
-
-                      <button
-                        onClick={handleResetToOriginal}
-                        className="px-4 py-3 bg-red-600 hover:bg-red-700 border border-red-500 rounded text-white transition-all"
-                      >
-                        🔄 Reset to Original
-                      </button>
-                    </div>
+                  <div className="bg-gray-800/50 border border-gray-600/50 rounded-lg p-4">
+                    <h4 className="text-lg font-semibold text-white mb-2">Equip Effects</h4>
+                    <div className="text-3xl font-bold text-green-400 mb-1">{piecesWithEquipEffects}</div>
+                    <div className="text-sm text-gray-400">Cards with on-field effects</div>
                   </div>
                 </div>
-              )}
 
-
-              {activeSection === 'rarity' && (
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-xl font-bold text-white">Rarity Progression Settings</h3>
+                <div className="bg-gray-800/50 border border-gray-600/50 rounded-lg p-6">
+                  <h4 className="text-lg font-semibold text-white mb-4">Configuration Management</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <button
-                      onClick={() => setIsRarityEditorOpen(true)}
-                      className="px-4 py-2 bg-purple-600 hover:bg-purple-700 border border-purple-500 rounded text-white transition-all"
+                      onClick={handleExportSiteConfig}
+                      className="px-4 py-3 bg-blue-600 hover:bg-blue-700 border border-blue-500 rounded text-white transition-all"
                     >
-                      ⚙️ Edit Progression
+                      📤 Export Site Config
+                    </button>
+
+                    <label className="px-4 py-3 bg-orange-600 hover:bg-orange-700 border border-orange-500 rounded text-white transition-all cursor-pointer text-center">
+                      📥 Import Site Config
+                      <input
+                        type="file"
+                        accept=".json"
+                        onChange={handleImportSiteConfig}
+                        className="hidden"
+                      />
+                    </label>
+
+                    <button
+                      onClick={handleResetToOriginal}
+                      className="px-4 py-3 bg-red-600 hover:bg-red-700 border border-red-500 rounded text-white transition-all"
+                    >
+                      🔄 Reset to Original
                     </button>
                   </div>
-
-                  <div className="text-gray-300">
-                    <p className="mb-4">Configure how pieces of different rarities progress in terms of stats and limit breaks.</p>
-                  </div>
-
-                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
-                    {Object.entries(rarityConfigs).map(([rarity, config]) => (
-                      <div key={rarity} className="bg-gray-800/50 border border-gray-600/50 rounded-lg p-4">
-                        <h4 className="text-sm font-semibold text-white mb-2 capitalize">{rarity}</h4>
-                        <div className="text-xs text-gray-400 space-y-1">
-                          <div>Base ATK: {config.baseAtk}</div>
-                          <div>Base HP: {config.baseHp}</div>
-                          <div>Growth: {config.growthPerLevel}%</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Rarity Progression Editor Modal */}
-      <RarityProgressionEditor
-        isOpen={isRarityEditorOpen}
-        onClose={() => setIsRarityEditorOpen(false)}
-      />
-
 
       {/* Piece Definition Editor Modal */}
       <PieceDefinitionEditor

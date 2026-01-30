@@ -3,10 +3,8 @@ import type { Piece, Rarity, SpecialEffect } from '../../lib/types';
 import { useGameStore } from '../../store/gameStore';
 import { ShapeIconEditor } from '../DataInput/ShapeIconEditor';
 import { IconPicker } from '../DataInput/IconPicker';
-import { RarityProgressionEditor } from './RarityProgressionEditor';
 import { getIconPath } from '../../utils/assetPaths';
 import { parseSpecialEffectTemplate } from '../../lib/utils/specialEffects';
-import { RARITY_CONFIGS } from '../../lib/pieces/rarityProgression';
 
 interface PieceEditorProps {
   isOpen: boolean;
@@ -21,7 +19,6 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
   const [bulkLevel, setBulkLevel] = useState<number>(1);
   const [editingPieceId, setEditingPieceId] = useState<string | null>(null);
   const [editPieceData, setEditPieceData] = useState<Piece | null>(null);
-  const [isRarityEditorOpen, setIsRarityEditorOpen] = useState(false);
 
   // Special effect editing state
   const [newEffectTemplate, setNewEffectTemplate] = useState('');
@@ -29,16 +26,16 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
   const [newEffectRequiresField, setNewEffectRequiresField] = useState(true);
 
   const availableIcons = [
-    'sprite-3-2.png', 'sprite-4-5.png', 'sprite-6-2.png', 'sprite-10-3.png',
-    'sprite-10-4.png', 'sprite-16-1.png', 'sprite-17-4.png', 'sprite-19-3.png',
-    'sprite-24-1.png', 'sprite-24-2.png', 'sprite-24-3.png', 'sprite-24-4.png',
-    'sprite-25-1.png', 'sprite-26-3.png', 'sprite-27-4.png', 'sprite-27-5.png',
-    'sprite-27-6.png', 'sprite-29-1.png', 'sprite-29-2.png', 'sprite-29-3.png',
-    'sprite-29-4.png', 'sprite-31-1.png', 'sprite-31-2.png', 'sprite-31-3.png',
-    'sprite-31-4.png', 'sprite-31-5.png', 'sprite-33-2.png', 'sprite-33-3.png',
-    'sprite-33-4.png', 'sprite-33-5.png', 'sprite-33-6.png', 'sprite-34-2.png',
-    'sprite-34-3.png', 'sprite-34-4.png', 'sprite-34-5.png', 'sprite-34-6.png',
-    'sprite-34-7.png'
+    'memory_001.png', 'memory_002.png', 'memory_003.png', 'memory_004.png',
+    'memory_005.png', 'memory_006.png', 'memory_007.png', 'memory_008.png',
+    'memory_009.png', 'memory_010.png', 'memory_011.png', 'memory_012.png',
+    'memory_013.png', 'memory_014.png', 'memory_015.png', 'memory_016.png',
+    'memory_017.png', 'memory_018.png', 'memory_019.png', 'memory_020.png',
+    'memory_021.png', 'memory_022.png', 'memory_023.png', 'memory_024.png',
+    'memory_025.png', 'memory_026.png', 'memory_027.png', 'memory_028.png',
+    'memory_029.png', 'memory_030.png', 'memory_031.png', 'memory_032.png',
+    'memory_033.png', 'memory_034.png', 'memory_035.png', 'memory_036.png',
+    'memory_037.png',
   ];
 
   const rarities = ['common', 'uncommon', 'rare', 'epic', 'legendary', 'mythic', 'transcendent'];
@@ -229,12 +226,6 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
                 Add New Piece
               </button>
             )}
-            <button
-              onClick={() => setIsRarityEditorOpen(true)}
-              className="px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded transition-colors"
-            >
-              Edit Rarity Progression
-            </button>
             <button
               onClick={exportConfiguration}
               className="px-3 py-1 bg-green-600 hover:bg-green-700 rounded transition-colors"
@@ -434,26 +425,21 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
                   </select>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Base ATK (from rarity):</label>
-                    <div className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-gray-300">
-                      {RARITY_CONFIGS[editPieceData.rarity]?.baseAtk || 'Unknown'}
+                {/* Level Table Info (read-only for data-mined cards) */}
+                {editPieceData.levelTable && (
+                  <div className="bg-gray-700/50 border border-gray-600/50 rounded p-3">
+                    <div className="text-xs text-green-400 font-medium mb-1">Data-Mined Card</div>
+                    <div className="text-xs text-gray-400">
+                      Hold effects: {editPieceData.levelTable.holdEffects.length} |
+                      Equip effects: {editPieceData.levelTable.equipEffects.length} |
+                      Levels: {editPieceData.levelTable.holdEffects[0]?.values.length || 0}
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Base HP (from rarity):</label>
-                    <div className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-gray-300">
-                      {RARITY_CONFIGS[editPieceData.rarity]?.baseHp || 'Unknown'}
-                    </div>
-                  </div>
-                </div>
-
-
+                )}
 
                 <div>
                   <IconPicker
-                    selectedIcon={editPieceData.iconFile || 'sprite-6-2.png'}
+                    selectedIcon={editPieceData.iconFile || 'memory_001.png'}
                     onSelect={(iconFile) => setEditPieceData({...editPieceData, iconFile})}
                     availableIcons={availableIcons}
                   />
@@ -573,7 +559,7 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
                           checked={newEffectRequiresField}
                           onChange={(e) => setNewEffectRequiresField(e.target.checked)}
                         />
-                        Only active on field
+                        Only active when equipped
                       </label>
                     </div>
 
@@ -618,11 +604,6 @@ export const PieceEditor: React.FC<PieceEditorProps> = ({ isOpen, onClose, onOpe
         </div>
       )}
 
-      {/* Rarity Progression Editor */}
-      <RarityProgressionEditor
-        isOpen={isRarityEditorOpen}
-        onClose={() => setIsRarityEditorOpen(false)}
-      />
     </div>
   );
 };
