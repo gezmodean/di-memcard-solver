@@ -13,6 +13,9 @@
     "typescript"
   ],
   "author": "Memory Card Grid Solver Contributors",
+  "engines": {
+    "node": ">=22"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

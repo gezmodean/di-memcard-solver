@@ -1,6 +1,9 @@
 [build]
 builder = "nixpacks"
-buildCommand = "npm ci && npm run build"
+buildCommand = "npm ci --no-cache && npm run build"
 
 [deploy]
 startCommand = "npx serve dist -s -l $PORT"
+
+[build.nixpacksPlan.phases.setup]
+nixPkgs = ["nodejs_22"]
