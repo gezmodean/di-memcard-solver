@@ -3,6 +3,32 @@ import { canPlacePiece, placePieceOnGrid } from './validation';
 import { rotateShape } from '../utils/rotation';
 import { calculatePieceStats } from '../pieces/definitions';
 
+/** Return the distinct rotations (as degree values) for a shape, eliminating symmetric duplicates. */
+function getUniqueRotations(shape: number[][]): number[] {
+  const seen = new Set<string>();
+  const unique: number[] = [];
+  for (const deg of [0, 90, 180, 270]) {
+    const rotated = rotateShape(shape, deg);
+    const key = JSON.stringify(rotated);
+    if (!seen.has(key)) {
+      seen.add(key);
+      unique.push(deg);
+    }
+  }
+  return unique;
+}
+
+/** Count the filled cells in a shape. */
+function cellCount(shape: number[][]): number {
+  let count = 0;
+  for (const row of shape) {
+    for (const cell of row) {
+      if (cell === 1) count++;
+    }
+  }
+  return count;
+}
+
 interface SolverOptions {
   maxSolutions?: number;
   timeoutMs?: number;
@@ -36,6 +62,9 @@ export class GridSolver {
     if (selectedPieces.length === 0) {
       return [];
     }
+
+    // Sort largest pieces first — dramatically reduces backtracking
+    selectedPieces.sort((a, b) => cellCount(b.shape) - cellCount(a.shape));
 
     const solutions: Solution[] = [];
     const grid: (string | null)[][] = Array(9).fill(null).map(() => Array(9).fill(null));
@@ -83,9 +112,10 @@ export class GridSolver {
     }
 
     const currentPiece = pieces[pieceIndex];
+    const rotations = getUniqueRotations(currentPiece.shape);
 
-    // Try all possible positions and rotations for the current piece
-    for (let rotation = 0; rotation < 360; rotation += 90) {
+    // Try all possible positions and unique rotations for the current piece
+    for (const rotation of rotations) {
       const rotatedShape = rotateShape(currentPiece.shape, rotation);
 
       for (let y = 0; y < 9; y++) {

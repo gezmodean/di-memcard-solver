@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { Solution } from '../../lib/types';
 import { useGameStore } from '../../store/gameStore';
 import { GridSolver } from '../../lib/solver/backtrack';
+import { fetchCachedSolution, storeSolution } from '../../lib/solver/solutionCache';
 import { getIconPath } from '../../utils/assetPaths';
 
 interface AutoSolverProps {
@@ -67,9 +68,30 @@ export const AutoSolver: React.FC<AutoSolverProps> = ({
 
 
     try {
+      // 1. Check server cache first
+      const cachedPieces = await fetchCachedSolution(selectedPieceIds);
+      if (cachedPieces) {
+        const solution: Solution = {
+          id: `cached_${Date.now()}`,
+          pieces: cachedPieces,
+          totalStats: { atk: 0, hp: 0 },
+          timestamp: Date.now(),
+        };
+        setLastSolution(solution);
+        onSolutionFound(solution);
+        clearGrid();
+        setTimeout(() => {
+          cachedPieces.forEach(piece => {
+            placePiece(piece.pieceId, piece.x, piece.y, piece.rotation);
+          });
+        }, 100);
+        return;
+      }
+
+      // 2. Run local solver
       const solver = new GridSolver({
-        maxSolutions: 1, // Just find the first good solution
-        timeoutMs: 15000, // 15 seconds
+        maxSolutions: 1,
+        timeoutMs: 15000,
         onProgress: setSearchProgress
       });
 
@@ -87,6 +109,9 @@ export const AutoSolver: React.FC<AutoSolverProps> = ({
             placePiece(piece.pieceId, piece.x, piece.y, piece.rotation);
           });
         }, 100);
+
+        // 3. Store solution in cache (fire-and-forget)
+        storeSolution(selectedPieceIds, solution.pieces);
       } else {
         onSolutionFound(null);
         setNoSolutionFound(true);
@@ -97,7 +122,6 @@ export const AutoSolver: React.FC<AutoSolverProps> = ({
     } finally {
       setIsSearching(false);
       setSearchProgress(null);
-      // The useEffect will handle notifying the parent of state changes
     }
   };
 
