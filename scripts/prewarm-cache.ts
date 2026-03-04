@@ -6,7 +6,10 @@
  */
 
 import { readFileSync } from 'fs';
-import { resolve } from 'path';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Inline a minimal solver — we can't import the Vite-based src directly in Node
 // so we re-use the same algorithm.
@@ -144,7 +147,7 @@ async function main() {
   // Generate 7-card combos (matching 9x9 grid capacity for high-rarity cards)
   // Total cells for 7 high-rarity cards: ~60-77 cells fits the 81-cell grid
   const comboSizes = [7, 8];
-  let solved = 0, failed = 0, skipped = 0, total = 0;
+  let solved = 0, failed = 0, skippedCells = 0, cached = 0, total = 0;
 
   for (const size of comboSizes) {
     if (targetPieces.length < size) continue;
@@ -153,13 +156,25 @@ async function main() {
     for (const combo of combinations(targetPieces, size)) {
       const cells = combo.reduce((s, p) => s + cellCount(p.shape), 0);
       // Skip combos that can't possibly fit (too many cells)
-      if (cells > totalCells) { skipped++; continue; }
+      if (cells > totalCells) { skippedCells++; continue; }
 
       total++;
       const ids = combo.map(p => p.id);
       const label = combo.map(p => p.name).join(', ');
 
-      process.stdout.write(`[${total}] Solving ${size}-piece combo (${cells} cells): ${ids.join(',')} ... `);
+      process.stdout.write(`[${total}] ${ids.join(',')} (${cells} cells) ... `);
+
+      // Check if already cached
+      try {
+        const checkResp = await fetch(`${apiUrl}/api/solver/cache?pieces=${encodeURIComponent(ids.sort().join(','))}`);
+        if (checkResp.ok) {
+          cached++;
+          console.log('CACHED (skipped)');
+          continue;
+        }
+      } catch {
+        // Cache check failed, solve anyway
+      }
 
       const t0 = Date.now();
       const result = solve(combo, 30000);
@@ -168,6 +183,9 @@ async function main() {
       if (result) {
         solved++;
         console.log(`SOLVED in ${elapsed}ms`);
+
+        // Small delay to avoid overwhelming the API
+        await new Promise(r => setTimeout(r, 200));
 
         // POST to cache API
         try {
@@ -189,7 +207,7 @@ async function main() {
     }
   }
 
-  console.log(`\nDone! Solved: ${solved}, No solution: ${failed}, Skipped (too many cells): ${skipped}`);
+  console.log(`\nDone! Solved: ${solved}, No solution: ${failed}, Already cached: ${cached}, Skipped (too many cells): ${skippedCells}`);
 }
 
 main().catch(console.error);
